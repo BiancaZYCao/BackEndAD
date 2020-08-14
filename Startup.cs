@@ -43,6 +43,13 @@ namespace BackEndAD
             services.AddScoped<IStoreClerkService, StoreClerkServiceImpl>();
 
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsApi",
+                    builder => builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +63,7 @@ namespace BackEndAD
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors("CorsApi");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
