@@ -38,9 +38,11 @@ namespace BackEndAD
             services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             services.AddScoped<IDepartmentRepo, DeparmentRepo>();
             services.AddScoped<IInventoryRepo, InventoryRepo>();
+            services.AddScoped<ISupplierRepo, SupplierRepo>();
             services.AddScoped<IEmployeeService, EmployeeServiceImpl>();
             services.AddScoped<IDepartmentService, DepartmentServiceImpl>();
             services.AddScoped<IStoreClerkService, StoreClerkServiceImpl>();
+            services.AddScoped<ISupplierService, SupplierServiceImpl>();
 
             services.AddControllers();
             services.AddCors(options =>

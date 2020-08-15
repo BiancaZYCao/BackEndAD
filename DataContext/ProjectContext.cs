@@ -20,6 +20,8 @@ namespace BackEndAD.DataContext
         public DbSet<TodoItem> TodoItems { get; set; }
         public DbSet<Inventory> Inventory { get; set; }
 
+        public DbSet<Supplier> Supplier_Table { get; set; }
+
     }
 }
  

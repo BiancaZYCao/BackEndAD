@@ -66,6 +66,45 @@ namespace BackEndAD.DataContext
             dbContext.Add(e3);
             dbContext.SaveChanges();
 
+            Supplier s1 = new Supplier()
+            {
+                supplierCode = "ALPA",
+                name = " ALPHA Office Supplies",
+                contactPerson = "Ms Irene Tan",
+                phoneNum = "4619928",
+                gstRegisNo = "MR-8500440-2",
+                fax = " 4612238",
+                address = "Blk 1128, Ang Mo Kio Industrial Park #02-1108 Ang Mo Kio Street 62 ,Singapore 622262",
+                priority= "1st",
+            };
+            Supplier s2 = new Supplier()
+            {
+                supplierCode = "CHEP",
+                name = " Cheap Stationer",
+                contactPerson = "Mr Soh Kway Koh",
+                phoneNum = "3543234",
+                fax = " 4742434",
+                address = "Blk 34, Clementi Road,#07-02 Ban Ban Soh Building,Singapore 110525",
+                priority = "2nd",
+            };
+
+            Supplier s3 = new Supplier()
+            {
+                supplierCode = "BANE",
+                name = "BANES Shop",
+                contactPerson = " Mr Loh Ah Pek",
+                phoneNum = "4781234",
+                gstRegisNo = "MR-8200420-2",
+                fax = "4792434",
+                address = "Blk 124, Alexandra Road,#03-04 Banes Building,Singapore 550315",
+                priority = "3rd",
+            };
+
+            dbContext.Add(s1);
+            dbContext.Add(s2);
+            dbContext.Add(s3);
+            dbContext.SaveChanges();
+
             TodoItem tdi = new TodoItem()
             {
                 Name = "Cook dinner",
