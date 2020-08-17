@@ -1,4 +1,5 @@
-﻿using BackEndAD.Models;
+﻿using BackEndAD.DataContext;
+using BackEndAD.Models;
 using BackEndAD.Repo;
 using BackEndAD.ServiceInterface;
 using System;
@@ -10,22 +11,40 @@ namespace BackEndAD.ServiceImpl
 {
     public class StoreClerkServiceImpl : IStoreClerkService
     {
-        public IInventoryRepo invtrepo;
-
-        public StoreClerkServiceImpl(IInventoryRepo invtrepo)
+        public IUnitOfWork<ProjectContext> unitOfWork;
+       
+        public StoreClerkServiceImpl(IUnitOfWork<ProjectContext> unitOfWork)
         {
-            this.invtrepo = invtrepo;
+            this.unitOfWork = unitOfWork;
         }
-        public async Task<List<Inventory>> findAllInventoriesAsync()
+
+        #region Stationery
+        public async Task<IList<Stationery>> findAllStationeriesAsync()
         {
-            List<Inventory> list = await invtrepo.findAllInventoriesAsync();
+            IList<Stationery> list = await unitOfWork.GetRepository<Stationery>().GetAllAsync();
             return list;
         }
 
-        public async Task<Inventory> findInventoryByIdAsync(int id)
+        public async Task<Stationery> findStationeryByIdAsync(int stationeryId)
         {
-            Inventory invt = await invtrepo.findInventoryByIdAsync(id);
-            return invt;
+            Stationery s = await unitOfWork.GetRepository<Stationery>().FindAsync(stationeryId);
+            return s;
         }
+        #endregion
+
+        #region supplier
+        public async Task<IList<Supplier>> findAllSuppliersAsync()
+        {
+            IList<Supplier> list = await unitOfWork.GetRepository<Supplier>().GetAllAsync();
+            return list;
+        }
+
+        public async Task<Supplier> findSupplierByIdAsync(int supplierId)
+        {
+            Supplier sup = await unitOfWork.GetRepository<Supplier>().FindAsync(supplierId);
+            return sup;
+        }
+        #endregion
+
     }
 }

@@ -16,6 +16,7 @@ using BackEndAD.DataContext;
 using BackEndAD.Repo;
 using BackEndAD.ServiceInterface;
 using BackEndAD.ServiceImpl;
+using MS.UnitOfWork;
 
 namespace BackEndAD
 {
@@ -31,20 +32,24 @@ namespace BackEndAD
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /*services.AddDbContext<TodoContext>(opt =>
+            /*services.AddDbContext<DbContext>(opt =>
                opt.UseInMemoryDatabase("TodoList"));*/
-            services.AddDbContext<ProjectContext>(opt =>
-                opt.UseSqlServer(Configuration.GetConnectionString("DbConn")));
-            services.AddScoped<IEmployeeRepo, EmployeeRepo>();
+            //services.AddDbContext<ProjectContext>(opt =>
+            //opt.UseSqlServer(Configuration.GetConnectionString("DbConn")));
+            /*services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             services.AddScoped<IDepartmentRepo, DeparmentRepo>();
             services.AddScoped<IInventoryRepo, InventoryRepo>();
             services.AddScoped<ISupplierRepo, SupplierRepo>();
             services.AddScoped<IEmployeeService, EmployeeServiceImpl>();
             services.AddScoped<IDepartmentService, DepartmentServiceImpl>();
             services.AddScoped<IStoreClerkService, StoreClerkServiceImpl>();
-            services.AddScoped<ISupplierService, SupplierServiceImpl>();
-
+            services.AddScoped<ISupplierService, SupplierServiceImpl>();*/
+            services.AddUnitOfWorkService<ProjectContext>(options => {
+                options.UseSqlServer(Configuration.GetConnectionString("DbConn")); });
+            //options.UseInMemoryDatabase("Try"); });
+            services.AddScoped<IDepartmentService, DepartmentServiceImpl>();
             services.AddControllers();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsApi",
@@ -73,9 +78,10 @@ namespace BackEndAD
                 endpoints.MapControllers();
             });
 
-            _context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
-            new Seeder(_context);
+            //_context.Database.EnsureDeleted();
+            //_context.Database.EnsureCreated();
+            //new Seeder(_context);
+            //DBSeed.Initialize(IUnitOfWork<ProjectContext>);
         }
     }
 }

@@ -8,10 +8,11 @@ namespace BackEndAD.ServiceInterface
 {
     public interface IDepartmentService
     {
-        public Task<List<Department>> findAllDepartmentsAsync();
-        public Department findDepartmentByName(String deptName);
+        public Task<IList<Department>> findAllDepartmentsAsync();      
         public Task<Department> findDepartmentByIdAsync(int id);
-
+        public Task<IList<Requisition>> findAllRequsitionsAsync();
+        public Task<IList<Employee>> findAllEmployeesAsync();
+        public Task<Employee> findEmployeeByIdAsync(int empid);
 
     }
 }

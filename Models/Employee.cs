@@ -20,6 +20,8 @@ namespace BackEndAD.Models
         public int DepartmentId { get; set; }
         public virtual Department Department { get; set; }
 
+        //public List<Requisition> Requisitions { get; set; }
+
 
     }
 }

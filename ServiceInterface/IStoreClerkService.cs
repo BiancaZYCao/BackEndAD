@@ -8,8 +8,10 @@ namespace BackEndAD.ServiceInterface
 {
     public interface IStoreClerkService
     {
-        public Task<List<Inventory>> findAllInventoriesAsync();
-        public Task<Inventory> findInventoryByIdAsync(int id);
+        public Task<IList<Stationery>> findAllStationeriesAsync();
+        public Task<Stationery> findStationeryByIdAsync(int id);
+        public Task<IList<Supplier>> findAllSuppliersAsync();
+        public Task<Supplier> findSupplierByIdAsync(int id);
 
 
     }

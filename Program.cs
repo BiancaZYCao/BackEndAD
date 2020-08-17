@@ -6,65 +6,55 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using BackEndAD.DataContext;
+using BackEndAD.Repo;
 
 namespace BackEndAD
 {
     public class Program
     {
-        /*public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });*/
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            //this is testing DBconnection
             try
             {
+                /*
+                 //This is for DB connection testing 
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "team8-sa50.database.windows.net";
-                builder.UserID = "Bianca";
-                builder.Password = "!Str0ngPsword";
-                builder.InitialCatalog = "ADProj";
+                     builder.DataSource = "team8-sa50.database.windows.net";
+                     builder.UserID = "Bianca";
+                     builder.Password = "!Str0ngPsword";
+                     builder.InitialCatalog = "ADProj";
 
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                 {
+                     Console.WriteLine("\nDB connection testing:");                
+                     connection.Open();
+                     Console.WriteLine("DB connection created.");
+                     Console.WriteLine("=========================================\n");
+                 }
+                 */
+
+                var host = CreateHostBuilder(args).Build();
+                /*using (IServiceScope scope = host.Services.CreateScope())
                 {
-                    Console.WriteLine("\nDB connection testing Query data example:");
-                    Console.WriteLine("=========================================\n");
-
-                    connection.Open();
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append("SELECT Name,Secret FROM TodoItems");
-                    String sql = sb.ToString();
-
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
-                            }
-                        }
-                    }
-                }
-            }
+                    DBSeed.Initialize(scope.ServiceProvider.GetRequiredService<IUnitOfWork<ProjectContext>>());
+                }*/
+                host.Run();
+            }/*
             catch (SqlException e)
             {
                 Console.WriteLine(e.ToString());
                 Console.WriteLine("\nPls check DB connection and try again. Press enter.");
                 Console.ReadLine();
+            }*/
+            catch (Exception e)
+            {
+                throw;
             }
-
-            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -73,6 +63,6 @@ namespace BackEndAD
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-        
+
     }
 }
