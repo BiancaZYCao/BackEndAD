@@ -47,6 +47,7 @@ namespace BackEndAD
                 options.UseSqlServer(Configuration.GetConnectionString("DbConn")); });
             //options.UseInMemoryDatabase("Try"); });
             services.AddScoped<IDepartmentService, DepartmentServiceImpl>();
+            services.AddScoped<IStoreClerkService, StoreClerkServiceImpl>();
             services.AddControllers();
 
             services.AddCors(options =>
