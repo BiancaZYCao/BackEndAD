@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using BackEndAD.Models;
 using System;
 using System.Collections.Generic;
@@ -17,13 +17,15 @@ namespace BackEndAD.DataContext
 
         public DbSet<Employee> Employee_Table { get; set; }
         public DbSet<Department> Department_Table { get; set; }
+        public DbSet<Requisition> Requisition_Table { get; set; }
+        public DbSet<RequisitionDetail> RequisitionDetail_Table { get; set; }
+        
         //Below data tables just for testing 
         public DbSet<TodoItem> TodoItems { get; set; }
+
         public DbSet<Stationery> Inventory { get; set; }
 
         public DbSet<Supplier> Supplier_Table { get; set; }
-        public DbSet<Requisition> Requisition_Table { get; set; }
-        public DbSet<RequisitionDetail> RequisitionDetail_Table { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -48,6 +50,9 @@ namespace BackEndAD.DataContext
                 .WithMany(r => r.RequisitionDetails)
                 .HasForeignKey(p => p.RequisitionId);*/
         }
+
+     
+   
     }
 }
  

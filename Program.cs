@@ -29,6 +29,7 @@ namespace BackEndAD
                      builder.Password = "!Str0ngPsword";
                      builder.InitialCatalog = "ADProj";
 
+
                  using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                  {
                      Console.WriteLine("\nDB connection testing:");                
@@ -44,13 +45,14 @@ namespace BackEndAD
                     DBSeed.Initialize(scope.ServiceProvider.GetRequiredService<IUnitOfWork<ProjectContext>>());
                 }*/
                 host.Run();
-            }/*
+            }    
+             
             catch (SqlException e)
             {
                 Console.WriteLine(e.ToString());
                 Console.WriteLine("\nPls check DB connection and try again. Press enter.");
                 Console.ReadLine();
-            }*/
+            }
             catch (Exception e)
             {
                 throw;
