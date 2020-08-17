@@ -75,7 +75,7 @@ namespace BackEndAD.DataContext
                 gstRegisNo = "MR-8500440-2",
                 fax = " 4612238",
                 address = "Blk 1128, Ang Mo Kio Industrial Park #02-1108 Ang Mo Kio Street 62 ,Singapore 622262",
-                priority= "1st",
+                priority = "1st",
             };
             Supplier s2 = new Supplier()
             {
@@ -134,6 +134,51 @@ namespace BackEndAD.DataContext
             dbContext.Add(i2);
             dbContext.Add(i3);
             dbContext.SaveChanges();
+
+            
+            //requisition lists
+            Requisition r1 = new Requisition()
+            {
+                Employee = e1,
+                dateOfRequest = new DateTime(2017, 9, 9, 8, 30, 52),
+                dateOfAuthorizing = new DateTime(2017, 9, 10, 8, 30, 52),
+                Authorizer = e2,
+                status = "Approved",
+                comment = null,
+            };
+            dbContext.Add(r1);
+            dbContext.SaveChanges();
+
+            RequisitionDetail rd1 = new RequisitionDetail()
+            {
+                Requisition = r1,
+                Inventory = i1,
+                reqQty = 10,
+                status = "approved",
+                
+            };
+            RequisitionDetail rd2 = new RequisitionDetail()
+            {
+                Requisition = r1,
+                Inventory = i2,
+                reqQty = 1,
+                status = "approved",
+
+            };
+            RequisitionDetail rd3 = new RequisitionDetail()
+            {
+                Requisition = r1,
+                Inventory = i3,
+                reqQty = 1,
+                status = "approved",
+
+            };
+            dbContext.Add(rd1);
+            dbContext.Add(rd2);
+            dbContext.Add(rd3);
+            dbContext.SaveChanges();
+
+
 
         }
     }

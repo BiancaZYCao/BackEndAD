@@ -41,20 +41,20 @@ namespace BackEndAD
                     Console.WriteLine("=========================================\n");
 
                     connection.Open();
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append("SELECT Name,Secret FROM TodoItems");
-                    String sql = sb.ToString();
+                    //StringBuilder sb = new StringBuilder();
+                    //sb.Append("SELECT Name,Secret FROM TodoItems");
+                    //String sql = sb.ToString();
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
-                            }
-                        }
-                    }
+                    //using (SqlCommand command = new SqlCommand(sql, connection))
+                    //{
+                    //    using (SqlDataReader reader = command.ExecuteReader())
+                    //    {
+                    //        while (reader.Read())
+                    //        {
+                    //            Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
+                    //        }
+                    //    }
+                    //}
                 }
             }
             catch (SqlException e)
