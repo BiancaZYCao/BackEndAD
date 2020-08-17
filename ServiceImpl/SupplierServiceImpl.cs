@@ -23,5 +23,9 @@ namespace BackEndAD.ServiceImpl
             List<Supplier> slist = await srepo.findAllSuppliersAsync();
             return slist;
         }
+        public void SaveSupplier(Supplier s)
+        {
+            srepo.SaveSupplier(s);
+        }
     }
 }

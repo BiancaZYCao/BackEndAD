@@ -9,5 +9,6 @@ namespace BackEndAD.ServiceInterface
     public interface ISupplierService
     {
         public Task<List<Supplier>> findAllSuppliersAsync();
+        public void SaveSupplier(Supplier s);
     }
 }
