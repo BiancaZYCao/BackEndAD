@@ -1,9 +1,8 @@
-﻿using Arch.EntityFrameworkCore.UnitOfWork;
-using BackEndAD.Repo;
+﻿using BackEndAD.Repo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MS.UnitOfWork
+namespace BackEndAD.Repo
 {
     /// <summary>
     ///在 <see cref="IServiceCollection"/>中安装工作单元依赖注入的扩展方法
