@@ -44,7 +44,18 @@ namespace BackEndAD.ServiceImpl
             Supplier sup = await unitOfWork.GetRepository<Supplier>().FindAsync(supplierId);
             return sup;
         }
+
+        public void deleteSupplier(int id)
+        {
+            unitOfWork.GetRepository<Supplier>().Delete(id);
+        }
+
+        public void saveSupplier(Supplier s)
+        {
+            unitOfWork.GetRepository<Supplier>().Insert(s);
+        }
         #endregion
+
 
     }
 }
