@@ -61,5 +61,28 @@ namespace BackEndAD.Controllers
 
             return CreatedAtAction(nameof(GetAllSuppliers), new { }, sup);
         }
+
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<ActionResult<Supplier>> DeleteSupplier(int id)
+        {
+            string message = "";
+            Supplier supplier = _context.Supplier_Table.Find(id);
+            if (supplier == null)
+            {
+                return null;
+            }
+
+            _context.Supplier_Table.Remove(supplier);
+            int result = _context.SaveChanges();
+            if (result > 0)
+            {
+                return Ok(GetAllSuppliers());
+            }
+
+            return NotFound("Suppliers not found");
+
+        }
     }
 }
+nm
