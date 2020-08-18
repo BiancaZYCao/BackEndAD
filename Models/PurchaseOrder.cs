@@ -9,15 +9,17 @@ namespace BackEndAD.Models
     public class PurchaseOrder
     {
         public int id { get; set; }
-       [ForeignKey("Employee")]
-       public int clerkId { get; set; }
-       public int SupplierId { get; set; }
-       public DateTime dateOfOrder { get; set; }
-       public string status { get; set; }
-       public int StockAdjustmentId { get; set; }
+
+        public int clerkId { get; set; }
+        public int SupplierId { get; set; }
+        public DateTime dateOfOrder { get; set; }
+        public string status { get; set; }
+        public int StockAdjustmentId { get; set; } //ReceivalID
+
+        [ForeignKey("Clerk")]
         public virtual Employee Employee { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual StockAdjustment StockAdjustment { get; set; }
-
+        
     }
 }

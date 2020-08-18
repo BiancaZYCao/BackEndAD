@@ -12,17 +12,21 @@ namespace BackEndAD.Models
         public string deptName { get; set; }
         public string deptCode { get; set; }
         [ForeignKey ("Employee")]
-        public string headID { get; set; }
+        public int headid { get; set; }
         [ForeignKey("Employee")]
-        public string repID { get; set; }
+        public int repid { get; set; }
         [ForeignKey("Employee")]
-        public string delegateID { get; set; }
+        public int? delegaterid { get; set; }
         public DateTime delgtStartDate { get; set; }
         public DateTime delgtEndDate { get; set; }
         [ForeignKey("CollectionInfo")]
-        public string CollectionId { get; set; }
-        public virtual Employee Employee { get; set; }
+        public int CollectionId { get; set; }
+        
+        public virtual Employee head { get; set; }
+        public virtual Employee rep { get; set; }
+        public virtual Employee delegater { get; set; }
         public virtual CollectionInfo CollectionInfo { get; set; }
+        //public List<Employee> employees { get; set; }
 
 
     }

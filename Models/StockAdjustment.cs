@@ -11,7 +11,6 @@ namespace BackEndAD.Models
         public string type { get; set; }
         public DateTime date { get; set;}
         public int EmployeeId { get; set; }
-        public string comment { get; set; }
         public virtual Employee Employee { get; set; }
     }
 }

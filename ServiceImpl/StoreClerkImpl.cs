@@ -46,5 +46,55 @@ namespace BackEndAD.ServiceImpl
         }
         #endregion
 
+        #region store clerk adjustment
+        public async Task<StockAdjustment> generateStkAdjustmentAsync(StockAdjustment stkAdj,
+                        List<StockAdjustmentDetail> stockAdjustmentDetails)
+        {
+            //using transcation
+            using (var tran = unitOfWork.BeginTransaction())
+            {
+                try
+                {
+                    // step1 insert StkAdj
+                    unitOfWork.GetRepository<StockAdjustment>().Insert(stkAdj);
+                    //unitOfWork.GetRepository<StockAdjustment>().Save();
+
+                    // step2 insert StkAdjDetial and update inventory one by one in the list
+                    foreach (StockAdjustmentDetail stkAdjDet in stockAdjustmentDetails)
+                    {
+                        // step2.1 add stkAdjDetails
+                        stkAdjDet.StockAdjustment = stkAdj;
+                        unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(stkAdjDet);
+                        //unitOfWork.GetRepository<StockAdjustment>().Save();
+                        // step2.1 get stationery and update inventory level
+                        Stationery s = unitOfWork.GetRepository<Stationery>().GetById(stkAdjDet.StationeryId);
+                        s.inventoryQty += stkAdjDet.discpQty;
+                        unitOfWork.GetRepository<Stationery>().Update(s);
+                        //unitOfWork.GetRepository<Stationery>().Save();
+                    }
+                    // save changes
+                    await unitOfWork.SaveChangesAsync();
+                    await tran.CommitAsync();
+                    //finish transaction if success
+                }
+                catch (Exception e)
+                {
+                    tran.Rollback();
+                    return null;
+                }
+            }
+            //return stockAdjustment
+            var result = await unitOfWork.GetRepository<StockAdjustment>().FindAsync(stkAdj.id);
+            return result;
+
+        }
+
+        public async Task<StockAdjustment> findStockAdjustmentByIdAsync(int stockAdjustmentId)
+        {
+            StockAdjustment stkadj = await unitOfWork.GetRepository<StockAdjustment>()
+                .FindAsync(stockAdjustmentId);
+            return stkadj;
+        }
+        #endregion
     }
 }

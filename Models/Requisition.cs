@@ -13,7 +13,7 @@ namespace BackEndAD.Models
         
         public int EmployeeId { get; set; }
         public DateTime dateOfRequest { get; set; }
-        public DateTime dateOfAuthorizing { get; set; }
+        public DateTime? dateOfAuthorizing { get; set; }
         [ForeignKey("Employee")]
         public int AuthorizerId { get; set; }
         public string status { get; set; }

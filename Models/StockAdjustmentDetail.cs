@@ -11,6 +11,7 @@ namespace BackEndAD.Models
         public int StockAdjustmentId { get; set; }
         public int StationeryId { get; set; }
         public int discpQty { get; set; }
+        public string comment { get; set; }
         public virtual StockAdjustment StockAdjustment { get; set; }
         public virtual Stationery Stationery { get; set; }
     }

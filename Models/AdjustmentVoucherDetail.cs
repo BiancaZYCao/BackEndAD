@@ -11,6 +11,7 @@ namespace BackEndAD.Models
         public int AdjustmentVoucherId { get; set; }
         public int StockAdjustmentDetailId { get; set; }
         public double price { get; set; }
+
         public virtual AdjustmentVoucher AdjustmentVoucher { get; set; }
         public virtual StockAdjustmentDetail StockAdjustmentDetail { get; set; }
     }

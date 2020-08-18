@@ -12,6 +12,7 @@ namespace BackEndAD.Models
         public DateTime date { get; set; }
         public int EmployeeId { get; set; }
         public string reason { get; set; }
+
         public virtual StockAdjustment StockAdjustment { get; set; }
         public virtual Employee Employee { get; set; }
     }

@@ -16,7 +16,7 @@ namespace BackEndAD.Models
         [Required]
         public string password { get; set; }
         public string email { get; set; }
-        public EmpRole role { get; set; }
+        public string role { get; set; }
         public string phoneNum { get; set; }
 
         public int DepartmentId { get; set; }
@@ -26,8 +26,7 @@ namespace BackEndAD.Models
 
 
     }
-    public enum EmpRole
-    {
-        HEAD, DELEGATE, REPRESENTATIVE, STAFF, MANAGER, SUPERVISOR, CLERK
-    }
+    
+      //  "HEAD", "DELEGATE", "REPRESENTATIVE", "STAFF", "MANAGER", "SUPERVISOR, CLERK
+    
 }
