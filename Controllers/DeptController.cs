@@ -34,7 +34,7 @@ namespace BackEndAD.Controllers
         // CONTROLLER METHODS handling each HTTP get/put/post/request 
         // GET: api/Dept
         [HttpGet]
-        public async Task<ActionResult<List<Department>>> GetAllDepartments()
+        public async Task<ActionResult<IList<Department>>> GetAllDepartments()
         {
             var result = await _deptService.findAllDepartmentsAsync();
             // if find data then return result else will return a String says Department not found
@@ -47,6 +47,38 @@ namespace BackEndAD.Controllers
                 //I put here Just for u to understand the style. :) -Bianca  
                 return NotFound("Departments not found");
         }
+        [HttpGet("req")]
+        public async Task<ActionResult<IList<Requisition>>> GetAllRequisitions()
+        {
+            var result = await _deptService.findAllRequsitionsAsync();
+            //var result2 = result.First<Requisition>().Employee;
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result.First<Requisition>());
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition not found");
+        }
+
+        [HttpGet("emp")]
+        public async Task<ActionResult<IList<Employee>>> GetAllEmployees()
+        {
+            var result = await _deptService.findAllEmployeesAsync();
+           
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result.First());
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition not found");
+        }
+        
 
         //return dept info by id
         // GET: api/Dept/1
@@ -64,6 +96,7 @@ namespace BackEndAD.Controllers
 
         //this not work Sry Idk details, it is weird. -Bianca
         // GET: api/dept/search?name=ComputerScience
+        /*
         [HttpGet("search")]
         public ActionResult<Department> Search(string name)
         {
@@ -75,7 +108,7 @@ namespace BackEndAD.Controllers
                 return null;
             }
             return dept;
-        }
+        }*/
 
 
 

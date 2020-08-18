@@ -1,4 +1,5 @@
-﻿using BackEndAD.Models;
+﻿using BackEndAD.DataContext;
+using BackEndAD.Models;
 using BackEndAD.Repo;
 using BackEndAD.ServiceInterface;
 using System;
@@ -10,28 +11,52 @@ namespace BackEndAD.ServiceImpl
 {
     public class DepartmentServiceImpl : IDepartmentService
     {
-        public IDepartmentRepo deptrepo;
+        public IUnitOfWork<ProjectContext> unitOfWork;
+        
 
-        public DepartmentServiceImpl(IDepartmentRepo deptrepo)
+        public DepartmentServiceImpl(IUnitOfWork<ProjectContext> unitOfWork)
         {
-            this.deptrepo = deptrepo;
+            this.unitOfWork = unitOfWork;
         }
-        public async Task<List<Department>> findAllDepartmentsAsync()
+
+        #region department
+        public async Task<IList<Department>> findAllDepartmentsAsync()
         {
-            List<Department> deptlist = await deptrepo.findAllDepartmentsAsync();
+            IList<Department> deptlist = await unitOfWork.GetRepository<Department>().GetAllAsync();
             return deptlist;
         }
-        public Department findDepartmentByName(String deptName)
-        {
-            Department dept = deptrepo.findDepartmentByName(deptName);
-            return dept;
-        }
-        public async Task<Department> findDepartmentByIdAsync(int id)
+
+        public async Task<Department> findDepartmentByIdAsync(int deptId)
         {
             //for repo
-            //Person randomPerson = await DataContext.People.FirstOrDefaultAsync(x => x.Id == id);
-            Department dept = await deptrepo.findDepartmentByIdAsync(id);
+            //Department dept = await deptrepo.findDepartmentByIdAsync(id);
+            Department dept = await unitOfWork.GetRepository<Department>().FindAsync(deptId);
             return dept;
         }
+        #endregion
+
+        #region requsition
+        public async Task<IList<Requisition>> findAllRequsitionsAsync()
+        {
+            IList<Requisition> reqlist = await unitOfWork.GetRepository<Requisition>().GetAllAsync();
+            return reqlist;
+        }
+        #endregion
+
+        #region Employee
+        public async Task<Employee> findEmployeeByIdAsync(int empid)
+        {
+            Employee emp = await unitOfWork.GetRepository<Employee>().FindAsync(empid);
+            return emp;
+        }
+        public async Task<IList<Employee>> findAllEmployeesAsync()
+        {
+            IList<Employee> emplist = await unitOfWork.GetRepository<Employee>().GetAllAsync();
+            //IIncludableQueryable<TEntity, object>> include = null,
+            return emplist;
+        }
+        #endregion
+
+
     }
 }

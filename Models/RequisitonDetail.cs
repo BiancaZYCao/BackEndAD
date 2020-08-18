@@ -9,12 +9,13 @@ namespace BackEndAD.Models
     public class RequisitionDetail
     {
         public int Id { get; set; }
-       
-        
+
         public int reqQty { get; set; }
         public string status { get; set; }
 
+        public int RequisitionId { get; set; }
         public virtual Requisition Requisition { get; set; }
-        public virtual Inventory Inventory { get; set; }
+        public int StationeryId { get; set; }
+        public virtual Stationery Stationery { get; set; }
     }
 }

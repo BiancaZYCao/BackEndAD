@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BackEndAD.Models
 {
-    public class Inventory
+    public class Stationery
     {
         public int Id { get; set; }
         public string name { get; set; }
