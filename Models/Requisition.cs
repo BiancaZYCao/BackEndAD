@@ -14,11 +14,14 @@ namespace BackEndAD.Models
         public int EmployeeId { get; set; }
         public DateTime dateOfRequest { get; set; }
         public DateTime? dateOfAuthorizing { get; set; }
-        [ForeignKey("Employee")]
+        
         public int AuthorizerId { get; set; }
         public string status { get; set; }
         public string comment { get; set; }
-        public virtual Employee Employee { get; set; }
+        [ForeignKey("EmployeeId")]
+        public Employee Employee { get; set; }
+        [ForeignKey("AuthorizerId")]
+        public Employee Authorizer { get; set; }
 
 
 

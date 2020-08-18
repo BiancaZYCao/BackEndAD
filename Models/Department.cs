@@ -11,22 +11,23 @@ namespace BackEndAD.Models
         public int Id { get; set; }
         public string deptName { get; set; }
         public string deptCode { get; set; }
-        [ForeignKey ("Employee")]
+        /*[ForeignKey ("Employee")]
         public int headid { get; set; }
-        [ForeignKey("Employee")]
+        //[ForeignKey("Employee")]
         public int repid { get; set; }
-        [ForeignKey("Employee")]
-        public int? delegaterid { get; set; }
+        //[ForeignKey("Employee")]
+        public int? delegaterid { get; set; }*/
         public DateTime delgtStartDate { get; set; }
         public DateTime delgtEndDate { get; set; }
-        [ForeignKey("CollectionInfo")]
-        public int CollectionId { get; set; }
+        //[ForeignKey("CollectionInfo")]
+        //public int CollectionId { get; set; }
         
-        public virtual Employee head { get; set; }
-        public virtual Employee rep { get; set; }
-        public virtual Employee delegater { get; set; }
-        public virtual CollectionInfo CollectionInfo { get; set; }
-        //public List<Employee> employees { get; set; }
+        public Employee head { get; set; }
+        public Employee rep { get; set; }
+        public Employee delegater { get; set; }
+        public CollectionInfo Collection { get; set; }
+        [InverseProperty("department")]
+        public List<Employee> employees { get; set; }
 
 
     }

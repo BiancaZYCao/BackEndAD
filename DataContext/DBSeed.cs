@@ -100,7 +100,7 @@ public static class DBSeed
                 //delegaterId = 2,
                 delgtStartDate = new DateTime(2020, 7, 31),
                 delgtEndDate = new DateTime(2020, 8, 9),
-                CollectionId = 1
+                Collection = ci1
 
             };
             
@@ -112,9 +112,9 @@ public static class DBSeed
                 //headId = 2,
                 //repId = 7,
                 //delegaterId = null,
-                delgtStartDate = new DateTime(2020, 6, 31),
+                delgtStartDate = new DateTime(2020, 6, 13),
                 delgtEndDate = new DateTime(2020, 7, 10),
-                CollectionId = 2
+                Collection = ci2
             };
             
 
@@ -127,7 +127,7 @@ public static class DBSeed
                 //delegaterId = 12,
                 delgtStartDate = new DateTime(2020, 10, 1),
                 delgtEndDate = new DateTime(2020, 10, 5),
-                CollectionId = 3
+                Collection = ci3
             };
             
 
@@ -140,7 +140,7 @@ public static class DBSeed
                 //delegaterId = 13,
                 delgtStartDate = new DateTime(2020, 5, 1),
                 delgtEndDate = new DateTime(2020, 5, 5),
-                CollectionId = 4
+                Collection = ci4
             };
 
             Department dZOOL = new Department()
@@ -152,7 +152,7 @@ public static class DBSeed
                 //delegaterId = 14,
                 delgtStartDate = new DateTime(2019, 12, 20),
                 delgtEndDate = new DateTime(2020, 1, 3),
-                CollectionId = 5
+                Collection = ci5
             };
             Department[] DeptArr = { store,dENGL, dCPSC, dCOMM, dREGR, dZOOL };
             for (int i = 0; i < DeptArr.Length; i++)
@@ -170,6 +170,7 @@ public static class DBSeed
                 Secret = "Dangerous Secret info"
             };
             unitOfWork.GetRepository<TodoItem>().Insert(tdi);
+            unitOfWork.SaveChanges();
             #endregion
 
             //pending
@@ -198,337 +199,336 @@ public static class DBSeed
             {
                 name = "Mary",
                 password = "123",
-                Department = dENGL,
+                department = dENGL,
                 email = "mary@gmail.com",
                 role = "HEAD",
-                phoneNum = "91234567",
-                DepartmentId = 1
+                phoneNum = "91234567"
+                //DepartmentId = 1
             };
 
             Employee e2 = new Employee()
             {
                 name = "John",
                 password = "123",
-                Department = dCPSC,
+                department = dCPSC,
                 email = "john@gmail.com",
                 role = "HEAD",
-                phoneNum = "92234567",
-                DepartmentId = 2
+                phoneNum = "92234567"
+               // DepartmentId = 2
             };
 
             Employee e3 = new Employee()
             {
                 name = "Joe",
                 password = "123",
-                Department = dCOMM,
+                department = dCOMM,
                 email = "joe@gmail.com",
                 role = "HEAD",
-                phoneNum = "81234567",
-                DepartmentId = 3
+                phoneNum = "81234567"
+                //DepartmentId = 3
             };
 
             Employee e4 = new Employee()
             {
                 name = "Peter",
                 password = "123",
-                Department = dREGR,
+                department = dREGR,
                 email = "peter@gmail.com",
                 role = "HEAD",
-                phoneNum = "82234567",
-                DepartmentId = 4
+                phoneNum = "82234567"
+                //DepartmentId = 4
             };
 
             Employee e5 = new Employee()
             {
                 name = "Bob",
                 password = "123",
-                Department = dZOOL,
+                department = dZOOL,
                 email = "bob@gmail.com",
                 role = "HEAD",
-                phoneNum = "82334567",
-                DepartmentId = 5
+                phoneNum = "82334567"
+                //DepartmentId = 5
             };
 
             Employee e6 = new Employee()
             {
                 name = "Mary1",
                 password = "123",
-                Department = dENGL,
+                department = dENGL,
                 email = "mary1@gmail.com",
                 role = "REPRESENTATIVE",
-                phoneNum = "82354567",
-                DepartmentId = 1
+                phoneNum = "82354567"
+                //DepartmentId = 1
             };
 
             Employee e7 = new Employee()
             {
                 name = "John1",
                 password = "123",
-                Department = dCPSC,
+                department = dCPSC,
                 email = "john1@gmail.com",
                 role = "REPRESENTATIVE",
-                phoneNum = "93234567",
-                DepartmentId = 2
+                phoneNum = "93234567"
+                //DepartmentId = 2
             };
 
             Employee e8 = new Employee()
             {
                 name = "Joe1",
                 password = "123",
-                Department = dCOMM,
+                department = dCOMM,
                 email = "joe1@gmail.com",
                 role = "REPRESENTATIVE",
-                phoneNum = "91134567",
-                DepartmentId = 3
+                phoneNum = "91134567"
+                //DepartmentId = 3
             };
 
             Employee e9 = new Employee()
             {
                 name = "Peter1",
                 password = "123",
-                Department = dREGR,
+                department = dREGR,
                 email = "Peter1@gmail.com",
                 role = "REPRESENTATIVE",
-                phoneNum = "92224567",
-                DepartmentId = 4
+                phoneNum = "92224567"
+                //DepartmentId = 4
             };
 
             Employee e10 = new Employee()
             {
                 name = "Bob1",
                 password = "123",
-                Department = dZOOL,
+                department = dZOOL,
                 email = "Bob1@gmail.com",
                 role = "REPRESENTATIVE",
-                phoneNum = "91114567",
-                DepartmentId = 5
+                phoneNum = "91114567"
+                //DepartmentId = 5
             };
 
             Employee e11 = new Employee()
             {
                 name = "Mary2",
                 password = "123",
-                Department = dENGL,
+                department = dENGL,
                 email = "Mary2@gmail.com",
                 role = "DELEGATE",
-                phoneNum = "92222567",
-                DepartmentId = 1
+                phoneNum = "92222567"
+                //DepartmentId = 1
             };
 
             Employee e12 = new Employee()
             {
                 name = "Joe2",
                 password = "123",
-                Department = dCOMM,
+                department = dCOMM,
                 email = "Joe2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "91222567",
-                DepartmentId = 3
+                //DepartmentId = 3
             };
 
             Employee e13 = new Employee()
             {
                 name = "Peter2",
                 password = "123",
-                Department = dREGR,
+                department = dREGR,
                 email = "Peter2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "92222267",
-                DepartmentId = 4
+                //DepartmentId = 4
             };
 
             Employee e14 = new Employee()
             {
                 name = "Bob2",
                 password = "123",
-                Department = dZOOL,
+                department = dZOOL,
                 email = "BOB2@gmail.com",
                 role = "DELEGATE",
-                phoneNum = "91122267",
-                DepartmentId = 5
+                phoneNum = "91122267"
+                //DepartmentId = 5
             };
 
             Employee e15 = new Employee()
             {
                 name = "Mary3",
                 password = "123",
-                Department = dENGL,
+                department = dENGL,
                 email = "Mary3@gmail.com",
                 role = "STAFF",
                 phoneNum = "92222267",
-                DepartmentId = 1
+                //DepartmentId = 1
             };
 
             Employee e16 = new Employee()
             {
                 name = "Mary4",
                 password = "123",
-                Department = dENGL,
+                department = dENGL,
                 email = "Mary4@gmail.com",
                 role = "STAFF",
                 phoneNum = "94222267",
-                DepartmentId = 1
+                //DepartmentId = 1
             };
 
             Employee e17 = new Employee()
             {
                 name = "Mary5",
                 password = "123",
-                Department = dENGL,
+                department = dENGL,
                 email = "Mary5@gmail.com",
                 role = "STAFF",
-                phoneNum = "95222267",
-                DepartmentId = 1
+                phoneNum = "95222267"
+                //DepartmentId = 1
             };
 
             Employee e18 = new Employee()
             {
                 name = "John2",
                 password = "123",
-                Department = dCPSC,
+                department = dCPSC,
                 email = "John2@gmail.com",
                 role = "STAFF",
-                phoneNum = "82222267",
-                DepartmentId = 2
+                phoneNum = "82222267"
+                //DepartmentId = 2
             };
 
             Employee e19 = new Employee()
             {
                 name = "John3",
                 password = "123",
-                Department = dCPSC,
+                department = dCPSC,
                 email = "John3@gmail.com",
                 role = "STAFF",
                 phoneNum = "83222267",
-                DepartmentId = 2
+                //DepartmentId = 2
             };
 
             Employee e20 = new Employee()
             {
                 name = "John4",
                 password = "123",
-                Department = dCPSC,
+                department = dCPSC,
                 email = "John4@gmail.com",
                 role = "STAFF",
                 phoneNum = "84222267",
-                DepartmentId = 2
+                //DepartmentId = 2
             };
 
             Employee e21 = new Employee()
             {
                 name = "John5",
                 password = "123",
-                Department = dCPSC,
+                department = dCPSC,
                 email = "John5@gmail.com",
                 role = "STAFF",
-                phoneNum = "85222267",
-                DepartmentId = 2
+                phoneNum = "85222267"
+                //DepartmentId = 2
             };
 
             Employee e22 = new Employee()
             {
                 name = "Joe3",
                 password = "123",
-                Department = dCOMM,
+                department = dCOMM,
                 email = "Joe3@gmail.com",
                 role = "STAFF",
                 phoneNum = "83322267",
-                DepartmentId = 3
+                //DepartmentId = 3
             };
 
             Employee e23 = new Employee()
             {
                 name = "Joe4",
                 password = "123",
-                Department = dCOMM,
+                department = dCOMM,
                 email = "Joe4@gmail.com",
                 role = "STAFF",
-                phoneNum = "84422267",
-                DepartmentId = 3
+                phoneNum = "84422267"
+                //DepartmentId = 3
             };
 
             Employee e24 = new Employee()
             {
                 name = "Joe5",
                 password = "123",
-                Department = dCOMM,
+                department = dCOMM,
                 email = "Joe5@gmail.com",
                 role = "STAFF",
                 phoneNum = "85522267",
-                DepartmentId = 3
+                //DepartmentId = 3
             };
 
             Employee e25 = new Employee()
             {
                 name = "Peter3",
                 password = "123",
-                Department = dREGR,
+                department = dREGR,
                 email = "Peter3@gmail.com",
                 role = "STAFF",
-                phoneNum = "85522263",
-                DepartmentId = 4
+                phoneNum = "85522263"
+                //DepartmentId = 4
             };
 
             Employee e26 = new Employee()
             {
                 name = "Peter4",
                 password = "123",
-                Department = dREGR,
+                department = dREGR,
                 email = "Peter4@gmail.com",
                 role = "STAFF",
                 phoneNum = "85522264",
-                DepartmentId = 4
+                //DepartmentId = 4
             };
 
             Employee e27 = new Employee()
             {
                 name = "Peter5",
                 password = "123",
-                Department = dREGR,
+                department = dREGR,
                 email = "Peter5@gmail.com",
                 role = "STAFF",
-                phoneNum = "85522265",
-                DepartmentId = 4
+                phoneNum = "85522265"
             };
 
             Employee e28 = new Employee()
             {
                 name = "Bob3",
                 password = "123",
-                Department = dREGR,
+                department = dREGR,
                 email = "bob3@gmail.com",
                 role = "STAFF",
-                phoneNum = "83522265",
-                DepartmentId = 5
+                phoneNum = "83522265"
+                //DepartmentId = 5
             };
 
             Employee e29 = new Employee()
             {
                 name = "Bob4",
                 password = "123",
-                Department = dREGR,
+                department = dREGR,
                 email = "bob4@gmail.com",
                 role = "STAFF",
-                phoneNum = "84522265",
-                DepartmentId = 5
+                phoneNum = "84522265"
+                //DepartmentId = 5
             };
 
             Employee e30 = new Employee()
             {
                 name = "Bob5",
                 password = "123",
-                Department = dREGR,
+                department = dREGR,
                 email = "bob5@gmail.com",
                 role = "STAFF",
-                phoneNum = "85522265",
-                DepartmentId = 5
+                phoneNum = "85522265"
+                //DepartmentId = 5
             };
 
             Employee e31 = new Employee()
             {
                 name = "Martin",
                 password = "123",
-                Department = store,
+                department = store,
                 email = "martin@gmail.com",
                 role = "STRMGR",
                 phoneNum = "85522261",
@@ -539,7 +539,7 @@ public static class DBSeed
             {
                 name = "Tin",
                 password = "123",
-                Department = store,
+                department = store,
                 email = "tin@gmail.com",
                 role = "STRSUPV",
                 phoneNum = "85522262",
@@ -550,7 +550,7 @@ public static class DBSeed
             {
                 name = "Esther",
                 password = "123",
-                Department = store,
+                department = store,
                 email = "esther@gmail.com",
                 role = "CLERK",
                 phoneNum = "85522263",
@@ -561,7 +561,7 @@ public static class DBSeed
             {
                 name = "Esther1",
                 password = "123",
-                Department = store,
+                department = store,
                 email = "esther1@gmail.com",
                 role = "CLERK",
                 phoneNum = "85522264",
@@ -572,7 +572,7 @@ public static class DBSeed
             {
                 name = "Esther2",
                 password = "123",
-                Department = store,
+                department = store,
                 email = "esther2@gmail.com",
                 role = "CLERK",
                 phoneNum = "85522265",
@@ -584,177 +584,179 @@ public static class DBSeed
             {
                 unitOfWork.GetRepository<Employee>().Insert(empArr[c]);
             }
+            unitOfWork.SaveChanges();
             #endregion
+
 
             //May
             #region requisition +detail lists
             Requisition r1 = new Requisition()
             {
-                EmployeeId = e6.id,
+                Employee = e6,
                 dateOfRequest = new DateTime(2020, 8, 17, 8, 30, 52),
                 dateOfAuthorizing = new DateTime(2020, 8, 17, 8, 50, 00),
-                AuthorizerId = e1.id,
+                Authorizer = e1,
                 status = "Approved",
                 comment = null
             };
-            RequisitionDetail r1rd1 = new RequisitionDetail() { RequisitionId = r1.Id, StationeryId = i1.Id, reqQty = 10, rcvQty = 0, status = "Approved" };
-            RequisitionDetail r1rd2 = new RequisitionDetail() { RequisitionId = r1.Id, StationeryId = i2.Id, reqQty = 5, rcvQty = 0, status = "Approved" };
-            RequisitionDetail r1rd3 = new RequisitionDetail() { RequisitionId = r1.Id, StationeryId = i3.Id, reqQty = 10, rcvQty = 0, status = "Approved" };
+            RequisitionDetail r1rd1 = new RequisitionDetail() { Requisition = r1, Stationery = i1, reqQty = 10, rcvQty = 0, status = "Approved" };
+            RequisitionDetail r1rd2 = new RequisitionDetail() { Requisition = r1, Stationery = i2, reqQty = 5, rcvQty = 0, status = "Approved" };
+            RequisitionDetail r1rd3 = new RequisitionDetail() { Requisition = r1, Stationery = i3, reqQty = 10, rcvQty = 0, status = "Approved" };
 
             Requisition r2 = new Requisition()
             {
-                EmployeeId = e15.id,
+                Employee = e15,
                 dateOfRequest = new DateTime(2020, 8, 18, 8, 30, 52),
                 dateOfAuthorizing = new DateTime(2020, 8, 18, 8, 50, 00),
-                AuthorizerId = e1.id,
+                Authorizer = e1,
                 status = "Approved",
                 comment = null
             };
-            RequisitionDetail r2rd1 = new RequisitionDetail() { RequisitionId = r2.Id, StationeryId = i2.Id, reqQty = 3, rcvQty = 0, status = "Approved" };
-            RequisitionDetail r2rd2 = new RequisitionDetail() { RequisitionId = r2.Id, StationeryId = i3.Id, reqQty = 15, rcvQty = 0, status = "Approved" };
+            RequisitionDetail r2rd1 = new RequisitionDetail() { Requisition = r2, Stationery = i2, reqQty = 3, rcvQty = 0, status = "Approved" };
+            RequisitionDetail r2rd2 = new RequisitionDetail() { Requisition = r2, Stationery = i3, reqQty = 15, rcvQty = 0, status = "Approved" };
 
             Requisition r3 = new Requisition()
             {
-                EmployeeId = e16.id,
+                Employee = e16,
                 dateOfRequest = new DateTime(2020, 8, 17, 8, 00, 00),
                 dateOfAuthorizing = new DateTime(2020, 8, 17, 8, 30, 00),
-                AuthorizerId = e1.id,
+                Authorizer = e1,
                 status = "Partially_Delivered",
                 comment = null
             };
-            RequisitionDetail r3rd1 = new RequisitionDetail() { RequisitionId = r3.Id, StationeryId = i1.Id, reqQty = 8, rcvQty = 5, status = "Partially_Delivered" };
-            RequisitionDetail r3rd2 = new RequisitionDetail() { RequisitionId = r3.Id, StationeryId = i2.Id, reqQty = 5, rcvQty = 5, status = "Delivered" };
+            RequisitionDetail r3rd1 = new RequisitionDetail() { Requisition = r3, Stationery = i1, reqQty = 8, rcvQty = 5, status = "Partially_Delivered" };
+            RequisitionDetail r3rd2 = new RequisitionDetail() { Requisition = r3, Stationery = i2, reqQty = 5, rcvQty = 5, status = "Delivered" };
 
             Requisition r4 = new Requisition()
             {
-                EmployeeId = e18.id,
+                Employee = e18,
                 dateOfRequest = new DateTime(2020, 8, 18, 8, 30, 52),
                 dateOfAuthorizing = new DateTime(2020, 8, 18, 8, 50, 00),
-                AuthorizerId = e2.id,
+                Authorizer = e2,
                 status = "Delivered",
                 comment = null
             };
-            RequisitionDetail r4rd1 = new RequisitionDetail() { RequisitionId = r4.Id, StationeryId = i1.Id, reqQty = 8, rcvQty = 8, status = "Delivered" };
-            RequisitionDetail r4rd2 = new RequisitionDetail() { RequisitionId = r4.Id, StationeryId = i2.Id, reqQty = 5, rcvQty = 5, status = "Delivered" };
+            RequisitionDetail r4rd1 = new RequisitionDetail() { Requisition = r4, Stationery = i1, reqQty = 8, rcvQty = 8, status = "Delivered" };
+            RequisitionDetail r4rd2 = new RequisitionDetail() { Requisition = r4, Stationery = i2, reqQty = 5, rcvQty = 5, status = "Delivered" };
 
             Requisition r5 = new Requisition()
             {
-                EmployeeId = e20.id,
+                Employee = e20,
                 dateOfRequest = new DateTime(2020, 8, 18, 9, 30, 52),
                 dateOfAuthorizing = new DateTime(2020, 8, 18, 9, 50, 00),
-                AuthorizerId = e2.id,
+                Authorizer = e2,
                 status = "Delivered",
                 comment = null
             };
-            RequisitionDetail r5rd1 = new RequisitionDetail() { RequisitionId = r5.Id, StationeryId = i3.Id, reqQty = 8, rcvQty = 8, status = "Delivered" };
-            RequisitionDetail r5rd2 = new RequisitionDetail() { RequisitionId = r5.Id, StationeryId = i2.Id, reqQty = 5, rcvQty = 5, status = "Delivered" };
+            RequisitionDetail r5rd1 = new RequisitionDetail() { Requisition = r5, Stationery = i3, reqQty = 8, rcvQty = 8, status = "Delivered" };
+            RequisitionDetail r5rd2 = new RequisitionDetail() { Requisition = r5, Stationery = i2, reqQty = 5, rcvQty = 5, status = "Delivered" };
 
             Requisition r6 = new Requisition()
             {
-                EmployeeId = e22.id,
+                Employee = e22,
                 dateOfRequest = new DateTime(2020, 8, 18, 8, 30, 52),
                 dateOfAuthorizing = new DateTime(2020, 8, 18, 8, 50, 00),
-                AuthorizerId = e3.id,
+                Authorizer = e3,
                 status = "Declined",
                 comment = "Too many quantities"
             };
-            RequisitionDetail r6rd1 = new RequisitionDetail() { RequisitionId = r6.Id, StationeryId = i1.Id, reqQty = 50, rcvQty = 0, status = "Declined" };
+            RequisitionDetail r6rd1 = new RequisitionDetail() { Requisition = r6, Stationery = i1, reqQty = 50, rcvQty = 0, status = "Declined" };
 
             Requisition r7 = new Requisition()
             {
-                EmployeeId = e23.id,
+                Employee = e23,
                 dateOfRequest = new DateTime(2020, 8, 17, 9, 30, 52),
                 dateOfAuthorizing = new DateTime(2020, 8, 17, 9, 45, 00),
-                AuthorizerId = e3.id,
+                Authorizer = e3,
                 status = "Delivered",
                 comment = null
             };
-            RequisitionDetail r7rd1 = new RequisitionDetail() { RequisitionId = r7.Id, StationeryId = i1.Id, reqQty = 8, rcvQty = 8, status = "Delivered" };
-            RequisitionDetail r7rd2 = new RequisitionDetail() { RequisitionId = r7.Id, StationeryId = i2.Id, reqQty = 5, rcvQty = 5, status = "Delivered" };
+            RequisitionDetail r7rd1 = new RequisitionDetail() { Requisition = r7, Stationery = i1, reqQty = 8, rcvQty = 8, status = "Delivered" };
+            RequisitionDetail r7rd2 = new RequisitionDetail() { Requisition = r7, Stationery = i2, reqQty = 5, rcvQty = 5, status = "Delivered" };
 
             Requisition r8 = new Requisition()
             {
-                EmployeeId = e8.id,
+                Employee = e8,
                 dateOfRequest = new DateTime(2020, 8, 18, 9, 30, 52),
                 dateOfAuthorizing = null,
-                AuthorizerId = e3.id,
+                Authorizer = e3,
                 status = "Applied",
                 comment = null
             };
-            RequisitionDetail r8rd1 = new RequisitionDetail() { RequisitionId = r8.Id, StationeryId = i3.Id, reqQty = 8, rcvQty = 0, status = "Applied" };
-            RequisitionDetail r8rd2 = new RequisitionDetail() { RequisitionId = r8.Id, StationeryId = i2.Id, reqQty = 5, rcvQty = 0, status = "Applied" };
+            RequisitionDetail r8rd1 = new RequisitionDetail() { Requisition = r8, Stationery = i3, reqQty = 8, rcvQty = 0, status = "Applied" };
+            RequisitionDetail r8rd2 = new RequisitionDetail() { Requisition = r8, Stationery = i2, reqQty = 5, rcvQty = 0, status = "Applied" };
 
             Requisition r9 = new Requisition()
             {
-                EmployeeId = e24.id,
+                Employee = e24,
                 dateOfRequest = new DateTime(2020, 8, 18, 9, 30, 00),
                 dateOfAuthorizing = null,
-                AuthorizerId = e4.id,
+                Authorizer = e4,
                 status = "Applied",
                 comment = null
             };
-            RequisitionDetail r9rd1 = new RequisitionDetail() { RequisitionId = r9.Id, StationeryId = i1.Id, reqQty = 8, rcvQty = 0, status = "Applied" };
-            RequisitionDetail r9rd2 = new RequisitionDetail() { RequisitionId = r9.Id, StationeryId = i2.Id, reqQty = 5, rcvQty = 0, status = "Applied" };
+            RequisitionDetail r9rd1 = new RequisitionDetail() { Requisition = r9, Stationery = i1, reqQty = 8, rcvQty = 0, status = "Applied" };
+            RequisitionDetail r9rd2 = new RequisitionDetail() { Requisition = r9, Stationery = i2, reqQty = 5, rcvQty = 0, status = "Applied" };
 
             Requisition r10 = new Requisition()
             {
-                EmployeeId = e25.id,
+                Employee = e25,
                 dateOfRequest = new DateTime(2020, 8, 17, 9, 30, 52),
                 dateOfAuthorizing = new DateTime(2020, 8, 17, 9, 45, 00),
-                AuthorizerId = e4.id,
+                Authorizer = e4,
                 status = "Delivered",
                 comment = null
             };
-            RequisitionDetail r10rd1 = new RequisitionDetail() { RequisitionId = r10.Id, StationeryId = i2.Id, reqQty = 8, rcvQty = 8, status = "Delivered" };
-            RequisitionDetail r10rd2 = new RequisitionDetail() { RequisitionId = r10.Id, StationeryId = i3.Id, reqQty = 5, rcvQty = 5, status = "Delivered" };
+            RequisitionDetail r10rd1 = new RequisitionDetail() { Requisition = r10, Stationery = i2, reqQty = 8, rcvQty = 8, status = "Delivered" };
+            RequisitionDetail r10rd2 = new RequisitionDetail() { Requisition = r10, Stationery = i3, reqQty = 5, rcvQty = 5, status = "Delivered" };
 
             Requisition r11 = new Requisition()
             {
-                EmployeeId = e26.id,
+                Employee = e26,
                 dateOfRequest = new DateTime(2020, 8, 17, 8, 00, 00),
                 dateOfAuthorizing = new DateTime(2020, 8, 17, 8, 30, 00),
-                AuthorizerId = e4.id,
+                Authorizer = e4,
                 status = "Partially_Delivered",
                 comment = null
             };
-            RequisitionDetail r11rd1 = new RequisitionDetail() { RequisitionId = r11.Id, StationeryId = i1.Id, reqQty = 7, rcvQty = 5, status = "Partially_Delivered" };
-            RequisitionDetail r11rd2 = new RequisitionDetail() { RequisitionId = r11.Id, StationeryId = i2.Id, reqQty = 5, rcvQty = 5, status = "Delivered" };
+            RequisitionDetail r11rd1 = new RequisitionDetail() { Requisition = r11, Stationery = i1, reqQty = 7, rcvQty = 5, status = "Partially_Delivered" };
+            RequisitionDetail r11rd2 = new RequisitionDetail() { Requisition = r11, Stationery = i2, reqQty = 5, rcvQty = 5, status = "Delivered" };
 
             Requisition r12 = new Requisition()
             {
-                EmployeeId = e27.id,
+                Employee = e27,
                 dateOfRequest = new DateTime(2020, 8, 18, 10, 30, 00),
                 dateOfAuthorizing = null,
-                AuthorizerId = e5.id,
+                Authorizer = e5,
                 status = "Applied",
                 comment = null
             };
-            RequisitionDetail r12rd1 = new RequisitionDetail() { RequisitionId = r12.Id, StationeryId = i1.Id, reqQty = 8, rcvQty = 0, status = "Applied" };
-            RequisitionDetail r12rd2 = new RequisitionDetail() { RequisitionId = r12.Id, StationeryId = i2.Id, reqQty = 5, rcvQty = 0, status = "Applied" };
+            RequisitionDetail r12rd1 = new RequisitionDetail() { Requisition = r12, Stationery = i1, reqQty = 8, rcvQty = 0, status = "Applied" };
+            RequisitionDetail r12rd2 = new RequisitionDetail() { Requisition = r12, Stationery = i2, reqQty = 5, rcvQty = 0, status = "Applied" };
 
             Requisition r13 = new Requisition()
             {
-                EmployeeId = e28.id,
+                Employee = e28,
                 dateOfRequest = new DateTime(2020, 8, 17, 9, 30, 52),
                 dateOfAuthorizing = new DateTime(2020, 8, 17, 9, 45, 00),
-                AuthorizerId = e5.id,
+                Authorizer = e5,
                 status = "Delivered",
                 comment = null
             };
-            RequisitionDetail r13rd1 = new RequisitionDetail() { RequisitionId = r13.Id, StationeryId = i2.Id, reqQty = 8, rcvQty = 8, status = "Delivered" };
-            RequisitionDetail r13rd2 = new RequisitionDetail() { RequisitionId = r13.Id, StationeryId = i3.Id, reqQty = 5, rcvQty = 5, status = "Delivered" };
+            RequisitionDetail r13rd1 = new RequisitionDetail() { Requisition = r13, Stationery = i2, reqQty = 8, rcvQty = 8, status = "Delivered" };
+            RequisitionDetail r13rd2 = new RequisitionDetail() { Requisition = r13, Stationery = i3, reqQty = 5, rcvQty = 5, status = "Delivered" };
 
             Requisition r14 = new Requisition()
             {
-                EmployeeId = e29.id,
+                Employee = e29,
                 dateOfRequest = new DateTime(2020, 8, 17, 8, 00, 00),
                 dateOfAuthorizing = new DateTime(2020, 8, 17, 8, 30, 00),
-                AuthorizerId = e5.id,
+                Authorizer = e5,
                 status = "Partially_Delivered",
                 comment = null
             };
-            RequisitionDetail r14rd1 = new RequisitionDetail() { RequisitionId = r14.Id, StationeryId = i1.Id, reqQty = 7, rcvQty = 5, status = "Partially_Delivered" };
-            RequisitionDetail r14rd2 = new RequisitionDetail() { RequisitionId = r14.Id, StationeryId = i2.Id, reqQty = 5, rcvQty = 5, status = "Delivered" };
+            RequisitionDetail r14rd1 = new RequisitionDetail() { Requisition = r14, Stationery = i1, reqQty = 7, rcvQty = 5, status = "Partially_Delivered" };
+            RequisitionDetail r14rd2 = new RequisitionDetail() { Requisition = r14, Stationery = i2, reqQty = 5, rcvQty = 5, status = "Delivered" };
 
             Requisition[] reqArr = { r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14 };
             for (int j = 0; j < reqArr.Length; j++)
@@ -826,21 +828,21 @@ public static class DBSeed
             unitOfWork.SaveChanges();
             #endregion
 
-            
+            /*
             //Done May only 2 
             #region StockAdjustment and Detail
             /// 1 receiveGood (after PO)
             /// 2 monthly check + 3 get good from ware house find missing or damage
             /// 4 manager revert adjustment after not issue voucher
-            StockAdjustment sa1 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 7, 27), EmployeeId = e33.id};
-            StockAdjustmentDetail sa1sad1 = new StockAdjustmentDetail() { StockAdjustmentId = sa1.id, StationeryId = i1.Id, discpQty = -5, comment = "Broken"};
-            StockAdjustmentDetail sa1sad2 = new StockAdjustmentDetail() { StockAdjustmentId = sa1.id, StationeryId = i2.Id, discpQty = 1, comment = null };
-            StockAdjustmentDetail sa1sad3 = new StockAdjustmentDetail() { StockAdjustmentId = sa1.id, StationeryId = i3.Id, discpQty = -2, comment = "Missing" };
+            StockAdjustment sa1 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 7, 27), Employee = e33};
+            StockAdjustmentDetail sa1sad1 = new StockAdjustmentDetail() { StockAdjustmentId = sa1, Stationery = i1, discpQty = -5, comment = "Broken"};
+            StockAdjustmentDetail sa1sad2 = new StockAdjustmentDetail() { StockAdjustmentId = sa1, Stationery = i2, discpQty = 1, comment = null };
+            StockAdjustmentDetail sa1sad3 = new StockAdjustmentDetail() { StockAdjustmentId = sa1, Stationery = i3, discpQty = -2, comment = "Missing" };
 
-            StockAdjustment sa2 = new StockAdjustment() { type = "missing when collecting goods", date = new DateTime(2020, 8, 27), EmployeeId = e34.id };
-            StockAdjustmentDetail sa2sad1 = new StockAdjustmentDetail() { StockAdjustmentId = sa2.id, StationeryId = i1.Id, discpQty = -10, comment = null };
-            StockAdjustmentDetail sa2sad2 = new StockAdjustmentDetail() { StockAdjustmentId = sa2.id, StationeryId = i2.Id, discpQty = -50, comment = null };
-            StockAdjustmentDetail sa2sad3 = new StockAdjustmentDetail() { StockAdjustmentId = sa2.id, StationeryId = i3.Id, discpQty = -2, comment = "Broken" };
+            StockAdjustment sa2 = new StockAdjustment() { type = "missing when collecting goods", date = new DateTime(2020, 8, 27), Employee = e34 };
+            StockAdjustmentDetail sa2sad1 = new StockAdjustmentDetail() { StockAdjustmentId = sa2, Stationery = i1, discpQty = -10, comment = null };
+            StockAdjustmentDetail sa2sad2 = new StockAdjustmentDetail() { StockAdjustmentId = sa2, Stationery = i2, discpQty = -50, comment = null };
+            StockAdjustmentDetail sa2sad3 = new StockAdjustmentDetail() { StockAdjustmentId = sa2, Stationery = i3, discpQty = -2, comment = "Broken" };
 
             StockAdjustment[] saArr = { sa1, sa2 };
             for (int e = 0; e < saArr.Length; e++)
@@ -854,14 +856,14 @@ public static class DBSeed
             }
 
             #endregion
-
+            
             //So far empty
             #region AdjustmentVoucher and Detail
             AdjustmentVoucher av1 = new AdjustmentVoucher() { };
-            AdjustmentVoucherDetail av1avd1 = new AdjustmentVoucherDetail() { AdjustmentVoucherId = av1.id };
+            AdjustmentVoucherDetail av1avd1 = new AdjustmentVoucherDetail() { AdjustmentVoucherId = av1 };
 
             AdjustmentVoucher av2 = new AdjustmentVoucher() { };
-            AdjustmentVoucherDetail av2avd1 = new AdjustmentVoucherDetail() { AdjustmentVoucherId = av2.id };
+            AdjustmentVoucherDetail av2avd1 = new AdjustmentVoucherDetail() { AdjustmentVoucherId = av2 };
 
             AdjustmentVoucher[] avArr = { av1, av2 };
             for (int g = 0; g < avArr.Length; g++)
@@ -877,15 +879,17 @@ public static class DBSeed
             #endregion
 
             #region Disbursement and Detail
-            DisbursementList dl1 = new DisbursementList() { DepartmentId = dENGL.Id, date = new DateTime(2020, 8, 27) };
-            DisbursementList dl2 = new DisbursementList() { DepartmentId = dCPSC.Id, date = new DateTime(2020, 8, 27) };
+            DisbursementList dl1 = new DisbursementList() { DepartmentId = dENGL, date = new DateTime(2020, 8, 27) };
+            DisbursementList dl2 = new DisbursementList() { DepartmentId = dCPSC, date = new DateTime(2020, 8, 27) };
             //I got blurred and don't know how to seed this parts. Sry. -May
             #endregion
 
             // sry Pending seed 
             #region Purchase order and Detail
 
-            #endregion
+            #endregion*/
+            unitOfWork.SaveChanges();
+
 
         }
 

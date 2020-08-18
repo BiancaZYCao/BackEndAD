@@ -19,8 +19,8 @@ namespace BackEndAD.Models
         public string role { get; set; }
         public string phoneNum { get; set; }
 
-        public int DepartmentId { get; set; }
-        public virtual Department Department { get; set; }
+        //public int DepartmentId { get; set; }
+        public Department department { get; set; }
 
         //public List<Requisition> Requisitions { get; set; }
 
