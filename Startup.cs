@@ -41,12 +41,13 @@ namespace BackEndAD
             services.AddScoped<ISupplierRepo, SupplierRepo>();
             services.AddScoped<IEmployeeService, EmployeeServiceImpl>();
             services.AddScoped<IDepartmentService, DepartmentServiceImpl>();
-            services.AddScoped<IStoreClerkService, StoreClerkServiceImpl>();
+            
             services.AddScoped<ISupplierService, SupplierServiceImpl>();*/
             services.AddUnitOfWorkService<ProjectContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DbConn")); });
             //options.UseInMemoryDatabase("Try"); });
             services.AddScoped<IDepartmentService, DepartmentServiceImpl>();
+            services.AddScoped<IStoreClerkService, StoreClerkServiceImpl>();
             services.AddControllers();
 
             services.AddCors(options =>

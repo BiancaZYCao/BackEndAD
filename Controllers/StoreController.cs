@@ -17,12 +17,12 @@ namespace BackEndAD.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InvtController : ControllerBase
+    public class StoreController : ControllerBase
     {
 
         private IStoreClerkService _clkService;
 
-        public InvtController(IStoreClerkService clkService)
+        public StoreController(IStoreClerkService clkService)
         {
             _clkService = clkService;
         }

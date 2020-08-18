@@ -14,18 +14,25 @@ namespace BackEndAD.DataContext
         {
 
         }
-
-        public DbSet<Employee> Employee_Table { get; set; }
+        public DbSet<AdjustmentVoucher> AdjustmentVoucher_Table { get; set; }
+        public DbSet<AdjustmentVoucherDetail> AdjustmentVoucherDetail_Table { get; set; }
+        public DbSet<CollectionInfo> CollectionInfo_Table { get; set; }
         public DbSet<Department> Department_Table { get; set; }
+        public DbSet<DisbursementDetail> DisbursementDetail_Table { get; set; }
+        public DbSet<DisbursementList> DisbursementList_Table { get; set; }
+        public DbSet<Employee> Employee_Table { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrder_Table { get; set; }
+        public DbSet<PurchaseOrderDetail> PurchaseOrderDetail_Table { get; set; }
         public DbSet<Requisition> Requisition_Table { get; set; }
         public DbSet<RequisitionDetail> RequisitionDetail_Table { get; set; }
+        public DbSet<Stationery> Stationery_Table { get; set; }
+        public DbSet<StockAdjustment> StockAdjustment_Table { get; set; }
+        public DbSet<StockAdjustmentDetail> StockAdjustmentDetail_Table { get; set; }
+        public DbSet<Supplier> Supplier_Table { get; set; }
         
+
         //Below data tables just for testing 
         public DbSet<TodoItem> TodoItems { get; set; }
-
-        public DbSet<Stationery> Inventory { get; set; }
-
-        public DbSet<Supplier> Supplier_Table { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

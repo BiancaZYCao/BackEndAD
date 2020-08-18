@@ -9,7 +9,11 @@ namespace BackEndAD.Models
     public class Stationery
     {
         public int Id { get; set; }
-        public string name { get; set; }
-        public int quantity { get; set; }
+        public string category { get; set; }
+        public string desc { get; set; }
+        public string unit { get; set; }
+        public int reOrderQty { get; set; }
+        public int reOrderLevel { get; set; }
+        public int inventoryQty { get; set; }
     }
 }
