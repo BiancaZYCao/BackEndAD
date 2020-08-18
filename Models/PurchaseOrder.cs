@@ -11,10 +11,10 @@ namespace BackEndAD.Models
         public int id { get; set; }
        [ForeignKey("Employee")]
        public int clerkId { get; set; }
-       public int supplierId { get; set; }
+       public int SupplierId { get; set; }
        public DateTime dateOfOrder { get; set; }
        public string status { get; set; }
-       public int stockAdjustmentId { get; set; }
+       public int StockAdjustmentId { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual StockAdjustment StockAdjustment { get; set; }

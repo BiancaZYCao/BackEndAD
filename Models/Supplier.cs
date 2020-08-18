@@ -11,8 +11,8 @@ namespace BackEndAD.Models
         [Required]
         public int id { get; set; }
 
-        //[Required]
-        //public string supplierCode { get; set; }
+        [Required]
+       public string supplierCode { get; set; }
 
 
         [Required]
@@ -34,7 +34,7 @@ namespace BackEndAD.Models
         [Required]
         public string address { get; set; }
 
-       // public string priority { get; set; }
+        public string priority { get; set; }
         
     }
 }

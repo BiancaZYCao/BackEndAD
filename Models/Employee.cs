@@ -10,7 +10,7 @@ namespace BackEndAD.Models
     public class Employee
     {
         [Required]
-        public int Id {get; set;}
+        public int id {get; set;}
         [Required]
         public string name { get; set; }
         [Required]
