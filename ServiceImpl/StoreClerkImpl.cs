@@ -56,7 +56,6 @@ namespace BackEndAD.ServiceImpl
         }
         #endregion
 
-<<<<<<< HEAD
         #region store clerk adjustment
         public async Task<StockAdjustment> generateStkAdjustmentAsync(StockAdjustment stkAdj,
                         List<StockAdjustmentDetail> stockAdjustmentDetails)
@@ -107,8 +106,6 @@ namespace BackEndAD.ServiceImpl
             return stkadj;
         }
         #endregion
-=======
 
->>>>>>> 87d49e0550241237eab22f747f50d02c207d6a52
     }
 }
