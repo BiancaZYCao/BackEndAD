@@ -44,8 +44,19 @@ namespace BackEndAD.ServiceImpl
             Supplier sup = await unitOfWork.GetRepository<Supplier>().FindAsync(supplierId);
             return sup;
         }
+
+        public void deleteSupplier(int id)
+        {
+            unitOfWork.GetRepository<Supplier>().Delete(id);
+        }
+
+        public void saveSupplier(Supplier s)
+        {
+            unitOfWork.GetRepository<Supplier>().Insert(s);
+        }
         #endregion
 
+<<<<<<< HEAD
         #region store clerk adjustment
         public async Task<StockAdjustment> generateStkAdjustmentAsync(StockAdjustment stkAdj,
                         List<StockAdjustmentDetail> stockAdjustmentDetails)
@@ -96,5 +107,8 @@ namespace BackEndAD.ServiceImpl
             return stkadj;
         }
         #endregion
+=======
+
+>>>>>>> 87d49e0550241237eab22f747f50d02c207d6a52
     }
 }
