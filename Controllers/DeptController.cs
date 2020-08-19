@@ -47,6 +47,18 @@ namespace BackEndAD.Controllers
                 //I put here Just for u to understand the style. :) -Bianca  
                 return NotFound("Departments not found");
         }
+
+        //This is not finished! -Bianca
+        [HttpGet("eager")]
+        public async Task<ActionResult<IList<Department>>> GetAllDepartmentsEager()
+        {
+            var result = await _deptService.findAllDepartmentsAsyncEager();
+            if (result != null)               
+                return Ok(result.First<Department>().Collection.Id);
+            else
+                return NotFound("Departments not found");
+        }
+
         [HttpGet("req")]
         public async Task<ActionResult<IList<Requisition>>> GetAllRequisitions()
         {

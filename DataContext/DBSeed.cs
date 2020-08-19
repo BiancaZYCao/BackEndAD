@@ -668,6 +668,7 @@ public static class DBSeed
             unitOfWork.SaveChanges();
             #endregion
             /*
+             * Part1 no need anymore
             #region Add FK head/rep/del
             dENGL.head = e1 ;
             dENGL.rep = e6;
@@ -688,6 +689,7 @@ public static class DBSeed
                 unitOfWork.GetRepository<Department>().Update(DeptArr[i]);
             }
             unitOfWork.SaveChanges();
+            //Part 2 this is still need 
             ci1.clerk = e33;
             ci2.clerk = e33;
             ci3.clerk = e34;
@@ -897,7 +899,7 @@ public static class DBSeed
                 gstRegisNo = "MR-8500440-2",
                 fax = " 4612238",
                 address = "Blk 1128, Ang Mo Kio Industrial Park #02-1108 Ang Mo Kio Street 62 ,Singapore 622262",
-                priority = "1st",
+                priority = 1,
             };
             Supplier s2 = new Supplier()
             {
@@ -907,7 +909,7 @@ public static class DBSeed
                 phoneNum = "3543234",
                 fax = " 4742434",
                 address = "Blk 34, Clementi Road,#07-02 Ban Ban Soh Building,Singapore 110525",
-                priority = "2nd",
+                priority = 2,
             };
 
             Supplier s3 = new Supplier()
@@ -919,7 +921,7 @@ public static class DBSeed
                 gstRegisNo = "MR-8200420-2",
                 fax = "4792434",
                 address = "Blk 124, Alexandra Road,#03-04 Banes Building,Singapore 550315",
-                priority = "3rd",
+                priority = 3,
             };
 
             Supplier s4 = new Supplier()
@@ -931,7 +933,7 @@ public static class DBSeed
                 gstRegisNo = "MR-8555330-1",
                 fax = "7671234",
                 address = "Blk 11, Hillview Avenue,#03-04, Singapore 679036",
-                priority = "4th",
+                priority = 4,
             };
             Supplier[] supArr = { s1, s2, s3, s4 };
             for (int b = 0; b < supArr.Length; b++)

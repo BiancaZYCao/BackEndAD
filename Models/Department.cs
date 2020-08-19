@@ -21,15 +21,15 @@ namespace BackEndAD.Models
         public DateTime delgtStartDate { get; set; }
         public DateTime delgtEndDate { get; set; }
 
-        [ForeignKey("CollectionId")]
-        public int collectionId { get; set; }
+        //[ForeignKey("CollectionId")]
+        //public int CollectionId { get; set; }
 
-        //[ForeignKey("headId")]
+        /*[ForeignKey("headId")]
         public Employee head { get; set; }
         //[ForeignKey("repId")]
         public Employee rep { get; set; }
         //[ForeignKey("delegaterId")]
-        public Employee delegater { get; set; }
+        public Employee delegater { get; set; }*/
         //[ForeignKey("collectionId")]
         public CollectionInfo Collection { get; set; }
         //This 2 line cannot be removed will got error on mapping! -Bianca

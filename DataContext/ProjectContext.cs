@@ -47,6 +47,21 @@ namespace BackEndAD.DataContext
             }
 
             base.OnModelCreating(modelBuilder);
+            /*does not work
+            //modelBuilder.Entity<Department>()
+            .HasOne(d => d.Collection)
+            .WithMany(ci => ci.Departments)
+            .HasForeignKey(d => d.CollectionId);*/
+            modelBuilder.Entity<Employee>()
+            .HasOne(r => r.department)
+            .WithMany(e => e.employees)
+            .HasForeignKey(p => p.departmentId);
+            
+            /*got prob
+            modelBuilder.Entity<CollectionInfo>()
+            .HasOne(c => c.clerk)
+            .WithOne()
+            .HasForeignKey(c => c.clerkId);*/
             // This is reference for advanced constraints setting.
             /*modelBuilder.Entity<Requisition>()
                 .HasOne(r => r.Employee)
@@ -55,11 +70,24 @@ namespace BackEndAD.DataContext
             modelBuilder.Entity<RequisitionDetail>()
                 .HasOne(rd => rd.Requisition)
                 .WithMany(r => r.RequisitionDetails)
-                .HasForeignKey(p => p.RequisitionId);*/
+                .HasForeignKey(p => p.RequisitionId);
+            //above 2 cannot work together u can only choose one navigation relationship,
+            // so I give up . -Bianca
+
+
+            modelBuilder.Entity<Employee>()
+            .HasOne(r => r.department)
+            .WithMany(e => e.employees)
+            .HasForeignKey(p => p.departmentId);*/
+            //.HasForeignKey(p => p.headId);
+            /*modelBuilder.Entity<Department>()
+                 .Property(d => d.head)
+                 .HasColumnName("headId");*/
+
         }
 
-     
-   
+
+
     }
 }
  

@@ -74,7 +74,9 @@ namespace BackEndAD.Repo
         public async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            
             bool disableTracking = true, bool ignoreQueryFilters = false)
+            //params Expression<Func<TEntity, object>>[] include)
         {
             IQueryable<TEntity> query = table;
 
@@ -83,6 +85,12 @@ namespace BackEndAD.Repo
                 query = query.AsNoTracking();
             }
 
+            /*
+            foreach (var i in include)
+            {
+                query = query.Include(i);
+            }*/
+            
             if (include != null)
             {
                 query = include(query);

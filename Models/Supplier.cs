@@ -34,7 +34,7 @@ namespace BackEndAD.Models
         [Required]
         public string address { get; set; }
 
-        public string priority { get; set; }
+        public int priority { get; set; }
         
     }
 }
