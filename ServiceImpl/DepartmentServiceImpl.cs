@@ -76,6 +76,13 @@ namespace BackEndAD.ServiceImpl
             //IIncludableQueryable<TEntity, object>> include = null,
             return emplist;
         }
+
+        public async Task<IList<CollectionInfo>> findAllCollectionPointAsync()
+        {
+            IList<CollectionInfo> collectionpts = await unitOfWork.GetRepository<CollectionInfo>().GetAllAsync();
+
+            return collectionpts;
+        }
         #endregion
 
 
