@@ -47,17 +47,24 @@ namespace BackEndAD.ServiceImpl
 
         public void deleteSupplier(int id)
         {
-            unitOfWork.GetRepository<Supplier>().Delete(id);
+            Supplier s = unitOfWork.GetRepository<Supplier>().GetById(id);
+            unitOfWork.GetRepository<Supplier>().DeleteS(s);
+            unitOfWork.SaveChanges();
         }
 
-        public void saveSupplier(Supplier s)
+        public async void saveSupplier(Supplier s)
         {
             unitOfWork.GetRepository<Supplier>().Insert(s);
+            unitOfWork.SaveChanges();
+            //unitOfWork.GetRepository<Supplier>().Save();
         }
-        public void updateSupplier(int id)
+        public async void updateSupplier(int id)
         {
             Supplier s = unitOfWork.GetRepository<Supplier>().GetById(id);
-            unitOfWork.GetRepository<Supplier>().Insert(s);
+            unitOfWork.GetRepository<Supplier>().Update(s);
+            unitOfWork.SaveChanges();
+            //unitOfWork.GetRepository<Supplier>().Save();
+
         }
         #endregion
 

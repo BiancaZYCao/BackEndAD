@@ -77,22 +77,23 @@ namespace BackEndAD.Controllers
                 priority = s.priority,
             };
 
-            _clkService.saveSupplier(sup);
+             _clkService.saveSupplier(sup);
 
             return CreatedAtAction(nameof(GetAllSuppliers), new { }, sup);
         }
 
         [HttpDelete("deleteSupplier/{id}")]
-        public void DeleteSupplier(int id)
+        public async void DeleteSupplier(int id)
         {
             _clkService.deleteSupplier(id);
           
         }
 
         [HttpPut("updateSupplier/{id}")]
-        public void UpdateSupplier(int id)
+        public async Task<ActionResult<Supplier>> UpdateSupplier(int id)
         {
             _clkService.updateSupplier(id);
+            return CreatedAtAction(nameof(GetAllSuppliers), new { }, _clkService.findStationeryByIdAsync(id));
 
         }
 
