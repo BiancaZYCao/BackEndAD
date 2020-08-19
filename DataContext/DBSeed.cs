@@ -103,7 +103,7 @@ public static class DBSeed
                 Collection = ci1
 
             };
-            
+
 
             Department dCPSC = new Department()
             {
@@ -116,7 +116,7 @@ public static class DBSeed
                 delgtEndDate = new DateTime(2020, 7, 10),
                 Collection = ci2
             };
-            
+
 
             Department dCOMM = new Department()
             {
@@ -129,7 +129,7 @@ public static class DBSeed
                 delgtEndDate = new DateTime(2020, 10, 5),
                 Collection = ci3
             };
-            
+
 
             Department dREGR = new Department()
             {
@@ -154,7 +154,7 @@ public static class DBSeed
                 delgtEndDate = new DateTime(2020, 1, 3),
                 Collection = ci5
             };
-            Department[] DeptArr = { store,dENGL, dCPSC, dCOMM, dREGR, dZOOL };
+            Department[] DeptArr = { store, dENGL, dCPSC, dCOMM, dREGR, dZOOL };
             for (int i = 0; i < DeptArr.Length; i++)
             {
                 unitOfWork.GetRepository<Department>().Insert(DeptArr[i]);
@@ -173,24 +173,105 @@ public static class DBSeed
             unitOfWork.SaveChanges();
             #endregion
 
-            //pending
-            #region stationery pending change
-            Stationery i1 = new Stationery()
+            //Bianca Transfer into C# code - pending testing & seed
+            #region stationery pending testing & seed
+            Stationery i1 = new Stationery() { category = "Clip", desc = "Clips Double 1\"", reOrderLevel = 50, reOrderQty = 30, inventoryQty = 59, unit = "Dozen" };
+            Stationery i2 = new Stationery() { category = "Clip", desc = "Clips Double 2\"", reOrderLevel = 50, reOrderQty = 30, inventoryQty = 212, unit = "Dozen" };
+            Stationery i3 = new Stationery() { category = "Clip", desc = "Clips Double 3/4\"", reOrderLevel = 50, reOrderQty = 30, inventoryQty = 169, unit = "Dozen" };
+            Stationery i4 = new Stationery() { category = "Clip", desc = "Clips Paper Large", reOrderLevel = 50, reOrderQty = 30, inventoryQty = 259, unit = "Box" };
+            Stationery i5 = new Stationery() { category = "Clip", desc = "Clips Paper Medium", reOrderLevel = 50, reOrderQty = 30, inventoryQty = 218, unit = "Box" };
+            Stationery i6 = new Stationery() { category = "Clip", desc = "Clips Paper Small", reOrderLevel = 50, reOrderQty = 30, inventoryQty = 226, unit = "Box" };
+            Stationery i7 = new Stationery() { category = "Envelope", desc = "Envelope Brown (3\"x6\")", reOrderLevel = 600, reOrderQty = 400, inventoryQty = 174, unit = "Each" };
+            Stationery i8 = new Stationery() { category = "Envelope", desc = "Envelope Brown (3\"x6\") w/ Window", reOrderLevel = 600, reOrderQty = 400, inventoryQty = 290, unit = "Each" };
+            Stationery i9 = new Stationery() { category = "Envelope", desc = "Envelope Brown (5\"x7\")", reOrderLevel = 600, reOrderQty = 400, inventoryQty = 418, unit = "Each" };
+            Stationery i10 = new Stationery() { category = "Envelope", desc = "Envelope Brown (5\"x7\") w/ Window", reOrderLevel = 600, reOrderQty = 400, inventoryQty = 332, unit = "Each" };
+            Stationery i11 = new Stationery() { category = "Envelope", desc = "Envelope White (3\"x6\")", reOrderLevel = 600, reOrderQty = 400, inventoryQty = 326, unit = "Each" };
+            Stationery i12 = new Stationery() { category = "Envelope", desc = "Envelope White (3\"x6\") w/ Window", reOrderLevel = 600, reOrderQty = 400, inventoryQty = 153, unit = "Each" };
+            Stationery i13 = new Stationery() { category = "Envelope", desc = "Envelope White (5\"x7\")", reOrderLevel = 600, reOrderQty = 400, inventoryQty = 74, unit = "Each" };
+            Stationery i14 = new Stationery() { category = "Envelope", desc = "Envelope White (5\"x7\") w/ Window", reOrderLevel = 600, reOrderQty = 400, inventoryQty = 285, unit = "Each" };
+            Stationery i15 = new Stationery() { category = "Eraser", desc = "Eraser (hard)", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 65, unit = "Each" };
+            Stationery i16 = new Stationery() { category = "Eraser", desc = "Eraser (soft)", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 115, unit = "Each" };
+            Stationery i17 = new Stationery() { category = "Exercise", desc = "Exercise Book (100 pg)", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 45, unit = "Each" };
+            Stationery i18 = new Stationery() { category = "Exercise", desc = "Exercise Book (120 pg)", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 48, unit = "Each" };
+            Stationery i19 = new Stationery() { category = "Exercise", desc = "Exercise Book A4 Hardcover (100 pg)", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 324, unit = "Each" };
+            Stationery i20 = new Stationery() { category = "Exercise", desc = "Exercise Book A4 Hardcover (120 pg)", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 320, unit = "Each" };
+            Stationery i21 = new Stationery() { category = "Exercise", desc = "Exercise Book A4 Hardcover (200 pg)", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 338, unit = "Each" };
+            Stationery i22 = new Stationery() { category = "Exercise", desc = "Exercise Book Hardcover (100 pg)", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 463, unit = "Each" };
+            Stationery i23 = new Stationery() { category = "Exercise", desc = "Exercise Book Hardcover (120 pg)", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 37, unit = "Each" };
+            Stationery i24 = new Stationery() { category = "File", desc = "File Separator", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 270, unit = "Set" };
+            Stationery i25 = new Stationery() { category = "File", desc = "File-Blue Plain", reOrderLevel = 200, reOrderQty = 100, inventoryQty = 49, unit = "Each" };
+            Stationery i26 = new Stationery() { category = "File", desc = "File-Blue with Logo", reOrderLevel = 200, reOrderQty = 100, inventoryQty = 442, unit = "Each" };
+            Stationery i27 = new Stationery() { category = "File", desc = "File-Brown w/o Logo", reOrderLevel = 200, reOrderQty = 150, inventoryQty = 91, unit = "Each" };
+            Stationery i28 = new Stationery() { category = "File", desc = "File-Brown with Logo", reOrderLevel = 200, reOrderQty = 150, inventoryQty = 440, unit = "Each" };
+            Stationery i29 = new Stationery() { category = "File", desc = "Folder Plastic Blue", reOrderLevel = 200, reOrderQty = 150, inventoryQty = 398, unit = "Each" };
+            Stationery i30 = new Stationery() { category = "File", desc = "Folder Plastic Clear", reOrderLevel = 200, reOrderQty = 150, inventoryQty = 224, unit = "Each" };
+            Stationery i31 = new Stationery() { category = "File", desc = "Folder Plastic Green", reOrderLevel = 200, reOrderQty = 150, inventoryQty = 253, unit = "Each" };
+            Stationery i32 = new Stationery() { category = "File", desc = "Folder Plastic Pink", reOrderLevel = 200, reOrderQty = 150, inventoryQty = 21, unit = "Each" };
+            Stationery i33 = new Stationery() { category = "File", desc = "Folder Plastic Yellow", reOrderLevel = 200, reOrderQty = 150, inventoryQty = 275, unit = "Each" };
+            Stationery i34 = new Stationery() { category = "Pen", desc = "Highlighter Blue", reOrderLevel = 100, reOrderQty = 80, inventoryQty = 197, unit = "Box" };
+            Stationery i35 = new Stationery() { category = "Pen", desc = "Highlighter Green", reOrderLevel = 100, reOrderQty = 80, inventoryQty = 270, unit = "Box" };
+            Stationery i36 = new Stationery() { category = "Pen", desc = "Highlighter Pink", reOrderLevel = 100, reOrderQty = 80, inventoryQty = 176, unit = "Box" };
+            Stationery i37 = new Stationery() { category = "Pen", desc = "Highlighter Yellow", reOrderLevel = 100, reOrderQty = 80, inventoryQty = 371, unit = "Box" };
+            Stationery i38 = new Stationery() { category = "Puncher", desc = "Hole Puncher 2 holes", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 422, unit = "Each" };
+            Stationery i39 = new Stationery() { category = "Puncher", desc = "Hole Puncher 3 holes", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 210, unit = "Each" };
+            Stationery i40 = new Stationery() { category = "Puncher", desc = "Hole Puncher Adjustable", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 488, unit = "Each" };
+            Stationery i41 = new Stationery() { category = "Pad", desc = "Pad Postit Memo 1\"x2\"", reOrderLevel = 100, reOrderQty = 60, inventoryQty = 120, unit = "Packet" };
+            Stationery i42 = new Stationery() { category = "Pad", desc = "Pad Postit Memo 1/2\"x1\"", reOrderLevel = 100, reOrderQty = 60, inventoryQty = 292, unit = "Packet" };
+            Stationery i43 = new Stationery() { category = "Pad", desc = "Pad Postit Memo 1/2\"x2\"", reOrderLevel = 100, reOrderQty = 60, inventoryQty = 155, unit = "Packet" };
+            Stationery i44 = new Stationery() { category = "Pad", desc = "Pad Postit Memo 2\"x3\"", reOrderLevel = 100, reOrderQty = 60, inventoryQty = 311, unit = "Packet" };
+            Stationery i45 = new Stationery() { category = "Pad", desc = "Pad Postit Memo 2\"x4\"", reOrderLevel = 100, reOrderQty = 60, inventoryQty = 312, unit = "Packet" };
+            Stationery i46 = new Stationery() { category = "Pad", desc = "Pad Postit Memo 2\"x4\"", reOrderLevel = 100, reOrderQty = 60, inventoryQty = 294, unit = "Packet" };
+            Stationery i47 = new Stationery() { category = "Pad", desc = "Pad Postit Memo 3/4\"x2\"", reOrderLevel = 100, reOrderQty = 60, inventoryQty = 99, unit = "Packet" };
+            Stationery i48 = new Stationery() { category = "Paper", desc = "Paper Photostat A3", reOrderLevel = 500, reOrderQty = 500, inventoryQty = 311, unit = "Box" };
+            Stationery i49 = new Stationery() { category = "Paper", desc = "Paper Photostat A4", reOrderLevel = 500, reOrderQty = 500, inventoryQty = 394, unit = "Box" };
+            Stationery i50 = new Stationery() { category = "Pen", desc = "Pen Ballpoint Black", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 361, unit = "Dozen" };
+            Stationery i51 = new Stationery() { category = "Pen", desc = "Pen Ballpoint Blue", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 181, unit = "Dozen" };
+            Stationery i52 = new Stationery() { category = "Pen", desc = "Pen Ballpoint Red", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 266, unit = "Dozen" };
+            Stationery i53 = new Stationery() { category = "Pen", desc = "Pen Felt Tip Black", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 208, unit = "Dozen" };
+            Stationery i54 = new Stationery() { category = "Pen", desc = "Pen Felt Tip Blue", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 480, unit = "Dozen" };
+            Stationery i55 = new Stationery() { category = "Pen", desc = "Pen Felt Tip Red", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 386, unit = "Dozen" };
+            Stationery i56 = new Stationery() { category = "Pen", desc = "Pen Transparency Permanent", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 90, unit = "Packet" };
+            Stationery i57 = new Stationery() { category = "Pen", desc = "Pen Transparency Soluble", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 60, unit = "Packet" };
+            Stationery i58 = new Stationery() { category = "Pen", desc = "Pen Whiteboard Marker Black", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 123, unit = "Box" };
+            Stationery i59 = new Stationery() { category = "Pen", desc = "Pen Whiteboard Marker Blue", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 333, unit = "Box" };
+            Stationery i60 = new Stationery() { category = "Pen", desc = "Pen Whiteboard Marker Green", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 375, unit = "Box" };
+            Stationery i61 = new Stationery() { category = "Pen", desc = "Pen Whiteboard Marker Red", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 410, unit = "Box" };
+            Stationery i62 = new Stationery() { category = "Pen", desc = "Pencil 2B", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 292, unit = "Dozen" };
+            Stationery i63 = new Stationery() { category = "Pen", desc = "Pencil 2B with Eraser End", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 276, unit = "Dozen" };
+            Stationery i64 = new Stationery() { category = "Pen", desc = "Pencil 4H", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 352, unit = "Dozen" };
+            Stationery i65 = new Stationery() { category = "Pen", desc = "Pencil B", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 173, unit = "Dozen" };
+            Stationery i66 = new Stationery() { category = "Pen", desc = "Pencil B with Eraser End", reOrderLevel = 100, reOrderQty = 50, inventoryQty = 360, unit = "Dozen" };
+            Stationery i67 = new Stationery() { category = "Ruler", desc = "Ruler 12\"", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 383, unit = "Dozen" };
+            Stationery i68 = new Stationery() { category = "Ruler", desc = "Ruler 6\"", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 389, unit = "Each" };
+            Stationery i69 = new Stationery() { category = "Scissors", desc = "Scissors", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 69, unit = "Each" };
+            Stationery i70 = new Stationery() { category = "Tape", desc = "Scotch Tape", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 419, unit = "Each" };
+            Stationery i71 = new Stationery() { category = "Tape", desc = "Scotch Tape Dispenser", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 400, unit = "Each" };
+            Stationery i72 = new Stationery() { category = "Sharpener", desc = "Sharpener", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 190, unit = "Each" };
+            Stationery i73 = new Stationery() { category = "Shorthand", desc = "Shorthand Book (100 pg)", reOrderLevel = 100, reOrderQty = 80, inventoryQty = 325, unit = "Each" };
+            Stationery i74 = new Stationery() { category = "Shorthand", desc = "Shorthand Book (120 pg)", reOrderLevel = 100, reOrderQty = 80, inventoryQty = 464, unit = "Each" };
+            Stationery i75 = new Stationery() { category = "Shorthand", desc = "Shorthand Book (80 pg)", reOrderLevel = 100, reOrderQty = 80, inventoryQty = 122, unit = "Each" };
+            Stationery i76 = new Stationery() { category = "Stapler", desc = "Stapler No. 28 (Each)", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 95, unit = "Each" };
+            Stationery i77 = new Stationery() { category = "Stapler", desc = "Stapler No. 36 (Each)", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 394, unit = "Each" };
+            Stationery i78 = new Stationery() { category = "Stapler", desc = "Stapler No. 28 (Box)", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 254, unit = "Box" };
+            Stationery i79 = new Stationery() { category = "Stapler", desc = "Stapler No. 36 (Box)", reOrderLevel = 50, reOrderQty = 20, inventoryQty = 364, unit = "Box" };
+            Stationery i80 = new Stationery() { category = "Tacks", desc = "Thumb Tacks Large", reOrderLevel = 10, reOrderQty = 10, inventoryQty = 157, unit = "Box" };
+            Stationery i81 = new Stationery() { category = "Tacks", desc = "Thumb Tacks Medium", reOrderLevel = 10, reOrderQty = 10, inventoryQty = 308, unit = "Box" };
+            Stationery i82 = new Stationery() { category = "Tacks", desc = "Thumb Tacks Small", reOrderLevel = 10, reOrderQty = 10, inventoryQty = 416, unit = "Box" };
+            Stationery i83 = new Stationery() { category = "Tparency", desc = "Transparency Blue", reOrderLevel = 100, reOrderQty = 200, inventoryQty = 351, unit = "Box" };
+            Stationery i84 = new Stationery() { category = "Tparency", desc = "Transparency Clear", reOrderLevel = 500, reOrderQty = 400, inventoryQty = 9, unit = "Box" };
+            Stationery i85 = new Stationery() { category = "Tparency", desc = "Transparency Green", reOrderLevel = 100, reOrderQty = 200, inventoryQty = 249, unit = "Box" };
+            Stationery i86 = new Stationery() { category = "Tparency", desc = "Transparency Red", reOrderLevel = 100, reOrderQty = 200, inventoryQty = 487, unit = "Box" };
+            Stationery i87 = new Stationery() { category = "Tparency", desc = "Transparency Reverse Blue", reOrderLevel = 100, reOrderQty = 200, inventoryQty = 170, unit = "Box" };
+            Stationery i88 = new Stationery() { category = "Tparency", desc = "Transparency Cover 3M", reOrderLevel = 500, reOrderQty = 400, inventoryQty = 362, unit = "Box" };
+            Stationery i89 = new Stationery() { category = "Tray", desc = "Trays In/Out", reOrderLevel = 20, reOrderQty = 10, inventoryQty = 15, unit = "Set" };
+            Stationery[] stationeryArr = { i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14, i15, i16, i17, i18, i19, i20, i21, i22, i23, i24, i25, i26, i27, i28, i29, i30,
+        i31, i32, i33, i34, i35, i36, i37, i38, i39, i40, i41, i42, i43, i44, i45, i46, i47, i48, i49, i50, i51, i52, i53, i54, i55, i56, i57, i58, i59,
+        i60, i61, i62, i63, i64, i65, i66, i67, i68, i69, i70, i71, i72, i73, i74, i75, i76, i77, i78, i79, i80, i81, i82, i83, i84, i85, i86, i87, i88, i89};
+            for (int d = 0; d < stationeryArr.Length; d++)
             {
-                desc = "pen_black",
-                inventoryQty = 10
-            };
-            Stationery i2 = new Stationery()
-            {
-                desc = "pen_blue",
-                inventoryQty = 10
-            };
-            Stationery i3 = new Stationery()
-            {
-                desc = "pencil",
-                inventoryQty = 30
-            };
-            unitOfWork.GetRepository<Stationery>().Insert(i1);
+                unitOfWork.GetRepository<Stationery>().Insert(stationeryArr[d]);
+            }
+            unitOfWork.SaveChanges();
             #endregion
 
             //done Yirui
@@ -586,8 +667,40 @@ public static class DBSeed
             }
             unitOfWork.SaveChanges();
             #endregion
-
-
+            /*
+            #region Add FK head/rep/del
+            dENGL.head = e1 ;
+            dENGL.rep = e6;
+            dENGL.delegater = e11; //?
+            dCPSC.head = e2;
+            dCPSC.rep = e7;
+            dCOMM.head = e3;
+            dCOMM.rep = e8;
+            dCOMM.delegater = e12;
+            dREGR.head = e4;
+            dREGR.rep = e9;
+            dREGR.delegater = e13; //?
+            dZOOL.head = e5;
+            dZOOL.rep = e10;
+            dZOOL.delegater = e14; //?
+            for (int i = 0; i < DeptArr.Length; i++)
+            {
+                unitOfWork.GetRepository<Department>().Update(DeptArr[i]);
+            }
+            unitOfWork.SaveChanges();
+            ci1.clerk = e33;
+            ci2.clerk = e33;
+            ci3.clerk = e34;
+            ci4.clerk = e34;
+            ci5.clerk = e35;
+            ci6.clerk = e35;
+            for (int i = 0; i < collectionInfoArr.Length; i++)
+            {
+                unitOfWork.GetRepository<CollectionInfo>().Update(collectionInfoArr[i]);
+            }
+            unitOfWork.SaveChanges();
+            
+            #endregion*/
             //May
             #region requisition +detail lists
             Requisition r1 = new Requisition()

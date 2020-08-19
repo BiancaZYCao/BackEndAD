@@ -11,22 +11,29 @@ namespace BackEndAD.Models
         public int Id { get; set; }
         public string deptName { get; set; }
         public string deptCode { get; set; }
-        /*[ForeignKey ("Employee")]
-        public int headid { get; set; }
-        //[ForeignKey("Employee")]
-        public int repid { get; set; }
-        //[ForeignKey("Employee")]
-        public int? delegaterid { get; set; }*/
+        
+        
+        //public int headId { get; set; }
+        
+        //public int repId { get; set; }
+        
+        //public int? delegaterId { get; set; }
         public DateTime delgtStartDate { get; set; }
         public DateTime delgtEndDate { get; set; }
-        //[ForeignKey("CollectionInfo")]
-        //public int CollectionId { get; set; }
-        
+
+        [ForeignKey("CollectionId")]
+        public int collectionId { get; set; }
+
+        //[ForeignKey("headId")]
         public Employee head { get; set; }
+        //[ForeignKey("repId")]
         public Employee rep { get; set; }
+        //[ForeignKey("delegaterId")]
         public Employee delegater { get; set; }
+        //[ForeignKey("collectionId")]
         public CollectionInfo Collection { get; set; }
-        [InverseProperty("department")]
+        //This 2 line cannot be removed will got error on mapping! -Bianca
+        //[InverseProperty("department")]
         public List<Employee> employees { get; set; }
 
 

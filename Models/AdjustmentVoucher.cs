@@ -8,7 +8,7 @@ namespace BackEndAD.Models
 {
     public class AdjustmentVoucher
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public int StockAdjustmentId { get; set; }
         public DateTime date { get; set; }
         public int EmployeeId { get; set; }

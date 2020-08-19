@@ -55,7 +55,7 @@ namespace BackEndAD.Controllers
             // if find data then return result else will return a String says Department not found
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-                return Ok(result.First<Requisition>());
+                return Ok(result);
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 //There are 3 Department alr seeded in DB, so this line should nvr appears. 
@@ -71,7 +71,7 @@ namespace BackEndAD.Controllers
             // if find data then return result else will return a String says Department not found
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-                return Ok(result.First());
+                return Ok(result);
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 //There are 3 Department alr seeded in DB, so this line should nvr appears. 

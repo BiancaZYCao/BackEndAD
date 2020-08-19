@@ -7,7 +7,7 @@ namespace BackEndAD.Models
 {
     public class AdjustmentVoucherDetail
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public int AdjustmentVoucherId { get; set; }
         public int StockAdjustmentDetailId { get; set; }
         public double price { get; set; }

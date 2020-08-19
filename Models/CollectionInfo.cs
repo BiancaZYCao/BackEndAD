@@ -8,7 +8,7 @@ namespace BackEndAD.Models
 {
     public class CollectionInfo
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         //[ForeignKey("Employee")]
         //public int clerkId { get; set; }
         public DateTime collectionDate { get; set; }
