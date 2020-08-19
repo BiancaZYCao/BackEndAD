@@ -89,5 +89,12 @@ namespace BackEndAD.Controllers
           
         }
 
+        [HttpPut("updateSupplier/{id}")]
+        public void UpdateSupplier(int id)
+        {
+            _clkService.updateSupplier(id);
+
+        }
+
     }
 }

@@ -14,6 +14,9 @@ namespace BackEndAD.ServiceInterface
         public Task<Supplier> findSupplierByIdAsync(int id);
         public void deleteSupplier(int id);
         public void saveSupplier(Supplier s);
+
+        public void updateSupplier(int id);
+        
     }
 
 }

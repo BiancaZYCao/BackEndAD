@@ -54,6 +54,11 @@ namespace BackEndAD.ServiceImpl
         {
             unitOfWork.GetRepository<Supplier>().Insert(s);
         }
+        public void updateSupplier(int id)
+        {
+            Supplier s = unitOfWork.GetRepository<Supplier>().GetById(id);
+            unitOfWork.GetRepository<Supplier>().Insert(s);
+        }
         #endregion
 
 
