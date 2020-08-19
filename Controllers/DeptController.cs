@@ -50,13 +50,24 @@ namespace BackEndAD.Controllers
 
         //This is not finished! -Bianca
         [HttpGet("eager")]
-        public async Task<ActionResult<IList<Department>>> GetAllDepartmentsEager()
+        public ActionResult<List<CollectionInfo>> GetAllDepartmentsEager()
         {
-            var result = await _deptService.findAllDepartmentsAsyncEager();
-            if (result != null)               
-                return Ok(result.First<Department>().Collection.Id);
+            var resultL = _deptService.findAllDepartmentsAsyncEager();
+            var result = new List<CollectionInfo>(){ };
+            
+            //var result = new List<Int64>() { };
+            foreach (Department dept in resultL)
+            {
+                Console.WriteLine(dept.Collection.lat);
+                result.Add(dept.Collection);
+             }
+            if (result != null)
+            {
+                var result2 = result.First<CollectionInfo>();
+                return Ok(result2);//.First<Department>().Collection.Id);
+            }
             else
-                return NotFound("Departments not found");
+                return NotFound("Eager No way!");
         }
 
         [HttpGet("req")]

@@ -9,7 +9,7 @@ namespace BackEndAD.ServiceInterface
     public interface IDepartmentService
     {
         public Task<IList<Department>> findAllDepartmentsAsync();
-        public Task<IList<Department>> findAllDepartmentsAsyncEager();
+        public IList<Department> findAllDepartmentsAsyncEager();
         public Task<Department> findDepartmentByIdAsync(int id);
         public Task<IList<Requisition>> findAllRequsitionsAsync();
         public Task<IList<Employee>> findAllEmployeesAsync();

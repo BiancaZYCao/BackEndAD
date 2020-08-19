@@ -34,25 +34,17 @@ namespace BackEndAD.ServiceImpl
             Department dept = await unitOfWork.GetRepository<Department>().FindAsync(deptId);
             return dept;
         }
-        public async Task<IList<Department>> findAllDepartmentsAsyncEager()
+        public IList<Department> findAllDepartmentsAsyncEager()
         {
-            IList<Department> deptlist = await
-                unitOfWork.GetRepository<Department>().GetAllAsync();
+            IList<Department> deptlist = 
+                unitOfWork.GetRepository<Department>()
+                .GetAllIncludeIQueryable(null, null,"Collection").ToList();
             /*
             IList<Department> deptlist = await
                 unitOfWork.GetRepository<Department>().GetAllAsync(null,null,
                     s => s.Include(de => de.Collection).ThenInclude(coll => coll.Id)
                     );*/
             return deptlist;
-            /*var affiliate = await affiliateRepository.GetFirstOrDefaultAsync(
-                predicate: b => b.Id == id,
-                include: source => source
-                    .Include(a => a.Branches)
-                    .ThenInclude(a => a.Emails)
-                    .Include(a => a.Branches)
-                    .ThenInclude(a => a.Phones));
-             */
-
         }
         #endregion
 
