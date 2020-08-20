@@ -74,10 +74,7 @@ namespace BackEndAD.Controllers
                 address = s.address,
                 priority = s.priority,
             };
-
             _clkService.saveSupplier(sup);
-            //_context.Supplier_Table.Add(sup);
-            //await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetAllSuppliers), new { }, sup);
         }
