@@ -120,7 +120,7 @@ namespace BackEndAD.ServiceImpl
                 //check if supplier has item
                 if (supplierItems == null) { return null; }
                 else{
-                    bool hasItem = supplierItems.Select(x => x.StationeryId == id ? true : false).FirstOrDefault();
+                    bool hasItem = supplierItems.Select(x => x.Stationery.Id == id ? true : false).FirstOrDefault();
                     if (hasItem) list.Add(supplier);
                 }
             }

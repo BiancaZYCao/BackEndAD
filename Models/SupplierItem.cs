@@ -26,6 +26,8 @@ namespace BackEndAD.Models
         public string unit { get; set; }
 
         public virtual Stationery Stationery {get; set;}
+        public virtual Supplier Supplier { get; set; }
+
 
 
     }
