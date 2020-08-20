@@ -270,8 +270,9 @@ public static class DBSeed
             for (int d = 0; d < stationeryArr.Length; d++)
             {
                 unitOfWork.GetRepository<Stationery>().Insert(stationeryArr[d]);
+                unitOfWork.SaveChanges();
             }
-            unitOfWork.SaveChanges();
+            
             #endregion
 
             //done Yirui
