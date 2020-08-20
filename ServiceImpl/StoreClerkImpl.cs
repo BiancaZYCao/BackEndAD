@@ -107,5 +107,34 @@ namespace BackEndAD.ServiceImpl
         }
         #endregion
 
+        #region place order
+        public async Task<IList<Supplier>> findSupplierByStationeryId(int id)
+        {
+            IList<Supplier> list = new List<Supplier>();
+
+            //get all suppliers
+            IList<Supplier> ilist = await unitOfWork.GetRepository<Supplier>().GetAllAsync();
+
+            foreach (Supplier supplier in ilist) {
+                List<SupplierItem> supplierItems = (List<SupplierItem>)supplier.supplierItems;
+                //check if supplier has item
+                if (supplierItems == null) { return null; }
+                else{
+                    bool hasItem = supplierItems.Select(x => x.StationeryId == id ? true : false).FirstOrDefault();
+                    if (hasItem) list.Add(supplier);
+                }
+            }
+
+            List<Supplier> orderedList = (List<Supplier>)list.OrderBy(x => x.priority);
+
+            return orderedList;
+        }
+
+ public void savePurchaseOrder(PurchaseOrder po)
+        {
+            unitOfWork.GetRepository<PurchaseOrder>().Insert(po);
+        }
+        #endregion
+
     }
 }
