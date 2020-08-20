@@ -35,6 +35,8 @@ namespace BackEndAD.Models
         public string address { get; set; }
 
         public int priority { get; set; }
+
+        public ICollection<SupplierItem> supplierItems { get; set; }
         
     }
 }
