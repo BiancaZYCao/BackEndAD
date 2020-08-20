@@ -18,7 +18,7 @@ namespace BackEndAD.Models
         public int SupplierId { get; set; }
 
         [Required]
-        public Stationery StationeryItem { get; set; }
+        public int StationeryId { get; set; }
 
         [Required]
         public float price { get; set; }
