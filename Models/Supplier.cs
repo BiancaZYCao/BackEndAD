@@ -14,6 +14,7 @@ namespace BackEndAD.Models
         [Required]
        public string supplierCode { get; set; }
 
+        public ICollection<SupplierItem> supplierItems { get; set;}
 
         [Required]
         public string name { get; set; }

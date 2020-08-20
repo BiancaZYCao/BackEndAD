@@ -29,6 +29,7 @@ namespace BackEndAD.DataContext
         public DbSet<StockAdjustment> StockAdjustment_Table { get; set; }
         public DbSet<StockAdjustmentDetail> StockAdjustmentDetail_Table { get; set; }
         public DbSet<Supplier> Supplier_Table { get; set; }
+        public DbSet<SupplierItem> SupplierItem_Table { get; set; }
         
 
         //Below data tables just for testing 
