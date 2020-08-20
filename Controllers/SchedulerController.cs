@@ -17,12 +17,16 @@ namespace BackEndAD.Controllers
         {
             _storeClerkService = storeClerkService;
         }
-        [HttpGet]
-        public IActionResult compile()
+        [HttpGet("reorder")]
+        public IActionResult reorder()
         {
-            return Redirect("http://127.0.0.1:5000/");
+            return Redirect("http://127.0.0.1:5000/reorder");
         }
 
-        
+        [HttpGet("seeder")]
+        public IActionResult seeder()
+        {
+            return Redirect("http://127.0.0.1:5000/seeder");
+        }
     }
 }
