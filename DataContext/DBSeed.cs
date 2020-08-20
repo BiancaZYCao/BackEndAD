@@ -2,7 +2,7 @@
 using BackEndAD.DataContext;
 using BackEndAD.Models;
 using BackEndAD.Repo;
-
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 public static class DBSeed
 {
@@ -944,6 +944,112 @@ public static class DBSeed
             unitOfWork.SaveChanges();
             #endregion
 
+            #region SupplierItem 
+            //1-80 May
+
+            SupplierItem si1 = new SupplierItem() { SupplierId = 1, StationeryId = i2.Id, price = 1.2f, unit = "Dozen" };
+            SupplierItem si2 = new SupplierItem() { SupplierId = 1, StationeryId = i3.Id, price = 1, unit = "Dozen" };
+            SupplierItem si3 = new SupplierItem() { SupplierId = 1, StationeryId = i4.Id, price = 5, unit = "Box" };
+            SupplierItem si4 = new SupplierItem() { SupplierId = 1, StationeryId = i5.Id, price = 7, unit = "Box" };
+            SupplierItem si5 = new SupplierItem() { SupplierId = 1, StationeryId = i6.Id, price = 7.5f, unit = "Box" };
+            SupplierItem si6 = new SupplierItem() { SupplierId = 1, StationeryId = i7.Id, price = 0.4f, unit = "Each" };
+            SupplierItem si7 = new SupplierItem() { SupplierId = 1, StationeryId = i8.Id, price = 0.56f, unit = "Each" };
+            SupplierItem si8 = new SupplierItem() { SupplierId = 1, StationeryId = i9.Id, price = 0.3f, unit = "Each" };
+            SupplierItem si9 = new SupplierItem() { SupplierId = 1, StationeryId = i10.Id, price = 0.35f, unit = "Each" };
+            SupplierItem si10= new SupplierItem() { SupplierId = 1, StationeryId = i12.Id, price = 0.4f, unit = "Each" };
+            SupplierItem si11= new SupplierItem() { SupplierId = 1, StationeryId = i13.Id, price = 0.38f, unit = "Each" };
+            SupplierItem si12= new SupplierItem() { SupplierId = 1, StationeryId = i14.Id, price = 0.22f, unit = "Each" };
+            SupplierItem si13= new SupplierItem() { SupplierId = 1, StationeryId = i15.Id, price = 0.38f, unit = "Each" };
+            SupplierItem si14= new SupplierItem() { SupplierId = 1, StationeryId = i16.Id, price = 0.35f, unit = "Each" };
+            SupplierItem si15= new SupplierItem() { SupplierId = 1, StationeryId = i17.Id, price = 0.5f, unit = "Each" };
+            SupplierItem si16= new SupplierItem() { SupplierId = 1, StationeryId = i18.Id, price = 0.4f, unit = "Each" };
+            SupplierItem si17= new SupplierItem() { SupplierId = 1, StationeryId = i19.Id, price = 0.3f, unit = "Each" };
+            SupplierItem si18= new SupplierItem() { SupplierId = 1, StationeryId = i20.Id, price = 0.46f, unit = "Each" };
+            SupplierItem si19= new SupplierItem() { SupplierId = 1, StationeryId = i22.Id, price = 0.3f, unit = "Each" };
+            SupplierItem si20= new SupplierItem() { SupplierId = 1, StationeryId = i23.Id, price = 0.39f, unit = "Each" };
+            SupplierItem si21 = new SupplierItem() { SupplierId = 1, StationeryId = i24.Id, price = 8, unit = "Set" };
+            SupplierItem si22 = new SupplierItem() { SupplierId = 1, StationeryId = i25.Id, price = 16, unit = "Each" };
+            SupplierItem si23 = new SupplierItem() { SupplierId = 1, StationeryId = i26.Id, price = 18, unit = "Each" };
+            SupplierItem si24 = new SupplierItem() { SupplierId = 1, StationeryId = i27.Id, price = 16, unit = "Each" };
+            SupplierItem si25 = new SupplierItem() { SupplierId = 1, StationeryId = i28.Id, price = 18, unit = "Each" };
+            SupplierItem si26 = new SupplierItem() { SupplierId = 1, StationeryId = i29.Id, price = 0.2f, unit = "Each" };
+            SupplierItem si27 = new SupplierItem() { SupplierId = 1, StationeryId = i30.Id, price = 0.2f, unit = "Each" };
+            SupplierItem si28 = new SupplierItem() { SupplierId = 1, StationeryId = i32.Id, price = 0.2f, unit = "Each" };
+            SupplierItem si29 = new SupplierItem() { SupplierId = 1, StationeryId = i33.Id, price = 0.2f, unit = "Each" };
+            SupplierItem si30 = new SupplierItem() { SupplierId = 1, StationeryId = i34.Id, price = 8.99f, unit = "Box" };
+            SupplierItem si31 = new SupplierItem() { SupplierId = 1, StationeryId = i35.Id, price = 8.99f, unit = "Box" };
+            SupplierItem si32 = new SupplierItem() { SupplierId = 1, StationeryId = i36.Id, price = 8.99f, unit = "Box" };
+            SupplierItem si33 = new SupplierItem() { SupplierId = 1, StationeryId = i37.Id, price = 8.99f, unit = "Box" };
+            SupplierItem si34 = new SupplierItem() { SupplierId = 1, StationeryId = i38.Id, price = 6, unit = "Each" };
+            SupplierItem si35 = new SupplierItem() { SupplierId = 1, StationeryId = i39.Id, price = 7, unit = "Each" };
+            SupplierItem si36 = new SupplierItem() { SupplierId = 1, StationeryId= i40.Id, price = 20, unit = "Each" };
+            SupplierItem si37 = new SupplierItem() { SupplierId = 1, StationeryId = i42.Id, price = 12.99f, unit = "Packet" };
+            SupplierItem si38 = new SupplierItem() { SupplierId = 1, StationeryId = i43.Id, price = 12.99f, unit = "Packet" };
+            SupplierItem si39 = new SupplierItem() { SupplierId = 1, StationeryId = i44.Id, price = 16.99f, unit = "Packet" };
+            SupplierItem si40 = new SupplierItem() { SupplierId = 1, StationeryId = i45.Id, price = 19.99f, unit = "Packet" };
+            SupplierItem si41 = new SupplierItem() { SupplierId = 1, StationeryId = i46.Id, price = 19.99f, unit = "Packet" };
+            SupplierItem si42 = new SupplierItem() { SupplierId = 1, StationeryId = i47.Id, price = 10.99f, unit = "Packet" };
+            SupplierItem si43 = new SupplierItem() { SupplierId = 1, StationeryId = i48.Id, price = 10, unit = "Box" };
+            SupplierItem si44 = new SupplierItem() { SupplierId = 1, StationeryId = i49.Id, price = 4, unit = "Box" };
+            SupplierItem si45 = new SupplierItem() { SupplierId = 1, StationeryId = i50.Id, price = 5.99f, unit = "Dozen" };
+            SupplierItem si46 = new SupplierItem() { SupplierId = 1, StationeryId = i52.Id, price = 5.99f, unit = "Dozen" };
+            SupplierItem si47 = new SupplierItem() { SupplierId = 1, StationeryId = i53.Id, price = 13.99f, unit = "Dozen" };
+            SupplierItem si48 = new SupplierItem() { SupplierId = 1, StationeryId = i54.Id, price = 13.99f, unit = "Dozen" };
+            SupplierItem si49 = new SupplierItem() { SupplierId = 1, StationeryId = i55.Id, price = 13.99f, unit = "Dozen" };
+            SupplierItem si50 = new SupplierItem() { SupplierId = 1, StationeryId = i56.Id, price = 5.99f, unit = "Packet" };
+            SupplierItem si51 = new SupplierItem() { SupplierId = 1, StationeryId = i57.Id, price = 8.99f, unit = "Packet" };
+            SupplierItem si52 = new SupplierItem() { SupplierId = 1, StationeryId = i58.Id, price = 6, unit = "Box" };
+            SupplierItem si53 = new SupplierItem() { SupplierId = 1, StationeryId = i59.Id, price = 8.5f, unit = "Box" };
+            SupplierItem si54 = new SupplierItem() { SupplierId = 1, StationeryId = i60.Id, price = 8.5f, unit = "Box" };
+            SupplierItem si55 = new SupplierItem() { SupplierId = 1, StationeryId = i62.Id, price = 2.8f, unit = "Dozen" };
+            SupplierItem si56 = new SupplierItem() { SupplierId = 1, StationeryId = i63.Id, price = 3.6f, unit = "Dozen" };
+            SupplierItem si57 = new SupplierItem() { SupplierId = 1, StationeryId = i64.Id, price = 2.4f, unit = "Dozen" };
+            SupplierItem si58 = new SupplierItem() { SupplierId = 1, StationeryId = i65.Id, price = 3.6f, unit = "Dozen" };
+            SupplierItem si59 = new SupplierItem() { SupplierId = 1, StationeryId = i66.Id, price = 4, unit = "Dozen" };
+            SupplierItem si60 = new SupplierItem() { SupplierId = 1, StationeryId = i67.Id, price = 3.9f, unit = "Dozen" };
+            SupplierItem si61 = new SupplierItem() { SupplierId = 1, StationeryId = i68.Id, price = 2.2f, unit = "Each" };
+            SupplierItem si62 = new SupplierItem() { SupplierId = 1, StationeryId = i69.Id, price = 4.9f, unit = "Each" };
+            SupplierItem si63 = new SupplierItem() { SupplierId = 1, StationeryId = i70.Id, price = 2.5f, unit = "Each" };
+            SupplierItem si64 = new SupplierItem() { SupplierId = 1, StationeryId = i72.Id, price = 5.9f, unit = "Each" };
+            SupplierItem si65 = new SupplierItem() { SupplierId = 1, StationeryId = i73.Id, price = 16.2f, unit = "Each" };
+            SupplierItem si66 = new SupplierItem() { SupplierId = 1, StationeryId = i74.Id, price = 20, unit = "Each" };
+            SupplierItem si67 = new SupplierItem() { SupplierId = 1, StationeryId = i75.Id, price = 12.2f, unit = "Each" };
+            SupplierItem si68 = new SupplierItem() { SupplierId = 1, StationeryId = i76.Id, price = 2.5f, unit = "Each" };
+            SupplierItem si69 = new SupplierItem() { SupplierId = 1, StationeryId = i77.Id, price = 3.5f, unit = "Each" };
+            SupplierItem si70 = new SupplierItem() { SupplierId = 1, StationeryId = i78.Id, price = 10.5f, unit = "Box" };
+            SupplierItem si71 = new SupplierItem() { SupplierId = 1, StationeryId = i79.Id, price = 12.5f, unit = "Box" };
+            SupplierItem si72 = new SupplierItem() { SupplierId = 1, StationeryId = i80.Id, price = 7.2f, unit = "Box" };
+            SupplierItem si73 = new SupplierItem() { SupplierId = 1, StationeryId = i82.Id, price = 3.4f, unit = "Box" };
+            SupplierItem si74 = new SupplierItem() { SupplierId = 1, StationeryId = i83.Id, price = 12, unit = "Box" };
+            SupplierItem si75 = new SupplierItem() { SupplierId = 1, StationeryId = i84.Id, price = 12, unit = "Box" };
+            SupplierItem si76 = new SupplierItem() { SupplierId = 1, StationeryId = i85.Id, price = 12, unit = "Box" };
+            SupplierItem si77 = new SupplierItem() { SupplierId = 1, StationeryId = i86.Id, price = 12, unit = "Box" };
+            SupplierItem si78 = new SupplierItem() { SupplierId = 1, StationeryId = i87.Id, price = 12, unit = "Box" };
+            SupplierItem si79 = new SupplierItem() { SupplierId = 1, StationeryId = i88.Id, price = 10, unit = "Box" };
+            SupplierItem si80 = new SupplierItem() { SupplierId = 1, StationeryId = i89.Id, price = 12, unit = "Set" };
+           
+            SupplierItem si81 = new SupplierItem() {SupplierId = 2, StationeryId = i11.Id, price = 0.2f, unit = "Each"};
+            SupplierItem si82 = new SupplierItem() { SupplierId = 2, StationeryId = i21.Id, price = 0.62f, unit = "Each" };
+            SupplierItem si83 = new SupplierItem() { SupplierId = 2, StationeryId = i31.Id, price = 0.2f, unit = "Each" };
+            SupplierItem si84 = new SupplierItem() { SupplierId = 2, StationeryId = i41.Id, price = 13.99f, unit = "Packet" };
+            SupplierItem si85 = new SupplierItem() { SupplierId = 2, StationeryId = i51.Id, price = 5.99f, unit = "Dozen" };
+            SupplierItem si86 = new SupplierItem() { SupplierId = 2, StationeryId = i61.Id, price = 8.5f, unit = "Box" };
+            SupplierItem si87 = new SupplierItem() { SupplierId = 2, StationeryId = i71.Id, price = 2.2f, unit = "Each" };
+            SupplierItem si88 = new SupplierItem() { SupplierId = 2, StationeryId = i81.Id, price = 5.2f, unit = "Box" };
+            SupplierItem si89 = new SupplierItem() { SupplierId = 2, StationeryId = i9.Id, price = 0.5f, unit = "Each" };
+            SupplierItem si90 = new SupplierItem() { SupplierId = 2, StationeryId = i10.Id, price = 0.55f, unit = "Each" };
+
+            SupplierItem si91 = new SupplierItem() {SupplierId = 3, StationeryId = i15.Id, price = 0.45f, unit = "Each"};
+            SupplierItem si92 = new SupplierItem() { SupplierId = 3, StationeryId = i25.Id, price = 16.8f, unit = "Each" };
+            SupplierItem si93 = new SupplierItem() { SupplierId = 3, StationeryId = i35.Id, price = 9.99f, unit = "Box" };
+            SupplierItem si94 = new SupplierItem() { SupplierId = 3, StationeryId = i45.Id, price = 21.8f, unit = "Packet" };
+            SupplierItem si95 = new SupplierItem() { SupplierId = 3, StationeryId = i55.Id, price = 15.99f, unit = "Dozen" };
+            SupplierItem[] supItemArr = { si1,si2,si3,si4,si5,si6,si7,si8,si9,si10, si11, si12, si13, si14, si15, si16, si17, si18, si19, si20, si21, si22, si23, si24, si25, si26, si27, si28, si29, si30, si31, si32, si33, si34, si35, si36, si37, si38, si39, si40, si41, si42, si43, si44, si45, si46, si47, si48, si49, si50, si51, si52, si53, si54, si55, si56, si57, si58, si59, si60, si61, si62, si63, si64, si65, si66, si67, si68, si69, si70, si71, si72, si73, si74, si75, si76, si77, si78, si79, si80, si81, si82, si83, si84, si85, si86, si87, si88, si89, si90, si91, si92, si93, si94, si95};
+            for (int z = 0; z < supItemArr.Length; z++)
+            {
+                unitOfWork.GetRepository<SupplierItem>().Insert(supItemArr[z]);
+            }
+            #endregion
             /*
             //Done May only 2 
             #region StockAdjustment and Detail

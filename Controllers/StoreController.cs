@@ -58,6 +58,7 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Suppliers not found");
         }
+
         #region Test post method 18Aug
         [HttpPost("stkAd/{id}")]
         public async Task<ActionResult<StockAdjustment>> PostTestStkAd(
@@ -91,6 +92,54 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
+        #region place order 
+        [HttpGet("placeOrder")]
+        public async Task<ActionResult<ReOrderRecViewModel>> GetReOrderRec() {
+            //iterate through stationery
+            var stationeries = await _clkService.findAllStationeriesAsync();
+            IList<ReOrderRecViewModel> result = new List<ReOrderRecViewModel>();
+            int id = 0;
+
+            foreach (Stationery s in stationeries)
+            {
+                //find all suppliers that supply stationery 
+                ICollection<Supplier> suppliers = await _clkService.findSupplierByStationeryId(1);
+                    //s.Id);
+
+                //create a ReOrderRecViewModel for each stationery
+                ReOrderRecViewModel reorder = new ReOrderRecViewModel()
+                {
+                    id = id,
+                    stationery = s,
+                    suppliers = suppliers
+                };
+
+                result.Add(reorder);
+                id++;
+            }
+
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+
+                else
+                    return NotFound("No reorder items at this time.");
+            }
+
+        //api to get current clerk Id [HttpGet("/clerk")]
+
+        [HttpPost("/generatePO")]
+        public Task<ActionResult<PurchaseOrder>> PostPurchaseOrder(List<PurchaseOrder> purchaseOrders) {
+            for (int i = 0; i < purchaseOrders.Count; i++)
+            {
+                PurchaseOrder po = purchaseOrders[i];
+                _clkService.savePurchaseOrder(po);
+            }
+            return null;
+        }
+
+        #endregion
     }
 
 

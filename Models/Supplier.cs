@@ -9,11 +9,12 @@ namespace BackEndAD.Models
     public class Supplier
     {
         [Required]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Required]
        public string supplierCode { get; set; }
 
+        public ICollection<SupplierItem> supplierItems { get; set;}
 
         [Required]
         public string name { get; set; }
@@ -35,6 +36,8 @@ namespace BackEndAD.Models
         public string address { get; set; }
 
         public int priority { get; set; }
+
+        
         
     }
 }

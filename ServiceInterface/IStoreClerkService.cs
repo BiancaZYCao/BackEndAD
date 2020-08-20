@@ -19,6 +19,11 @@ namespace BackEndAD.ServiceInterface
 
         public void deleteSupplier(int id);
         public void saveSupplier(Supplier s);
+
+        public void savePurchaseOrder(PurchaseOrder po);
+
+public Task<IList<Supplier>> findSupplierByStationeryId(int id);
+       
     }
 
 }
