@@ -14,6 +14,7 @@ namespace BackEndAD.Models
 
         public int id { get; set; }
 
+        
         public int SupplierId { get; set; }
 
         [Required]
