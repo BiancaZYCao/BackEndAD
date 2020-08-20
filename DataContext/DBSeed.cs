@@ -1044,6 +1044,11 @@ public static class DBSeed
             SupplierItem si93 = new SupplierItem() { SupplierId = 3, StationeryItem = i35, price = 9.99f, unit = "Box" };
             SupplierItem si94 = new SupplierItem() { SupplierId = 3, StationeryItem = i45, price = 21.8f, unit = "Packet" };
             SupplierItem si95 = new SupplierItem() { SupplierId = 3, StationeryItem = i55, price = 15.99f, unit = "Dozen" };
+            SupplierItem[] supItemArr = { si1,si2,si3,si4,si5,si6,si7,si8,si9,si10, si11, si12, si13, si14, si15, si16, si17, si18, si19, si20, si21, si22, si23, si24, si25, si26, si27, si28, si29, si30, si31, si32, si33, si34, si35, si36, si37, si38, si39, si40, si41, si42, si43, si44, si45, si46, si47, si48, si49, si50, si51, si52, si53, si54, si55, si56, si57, si58, si59, si60, si61, si62, si63, si64, si65, si66, si67, si68, si69, si70, si71, si72, si73, si74, si75, si76, si77, si78, si79, si80, si81, si82, si83, si84, si85, si86, si87, si88, si89, si90, si91, si92, si93, si94, si95};
+            for (int z = 0; z < supItemArr.Length; z++)
+            {
+                unitOfWork.GetRepository<SupplierItem>().Insert(supItemArr[z]);
+            }
             #endregion
             /*
             //Done May only 2 
