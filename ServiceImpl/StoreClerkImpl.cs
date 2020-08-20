@@ -116,7 +116,7 @@ namespace BackEndAD.ServiceImpl
             IList<Supplier> ilist = await unitOfWork.GetRepository<Supplier>().GetAllAsync();
 
             foreach (Supplier supplier in ilist) {
-                List<SupplierItem> supplierItems = supplier.supplierItems;
+                List<SupplierItem> supplierItems = (List<SupplierItem>)supplier.supplierItems;
                 //check if supplier has item
                 if (supplierItems == null) { return null; }
                 else{
