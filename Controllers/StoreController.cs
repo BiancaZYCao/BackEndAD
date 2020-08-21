@@ -26,6 +26,7 @@ namespace BackEndAD.Controllers
         [HttpGet("Stationeries")]
         public async Task<ActionResult<List<Stationery>>> GetAllStationeries()
         {
+            Console.WriteLine("test");
             var result = await _clkService.findAllStationeriesAsync();
             // if find data then return result else will return a String says Department not found
             if (result != null)
@@ -37,7 +38,7 @@ namespace BackEndAD.Controllers
 
         //Post Request for stationery by id
         [HttpPost("Stationeries/post/{id}")]
-        public Task<ActionResult<Stationery>> PostStationeryById(Stationery stationery, int id)
+        public Task<ActionResult<Stationery>> PostStationeryById([FromBody] Stationery stationery, int id)
         {
             Console.WriteLine(stationery);
             Console.WriteLine(id);
