@@ -48,12 +48,28 @@ namespace BackEndAD.ServiceImpl
 
         public void deleteSupplier(int id)
         {
+            //Console.WriteLine(id);
+            //Supplier s = unitOfWork.GetRepository<Supplier>().GetById(id);
             unitOfWork.GetRepository<Supplier>().Delete(id);
+            unitOfWork.SaveChanges();
         }
+
+       
 
         public void saveSupplier(Supplier s)
         {
             unitOfWork.GetRepository<Supplier>().Insert(s);
+            unitOfWork.SaveChanges();
+
+            //IList<Supplier> list = await unitOfWork.GetRepository<Supplier>().GetAllAsync();
+            //return list;
+        }
+
+        public void updateSupplier(Supplier s)
+        {
+            unitOfWork.GetRepository<Supplier>().Update(s);
+            unitOfWork.SaveChanges();
+
         }
         #endregion
 
@@ -177,6 +193,15 @@ namespace BackEndAD.ServiceImpl
         }
         #endregion
 
+        /*
+         * public IList<Department> findAllDepartmentsAsyncEager()
+        {
+            IList<Department> deptlist = 
+                unitOfWork.GetRepository<Department>()
+                .GetAllIncludeIQueryable(null, null,"Collection").ToList();
+            return deptlist;
+        }
+         */
         #region place order
         public async Task<IList<Supplier>> findSupplierByStationeryId(int id)
         {
@@ -185,11 +210,13 @@ namespace BackEndAD.ServiceImpl
             //get all suppliers
             IList<Supplier> ilist = await unitOfWork.GetRepository<Supplier>().GetAllAsync();
 
-            foreach (Supplier supplier in ilist) {
+            foreach (Supplier supplier in ilist)
+            {
                 List<SupplierItem> supplierItems = (List<SupplierItem>)supplier.supplierItems;
                 //check if supplier has item
                 if (supplierItems == null) { return null; }
-                else{
+                else
+                {
                     bool hasItem = supplierItems.Select(x => x.Stationery.Id == id ? true : false).FirstOrDefault();
                     if (hasItem) list.Add(supplier);
                 }
