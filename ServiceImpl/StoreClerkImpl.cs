@@ -107,6 +107,15 @@ namespace BackEndAD.ServiceImpl
         }
         #endregion
 
+        /*
+         * public IList<Department> findAllDepartmentsAsyncEager()
+        {
+            IList<Department> deptlist = 
+                unitOfWork.GetRepository<Department>()
+                .GetAllIncludeIQueryable(null, null,"Collection").ToList();
+            return deptlist;
+        }
+         */
         #region place order
         public async Task<IList<Supplier>> findSupplierByStationeryId(int id)
         {
