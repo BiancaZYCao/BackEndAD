@@ -135,13 +135,13 @@ namespace BackEndAD.ServiceImpl
                 SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
                 amounttotal = supplierItem.price * eachSAdjDetailRecord.discpQty;
 
-                StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.id);
+                StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.Id);
                 Employee emp = await findEmployeeByIdAsync(stockAdjustment.EmployeeId);
 
                 AdjustmentVocherInfo voucher = new AdjustmentVocherInfo()
                 {
-                    stockAdustmentDetailId = eachSAdjDetailRecord.id,
-                    stockAdustmentId = eachSAdjDetailRecord.StockAdjustmentId,
+                    stockAdustmentDetailId = eachSAdjDetailRecord.Id,
+                    stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
                     reason = eachSAdjDetailRecord.comment,
                     empName = emp.name,
                     itemCode = eachSAdjDetailRecord.StationeryId,
@@ -173,7 +173,7 @@ namespace BackEndAD.ServiceImpl
                     foreach (StockAdjustmentDetail stkAdjDet in stockAdjustmentDetails)
                     {
                         // step2.1 add stkAdjDetails
-                        stkAdjDet.StockAdjustment = stkAdj;
+                        stkAdjDet.stockAdjustment = stkAdj;
                         unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(stkAdjDet);
                         //unitOfWork.GetRepository<StockAdjustment>().Save();
                         // step2.1 get stationery and update inventory level
@@ -194,7 +194,7 @@ namespace BackEndAD.ServiceImpl
                 }
             }
             //return stockAdjustment
-            var result = await unitOfWork.GetRepository<StockAdjustment>().FindAsync(stkAdj.id);
+            var result = await unitOfWork.GetRepository<StockAdjustment>().FindAsync(stkAdj.Id);
             return result;
 
         }
