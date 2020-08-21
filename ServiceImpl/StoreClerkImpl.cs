@@ -30,6 +30,24 @@ namespace BackEndAD.ServiceImpl
             Stationery s = await unitOfWork.GetRepository<Stationery>().FindAsync(stationeryId);
             return s;
         }
+
+        public void saveStationery(Stationery stationery)
+        {
+            Stationery s1 = unitOfWork.GetRepository<Stationery>().GetById(stationery.Id);
+            if(s1 != null)
+            {
+                s1.category = stationery.category;
+                s1.desc = stationery.desc;
+                s1.inventoryQty = stationery.inventoryQty;
+                unitOfWork.GetRepository<Stationery>().Update(s1);
+                unitOfWork.SaveChanges();
+            }
+            else
+            {
+                unitOfWork.GetRepository<Stationery>().Insert(stationery);
+                unitOfWork.SaveChanges();
+            }
+        }
         #endregion
 
         #region supplier
