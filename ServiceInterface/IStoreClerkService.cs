@@ -35,9 +35,12 @@ namespace BackEndAD.ServiceInterface
         public Task<SupplierItem> findSupplierItemByIdAsync(int stkAdjId);
         public Task<Employee> findEmployeeByIdAsync(int eId);
         public Task<IList<AdjustmentVocherInfo>> StockAdjustDetailInfo();
-
+        public Task<AdjustmentVocherInfo> getEachVoucherDetail(AdjustmentVocherInfo info);
         public Task<IList<Supplier>> findSupplierByStationeryId(int id);
-       
+        public void issueVoucher(AdjustmentVocherInfo voc);
+        public IList<SupplierItem> findSuppliersByStationeryId(int id);
+
+
     }
 
 }
