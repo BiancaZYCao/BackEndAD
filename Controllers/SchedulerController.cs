@@ -36,13 +36,15 @@ namespace BackEndAD.Controllers
             if (success)
             {
                 Console.WriteLine("done compiling");
+                return Ok("done compiling");
             }
             else
             {
                 Console.WriteLine("compiling failed");
+                return Ok("failed compiling");
+
             }
-            
-            return Ok("done");
+
         }
 
         [HttpGet("seeder")]
@@ -67,13 +69,14 @@ namespace BackEndAD.Controllers
             if (success)
             {
                 Console.WriteLine("done seeding");
+                return Ok("done seeding");
             }
             else
             {
                 Console.WriteLine("seeding failed");
+                return Ok("failed seeding");
             }
 
-            return Ok("done");
         }
     }
 }
