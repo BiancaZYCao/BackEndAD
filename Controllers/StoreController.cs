@@ -59,6 +59,45 @@ namespace BackEndAD.Controllers
                 return NotFound("Suppliers not found");
         }
 
+
+        [HttpPost("saveSupplier")]
+        public async Task<ActionResult<Supplier>> saveSupplier([FromBody] Supplier s)
+        {
+            Supplier sup = new Supplier()
+            {
+                supplierCode = s.supplierCode,
+                name = s.name,
+                contactPerson = s.contactPerson,
+                email = s.email,
+                phoneNum = s.phoneNum,
+                gstRegisNo = s.gstRegisNo,
+                fax = s.fax,
+                address = s.address,
+                priority = s.priority,
+            };
+            _clkService.saveSupplier(sup);
+
+            return CreatedAtAction(nameof(GetAllSuppliers), new { }, sup);
+        }
+
+        [HttpPost("deleteSupplier")]
+        public async Task<ActionResult<Supplier>> DeleteSupplier([FromBody] Supplier s)
+        {
+            Console.WriteLine(s.id);
+            _clkService.deleteSupplier(s.id);
+            return CreatedAtAction(nameof(GetAllSuppliers), new { }, s);
+        }
+
+        [HttpPost("updateSupplier")]
+        public async Task<ActionResult<Supplier>> UpdateSupplier([FromBody] Supplier sup)
+        {
+            
+            _clkService.updateSupplier(sup);
+            return CreatedAtAction(nameof(GetAllSuppliers), new { }, sup);
+
+        }
+
+
         #region Test post method 18Aug
         [HttpPost("stkAd/{id}")]
         public async Task<ActionResult<StockAdjustment>> PostTestStkAd(
@@ -141,7 +180,6 @@ namespace BackEndAD.Controllers
 
         #endregion
     }
-
 
 
 }
