@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -23,6 +24,7 @@ namespace BackEndAD.Repo
         void Insert(TEntity obj);
         void Update(TEntity obj);
         void Delete(object id);
+        public void DeleteS(TEntity existing);
         void Save();
         ValueTask<TEntity> FindAsync(params object[] keyValues);
         Task<IList<TEntity>> GetAllAsync(
@@ -66,6 +68,10 @@ namespace BackEndAD.Repo
         public void Delete(object id)
         {
             TEntity existing = table.Find(id);
+            table.Remove(existing);
+        }
+        public void DeleteS(TEntity existing)
+        {
             table.Remove(existing);
         }
         public void Save()
