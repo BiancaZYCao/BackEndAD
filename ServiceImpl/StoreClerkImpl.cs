@@ -233,14 +233,15 @@ namespace BackEndAD.ServiceImpl
             throw new NotImplementedException();
         }
 
-        #endregion
-        //Bianca 
+        
+        //Bianca PO-step2
         public IList<SupplierItem> findSuppliersByStationeryId(int id)
         {
             IList<SupplierItem> itemlist = unitOfWork
                 .GetRepository<SupplierItem>()
                 .GetAllIncludeIQueryable(filter: x => x.StationeryId == id).ToList();
-            return null;
+            return itemlist;
         }
+        #endregion
     }
 }

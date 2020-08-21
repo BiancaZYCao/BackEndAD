@@ -200,8 +200,27 @@ namespace BackEndAD.Controllers
             List<Stationery> itemsNeedOrder =
                 stationeries.Where(x => x.inventoryQty < x.reOrderLevel).ToList();
             return itemsNeedOrder;
-            #endregion
+            
         }
+        [HttpGet("getSupplierItems/{id}")]
+        public IList<SupplierItem> GetSupplierItemsListByStationeryId(int id)
+        {
+            IList<SupplierItem> result = _clkService.findSuppliersByStationeryId(id);
+            foreach (SupplierItem s in result)
+            {
+                Console.WriteLine(s.StationeryId);
+                    }
+            if (result != null)
+            {
+                return result;
+            }
+            else
+                return null;
+            
+
+        }
+
+        #endregion
 
 
     }
