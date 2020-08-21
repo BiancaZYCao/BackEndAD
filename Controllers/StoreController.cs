@@ -37,6 +37,22 @@ namespace BackEndAD.Controllers
                 return NotFound("Stationeries not found");
         }
 
+        //Post Request for stationery by id
+        [HttpPost("Stationery/post")]
+        public Task<ActionResult<Stationery>> PostStationery([FromBody] Stationery stationery)
+        {
+            Console.WriteLine("test");
+            Stationery s1 = new Stationery()
+            {
+                Id = stationery.Id,
+                category = stationery.category,
+                desc = stationery.desc,
+                inventoryQty = stationery.inventoryQty
+            };
+            _clkService.saveStationery(s1);
+            return null;
+        }
+
         [HttpGet("Stationeries/{id}")]
         public async Task<ActionResult<Stationery>> GetStationeryByIdAsync(int id)
         {
