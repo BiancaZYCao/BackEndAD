@@ -4,6 +4,7 @@ using BackEndAD.Repo;
 using BackEndAD.ServiceInterface;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,6 +34,18 @@ namespace BackEndAD.ServiceImpl
             Department dept = await unitOfWork.GetRepository<Department>().FindAsync(deptId);
             return dept;
         }
+        public IList<Department> findAllDepartmentsAsyncEager()
+        {
+            IList<Department> deptlist = 
+                unitOfWork.GetRepository<Department>()
+                .GetAllIncludeIQueryable(null, null,"Collection").ToList();
+            /*
+            IList<Department> deptlist = await
+                unitOfWork.GetRepository<Department>().GetAllAsync(null,null,
+                    s => s.Include(de => de.Collection).ThenInclude(coll => coll.Id)
+                    );*/
+            return deptlist;
+        }
         #endregion
 
         #region requsition
@@ -54,6 +67,13 @@ namespace BackEndAD.ServiceImpl
             IList<Employee> emplist = await unitOfWork.GetRepository<Employee>().GetAllAsync();
             //IIncludableQueryable<TEntity, object>> include = null,
             return emplist;
+        }
+
+        public async Task<IList<CollectionInfo>> findAllCollectionPointAsync()
+        {
+            IList<CollectionInfo> collectionpts = await unitOfWork.GetRepository<CollectionInfo>().GetAllAsync();
+
+            return collectionpts;
         }
         #endregion
 

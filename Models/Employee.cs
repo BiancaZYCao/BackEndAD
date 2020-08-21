@@ -10,7 +10,7 @@ namespace BackEndAD.Models
     public class Employee
     {
         [Required]
-        public int id {get; set;}
+        public int Id {get; set;}
         [Required]
         public string name { get; set; }
         [Required]
@@ -19,7 +19,7 @@ namespace BackEndAD.Models
         public string role { get; set; }
         public string phoneNum { get; set; }
 
-        //public int DepartmentId { get; set; }
+        public int departmentId { get; set; }
         public Department department { get; set; }
 
         //public List<Requisition> Requisitions { get; set; }

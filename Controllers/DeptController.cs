@@ -47,6 +47,29 @@ namespace BackEndAD.Controllers
                 //I put here Just for u to understand the style. :) -Bianca  
                 return NotFound("Departments not found");
         }
+
+        //This is not finished! -Bianca
+        [HttpGet("eager")]
+        public ActionResult<List<CollectionInfo>> GetAllDepartmentsEager()
+        {
+            var resultL = _deptService.findAllDepartmentsAsyncEager();
+            var result = new List<CollectionInfo>(){ };
+            
+            //var result = new List<Int64>() { };
+            foreach (Department dept in resultL)
+            {
+                Console.WriteLine(dept.Collection.lat);
+                result.Add(dept.Collection);
+             }
+            if (result != null)
+            {
+                var result2 = result.First<CollectionInfo>();
+                return Ok(result2);//.First<Department>().Collection.Id);
+            }
+            else
+                return NotFound("Eager No way!");
+        }
+
         [HttpGet("req")]
         public async Task<ActionResult<IList<Requisition>>> GetAllRequisitions()
         {
@@ -55,7 +78,7 @@ namespace BackEndAD.Controllers
             // if find data then return result else will return a String says Department not found
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-                return Ok(result.First<Requisition>());
+                return Ok(result);
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 //There are 3 Department alr seeded in DB, so this line should nvr appears. 
@@ -71,7 +94,7 @@ namespace BackEndAD.Controllers
             // if find data then return result else will return a String says Department not found
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-                return Ok(result.First());
+                return Ok(result);
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 //There are 3 Department alr seeded in DB, so this line should nvr appears. 
@@ -120,5 +143,23 @@ namespace BackEndAD.Controllers
             // u also need findDeptById in your service layer and repo layer 
             (DO NOT FORGET INTERFACE and AddScoped<...> for BOTH repo and service)
         }*/
+
+        [HttpGet("collectionpt")]
+        public async Task<ActionResult<IList<CollectionInfo>>> GetAllCollectionPoint()
+        {
+            IList<CollectionInfo> result = await _deptService.findAllCollectionPointAsync();
+
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result.Select(x=>x.clerk.Id));
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("No colleciton point found");
+        }
+
+
     }
 }
