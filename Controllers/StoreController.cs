@@ -109,6 +109,27 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");
         }
+
+        [HttpPost("issueVoucher")]
+        public async Task<ActionResult<AdjustmentVocherInfo>> createVoucher([FromBody] AdjustmentVocherInfo voc)
+        {
+            _clkService.issueVoucher(voc);
+            return CreatedAtAction(nameof(GetAllAdustmentInfo), new { }, voc);
+
+        }
+
+        [HttpPost("getVoucher")]
+        public async Task<ActionResult<AdjustmentVocherInfo>> getVoucher([FromBody] AdjustmentVocherInfo voc)
+        {
+            var result = await _clkService.getEachVoucherDetail(voc);
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Error");
+        }
+        
         //end
 
         #region Test post method 18Aug
