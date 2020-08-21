@@ -16,6 +16,9 @@ using BackEndAD.DataContext;
 using BackEndAD.Repo;
 using BackEndAD.ServiceInterface;
 using BackEndAD.ServiceImpl;
+using Hangfire;
+using Hangfire.MemoryStorage;
+using BackEndAD.Controllers;
 
 namespace BackEndAD
 {
@@ -57,10 +60,26 @@ namespace BackEndAD
                 .AllowAnyHeader()
                 .AllowAnyMethod());
             });
+
+            services.AddHangfire(config =>
+            config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseDefaultTypeSerializer()
+            .UseMemoryStorage()
+
+            );
+
+            services.AddHangfireServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ProjectContext _context)
+        public void Configure(
+            IApplicationBuilder app, 
+            IWebHostEnvironment env, 
+            ProjectContext _context,
+            IBackgroundJobClient backgroundJobClient,
+            IRecurringJobManager recurringJobManager
+            )
         {
             if (env.IsDevelopment())
             {
@@ -82,6 +101,13 @@ namespace BackEndAD
             //_context.Database.EnsureCreated();
             //new Seeder(_context);
             //DBSeed.Initialize(IUnitOfWork<ProjectContext>);
+
+            SchedulerController scheduler = new SchedulerController();
+               
+            app.UseHangfireDashboard();
+            backgroundJobClient.Enqueue(() => scheduler.seeder());
+            recurringJobManager.AddOrUpdate("compile reorder",() => scheduler.reorder(), "*/5 * * * *");
+            recurringJobManager.AddOrUpdate("compile reorder monthly", () => scheduler.reorder(), "5 0 1 * *");
         }
     }
 }
