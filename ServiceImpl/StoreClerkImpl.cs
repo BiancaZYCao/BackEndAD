@@ -35,7 +35,7 @@ namespace BackEndAD.ServiceImpl
         public void saveStationery(Stationery stationery)
         {
             Stationery s1 = unitOfWork.GetRepository<Stationery>().GetById(stationery.Id);
-            if(s1 != null)
+            if (s1 != null)
             {
                 s1.category = stationery.category;
                 s1.desc = stationery.desc;
@@ -148,7 +148,7 @@ namespace BackEndAD.ServiceImpl
                     quantity = eachSAdjDetailRecord.discpQty,
                     amount = amounttotal
                 };
-                
+
             }
 
             return voucherInfoList;
@@ -207,51 +207,14 @@ namespace BackEndAD.ServiceImpl
         }
         #endregion
 
-        /*
-         * public IList<Department> findAllDepartmentsAsyncEager()
-        {
-            IList<Department> deptlist = 
-                unitOfWork.GetRepository<Department>()
-                .GetAllIncludeIQueryable(null, null,"Collection").ToList();
-            return deptlist;
-        }
-         */
+
         #region place order
-        public async Task<IList<Supplier>> findSupplierByStationeryId(int id)
-        {
-            IList<Supplier> list = new List<Supplier>();
-
-            //get all suppliers
-            IList<Supplier> ilist = await unitOfWork.GetRepository<Supplier>().GetAllAsync();
-
-            foreach (Supplier supplier in ilist)
-            {
-                List<SupplierItem> supplierItems = (List<SupplierItem>)supplier.supplierItems;
-                //check if supplier has item
-                if (supplierItems == null) { return null; }
-                else
-                {
-                    bool hasItem = supplierItems.Select(x => x.Stationery.Id == id ? true : false).FirstOrDefault();
-                    if (hasItem) list.Add(supplier);
-                }
-            }
-
-            List<Supplier> orderedList = (List<Supplier>)list.OrderBy(x => x.priority);
-
-            return orderedList;
-        }
-
-        public void savePurchaseOrder(PurchaseOrder po)
-        {
-            unitOfWork.GetRepository<PurchaseOrder>().Insert(po);
-        }
-
-        public Task<SupplierItem> findAllSupplierItemByIdAsync(int stkAdjId)
-        {
-            throw new NotImplementedException();
-        }
-
-        
+        /// <summary>
+        /// place order GET
+        /// 1. get all items need order invt-Lvl<reorder-Lvl 
+        /// 2. get supplierItems for Items using step1-result
+        /// 3. get suppliers using step2-result
+        /// </summary>
         //Bianca PO-step2
         public IList<SupplierItem> findSuppliersByStationeryId(int id)
         {
@@ -259,6 +222,17 @@ namespace BackEndAD.ServiceImpl
                 .GetRepository<SupplierItem>()
                 .GetAllIncludeIQueryable(filter: x => x.StationeryId == id).ToList();
             return itemlist;
+        }
+
+        /// <summary>
+        /// place order GET
+        /// 1. get all items need order invt-Lvl<reorder-Lvl 
+        /// 2. get supplierItems for Items using step1-result
+        /// 3. get suppliers using step2-result
+        /// </summary>
+        public void savePurchaseOrder(PurchaseOrder po)
+        {
+            unitOfWork.GetRepository<PurchaseOrder>().Insert(po);
         }
         #endregion
     }
