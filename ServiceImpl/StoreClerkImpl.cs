@@ -13,7 +13,7 @@ namespace BackEndAD.ServiceImpl
     public class StoreClerkServiceImpl : IStoreClerkService
     {
         public IUnitOfWork<ProjectContext> unitOfWork;
-       
+
         public StoreClerkServiceImpl(IUnitOfWork<ProjectContext> unitOfWork)
         {
             this.unitOfWork = unitOfWork;
@@ -52,7 +52,7 @@ namespace BackEndAD.ServiceImpl
             unitOfWork.SaveChanges();
         }
 
-       
+
 
         public void saveSupplier(Supplier s)
         {
@@ -223,7 +223,7 @@ namespace BackEndAD.ServiceImpl
             return orderedList;
         }
 
- public void savePurchaseOrder(PurchaseOrder po)
+        public void savePurchaseOrder(PurchaseOrder po)
         {
             unitOfWork.GetRepository<PurchaseOrder>().Insert(po);
         }
@@ -234,6 +234,13 @@ namespace BackEndAD.ServiceImpl
         }
 
         #endregion
-
+        //Bianca 
+        public IList<SupplierItem> findSuppliersByStationeryId(int id)
+        {
+            IList<SupplierItem> itemlist = unitOfWork
+                .GetRepository<SupplierItem>()
+                .GetAllIncludeIQueryable(filter: x => x.StationeryId == id).ToList();
+            return null;
+        }
     }
 }
