@@ -1044,66 +1044,72 @@ public static class DBSeed
             SupplierItem si93 = new SupplierItem() { SupplierId = 3, StationeryId = i35.Id, price = 9.99f, unit = "Box" };
             SupplierItem si94 = new SupplierItem() { SupplierId = 3, StationeryId = i45.Id, price = 21.8f, unit = "Packet" };
             SupplierItem si95 = new SupplierItem() { SupplierId = 3, StationeryId = i55.Id, price = 15.99f, unit = "Dozen" };
+            SupplierItem si96 = new SupplierItem() { SupplierId = 3, StationeryId = i1.Id, price = 5.99f, unit = "Dozen" };
             SupplierItem[] supItemArr = { si1,si2,si3,si4,si5,si6,si7,si8,si9,si10, si11, si12, si13, si14, si15, si16, si17, si18, si19, si20, si21, si22, si23, si24, si25, si26, si27, si28, si29, si30, si31, si32, si33, si34, si35, si36, si37, si38, si39, si40, si41, si42, si43, si44, si45, si46, si47, si48, si49, si50, si51, si52, si53, si54, si55, si56, si57, si58, si59, si60, si61, si62, si63, si64, si65, si66, si67, si68, si69, si70, si71, si72, si73, si74, si75, si76, si77, si78, si79, si80, si81, si82, si83, si84, si85, si86, si87, si88, si89, si90, si91, si92, si93, si94, si95};
             for (int z = 0; z < supItemArr.Length; z++)
             {
                 unitOfWork.GetRepository<SupplierItem>().Insert(supItemArr[z]);
             }
             #endregion
-            /*
-            //Done May only 2 
+
+            //only 2 Done May 
             #region StockAdjustment and Detail
             /// 1 receiveGood (after PO)
             /// 2 monthly check + 3 get good from ware house find missing or damage
             /// 4 manager revert adjustment after not issue voucher
-            StockAdjustment sa1 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 7, 27), Employee = e33};
-            StockAdjustmentDetail sa1sad1 = new StockAdjustmentDetail() { StockAdjustmentId = sa1, Stationery = i1, discpQty = -5, comment = "Broken"};
-            StockAdjustmentDetail sa1sad2 = new StockAdjustmentDetail() { StockAdjustmentId = sa1, Stationery = i2, discpQty = 1, comment = null };
-            StockAdjustmentDetail sa1sad3 = new StockAdjustmentDetail() { StockAdjustmentId = sa1, Stationery = i3, discpQty = -2, comment = "Missing" };
+            StockAdjustment sa1 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 7, 27), EmployeeId = e33.Id};
+            StockAdjustmentDetail sa1sad1 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i1.Id, discpQty = -5, comment = "Broken"};
+            StockAdjustmentDetail sa1sad2 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i2.Id, discpQty = 1, comment = null };
+            StockAdjustmentDetail sa1sad3 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i3.Id, discpQty = -2, comment = "Missing" };
 
-            StockAdjustment sa2 = new StockAdjustment() { type = "missing when collecting goods", date = new DateTime(2020, 8, 27), Employee = e34 };
-            StockAdjustmentDetail sa2sad1 = new StockAdjustmentDetail() { StockAdjustmentId = sa2, Stationery = i1, discpQty = -10, comment = null };
-            StockAdjustmentDetail sa2sad2 = new StockAdjustmentDetail() { StockAdjustmentId = sa2, Stationery = i2, discpQty = -50, comment = null };
-            StockAdjustmentDetail sa2sad3 = new StockAdjustmentDetail() { StockAdjustmentId = sa2, Stationery = i3, discpQty = -2, comment = "Broken" };
+            StockAdjustment sa2 = new StockAdjustment() { type = "missing when collecting goods", date = new DateTime(2020, 8, 27), EmployeeId = e34.Id };
+            StockAdjustmentDetail sa2sad1 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i1.Id, discpQty = -10, comment = null };
+            StockAdjustmentDetail sa2sad2 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i2.Id, discpQty = -50, comment = null };
+            StockAdjustmentDetail sa2sad3 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i3.Id, discpQty = -2, comment = "Broken" };
 
             StockAdjustment[] saArr = { sa1, sa2 };
             for (int e = 0; e < saArr.Length; e++)
             {
                 unitOfWork.GetRepository<StockAdjustment>().Insert(saArr[e]);
+                unitOfWork.SaveChanges();
             }
             StockAdjustmentDetail[] sadArr = { sa1sad1, sa1sad2, sa1sad3, sa2sad1, sa2sad2, sa2sad3 };
             for (int f = 0; f < sadArr.Length; f++)
             {
                 unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(sadArr[f]);
+                unitOfWork.SaveChanges();
             }
-
             #endregion
             
-            //So far empty
             #region AdjustmentVoucher and Detail
-            AdjustmentVoucher av1 = new AdjustmentVoucher() { };
-            AdjustmentVoucherDetail av1avd1 = new AdjustmentVoucherDetail() { AdjustmentVoucherId = av1 };
+            AdjustmentVoucher av1 = new AdjustmentVoucher() { StockAdjustmentId=sa1.Id, date=new DateTime(2020, 7, 31), EmployeeId=e32.Id, reason="" };
+            AdjustmentVoucherDetail av1avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av1, StockAdjustmentDetailId=sa1sad1.Id, price=29.95 };
+            AdjustmentVoucherDetail av1avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av1, StockAdjustmentDetailId=sa1sad2.Id, price=1.2 };
+            AdjustmentVoucherDetail av1avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher= av1, StockAdjustmentDetailId=sa1sad3.Id, price=2 };
 
-            AdjustmentVoucher av2 = new AdjustmentVoucher() { };
-            AdjustmentVoucherDetail av2avd1 = new AdjustmentVoucherDetail() { AdjustmentVoucherId = av2 };
+            AdjustmentVoucher av2 = new AdjustmentVoucher() { StockAdjustmentId=sa2.Id, date=new DateTime(2020, 8, 31), EmployeeId=e32.Id, reason=""};
+            AdjustmentVoucherDetail av2avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId=sa2sad1.Id, price=59.9 };
+            AdjustmentVoucherDetail av2avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId=sa2sad2.Id, price= 60};
+            AdjustmentVoucherDetail av2avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId=sa2sad3.Id, price=2 };
 
             AdjustmentVoucher[] avArr = { av1, av2 };
             for (int g = 0; g < avArr.Length; g++)
             {
                 unitOfWork.GetRepository<AdjustmentVoucher>().Insert(avArr[g]);
+                unitOfWork.SaveChanges();
             }
-            AdjustmentVoucherDetail[] avdArr = { av1avd1, av2avd1 };
-            for (int h = 0; h < avArr.Length; h++)
+            AdjustmentVoucherDetail[] avdArr = { av1avd1, av1avd2,av1avd3,av2avd1,av2avd2,av2avd3 };
+            for (int h = 0; h < avdArr.Length; h++)
             {
                 unitOfWork.GetRepository<AdjustmentVoucherDetail>().Insert(avdArr[h]);
+                unitOfWork.SaveChanges();
             }
-            //I got blurred and don't know how to seed this part. Sry. -May
+            
             #endregion
-
+            /*
             #region Disbursement and Detail
             DisbursementList dl1 = new DisbursementList() { DepartmentId = dENGL, date = new DateTime(2020, 8, 27) };
             DisbursementList dl2 = new DisbursementList() { DepartmentId = dCPSC, date = new DateTime(2020, 8, 27) };
-            //I got blurred and don't know how to seed this parts. Sry. -May
             #endregion
 
             // sry Pending seed 

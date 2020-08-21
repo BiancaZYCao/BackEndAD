@@ -16,5 +16,6 @@ namespace BackEndAD.Models
 
         public virtual StockAdjustment StockAdjustment { get; set; }
         public virtual Employee Employee { get; set; }
+        public List<AdjustmentVoucherDetail> AdjustmentVoucherDetails { get; set; }
     }
 }

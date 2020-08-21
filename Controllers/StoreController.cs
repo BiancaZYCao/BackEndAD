@@ -142,7 +142,7 @@ namespace BackEndAD.Controllers
             var result = await _clkService.generateStkAdjustmentAsync(stkAdj, stockAdjustmentDetails); //SaveChangesAsync();
             if (result != null)
                 return CreatedAtAction(
-                    nameof(GetStkAdjId), new { id = result.id }, result);
+                    nameof(GetStkAdjId), new { id = result.Id }, result);
             else
                 return NotFound("Sry failed.");
         }

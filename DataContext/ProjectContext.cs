@@ -57,7 +57,17 @@ namespace BackEndAD.DataContext
             .HasOne(r => r.department)
             .WithMany(e => e.employees)
             .HasForeignKey(p => p.departmentId);
-            
+
+            modelBuilder.Entity<AdjustmentVoucherDetail>()
+            .HasOne(r => r.adjustmentVoucher)
+            .WithMany(e => e.AdjustmentVoucherDetails)
+            .HasForeignKey(p => p.adjustmentVoucherId);
+
+            modelBuilder.Entity<StockAdjustmentDetail>()
+            .HasOne(r => r.stockAdjustment)
+            .WithMany(e => e.StockAdjustmentDetails)
+            .HasForeignKey(p => p.stockAdjustmentId);
+
             /*got prob
             modelBuilder.Entity<CollectionInfo>()
             .HasOne(c => c.clerk)
