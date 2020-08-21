@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace BackEndAD.Controllers
@@ -11,22 +12,71 @@ namespace BackEndAD.Controllers
     [ApiController]
     public class SchedulerController: ControllerBase
     {
-        private IStoreClerkService _storeClerkService;
-
-        public SchedulerController(IStoreClerkService storeClerkService)
-        {
-            _storeClerkService = storeClerkService;
-        }
+        
         [HttpGet("reorder")]
         public IActionResult reorder()
         {
-            return Redirect("http://127.0.0.1:5000/reorder");
+            bool success = true;
+            Console.WriteLine("Compiling order");
+            string seederurl = String.Format("http://127.0.0.1:5000/reorder");
+            WebRequest webRequest = WebRequest.Create(seederurl);
+            webRequest.Method = "GET";
+            HttpWebResponse response = null;
+            try
+            {
+                response = (HttpWebResponse)webRequest.GetResponse();
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e.Message);
+                success = false;
+
+            }
+
+            if (success)
+            {
+                Console.WriteLine("done compiling");
+                return Ok("done compiling");
+            }
+            else
+            {
+                Console.WriteLine("compiling failed");
+                return Ok("failed compiling");
+
+            }
+
         }
 
         [HttpGet("seeder")]
         public IActionResult seeder()
         {
-            return Redirect("http://127.0.0.1:5000/seeder");
+            bool success = true;
+            Console.WriteLine("started seeding");
+            string seederurl = String.Format("http://127.0.0.1:5000/seeder");
+            WebRequest webRequest = WebRequest.Create(seederurl);
+            webRequest.Method = "GET";
+            HttpWebResponse response = null;
+            try
+            {
+                response = (HttpWebResponse)webRequest.GetResponse();
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e.Message);
+                success = false;
+            }
+             
+            if (success)
+            {
+                Console.WriteLine("done seeding");
+                return Ok("done seeding");
+            }
+            else
+            {
+                Console.WriteLine("seeding failed");
+                return Ok("failed seeding");
+            }
+
         }
     }
 }

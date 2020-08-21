@@ -37,6 +37,22 @@ namespace BackEndAD.Controllers
                 return NotFound("Stationeries not found");
         }
 
+        //Post Request for stationery by id
+        [HttpPost("Stationery/post")]
+        public Task<ActionResult<Stationery>> PostStationery([FromBody] Stationery stationery)
+        {
+            Console.WriteLine("stationaryPost");
+            Stationery s1 = new Stationery()
+            {
+                Id = stationery.Id,
+                category = stationery.category,
+                desc = stationery.desc,
+                inventoryQty = stationery.inventoryQty
+            };
+            //_clkService.saveStationery(s1);
+            return null;
+        }
+
         [HttpGet("Stationeries/{id}")]
         public async Task<ActionResult<Stationery>> GetStationeryByIdAsync(int id)
         {
@@ -133,11 +149,14 @@ namespace BackEndAD.Controllers
         //end
 
         #region Test post method 18Aug
-        [HttpPost("stkAd/{id}")]
-        public async Task<ActionResult<StockAdjustment>> PostTestStkAd(
-                List<StockAdjustmentDetail> stockAdjustmentDetails, int id)
+        [HttpPost("stkAd")]
+        public /*async*/ Task<ActionResult<StockAdjustment>> PostTestStkAd(
+               [FromBody] List<StockAdjustmentDetail> stockAdjustmentDetails)
         {
-            StockAdjustment stkAdj = new StockAdjustment()
+            Console.WriteLine("post");
+            //Console.WriteLine(id);
+            Console.WriteLine(stockAdjustmentDetails[0].comment);
+            /*StockAdjustment stkAdj = new StockAdjustment()
             {
                 date = DateTime.Now,
                 type = "inventory check",
@@ -147,9 +166,10 @@ namespace BackEndAD.Controllers
             var result = await _clkService.generateStkAdjustmentAsync(stkAdj, stockAdjustmentDetails); //SaveChangesAsync();
             if (result != null)
                 return CreatedAtAction(
-                    nameof(GetStkAdjId), new { id = result.id }, result);
+                    nameof(GetStkAdjId), new { id = result.Id }, result);
             else
-                return NotFound("Sry failed.");
+                return NotFound("Sry failed.");*/
+            return null;
         }
 
         [HttpGet("stkAd/get/{id}")]
@@ -221,8 +241,27 @@ namespace BackEndAD.Controllers
             List<Stationery> itemsNeedOrder =
                 stationeries.Where(x => x.inventoryQty < x.reOrderLevel).ToList();
             return itemsNeedOrder;
-            #endregion
+            
         }
+        [HttpGet("getSupplierItems/{id}")]
+        public IList<SupplierItem> GetSupplierItemsListByStationeryId(int id)
+        {
+            IList<SupplierItem> result = _clkService.findSuppliersByStationeryId(id);
+            foreach (SupplierItem s in result)
+            {
+                Console.WriteLine(s.StationeryId);
+                    }
+            if (result != null)
+            {
+                return result;
+            }
+            else
+                return null;
+            
+
+        }
+
+        #endregion
 
 
     }

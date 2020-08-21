@@ -31,6 +31,24 @@ namespace BackEndAD.ServiceImpl
             Stationery s = await unitOfWork.GetRepository<Stationery>().FindAsync(stationeryId);
             return s;
         }
+
+        public void saveStationery(Stationery stationery)
+        {
+            Stationery s1 = unitOfWork.GetRepository<Stationery>().GetById(stationery.Id);
+            if(s1 != null)
+            {
+                s1.category = stationery.category;
+                s1.desc = stationery.desc;
+                s1.inventoryQty = stationery.inventoryQty;
+                unitOfWork.GetRepository<Stationery>().Update(s1);
+                unitOfWork.SaveChanges();
+            }
+            else
+            {
+                unitOfWork.GetRepository<Stationery>().Insert(stationery);
+                unitOfWork.SaveChanges();
+            }
+        }
         #endregion
 
         #region supplier
@@ -183,22 +201,19 @@ namespace BackEndAD.ServiceImpl
                         SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
                         amounttotal = supplierItem.price * eachSAdjDetailRecord.discpQty;
 
-                        StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.id);
-                        Employee emp = await findEmployeeByIdAsync(stockAdjustment.EmployeeId);
+                StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.id);
+                Employee emp = await findEmployeeByIdAsync(stockAdjustment.EmployeeId);
 
-                        AdjustmentVocherInfo voucher = new AdjustmentVocherInfo()
-                        {
-                            stockAdustmentDetailId = eachSAdjDetailRecord.id,
-                            stockAdustmentId = eachSAdjDetailRecord.StockAdjustmentId,
-                            reason = eachSAdjDetailRecord.comment,
-                            empId = emp.Id,
-                            empName = emp.name,
-                            itemCode = eachSAdjDetailRecord.StationeryId,
-                            quantity = eachSAdjDetailRecord.discpQty,
-                            amount = amounttotal
-                        };
-                    }
-                }
+                AdjustmentVocherInfo voucher = new AdjustmentVocherInfo()
+                {
+                    stockAdustmentDetailId = eachSAdjDetailRecord.id,
+                    stockAdustmentId = eachSAdjDetailRecord.StockAdjustmentId,
+                    reason = eachSAdjDetailRecord.comment,
+                    empName = emp.name,
+                    itemCode = eachSAdjDetailRecord.StationeryId,
+                    quantity = eachSAdjDetailRecord.discpQty,
+                    amount = amounttotal
+                };
                 
             }
 
@@ -224,7 +239,7 @@ namespace BackEndAD.ServiceImpl
                     foreach (StockAdjustmentDetail stkAdjDet in stockAdjustmentDetails)
                     {
                         // step2.1 add stkAdjDetails
-                        stkAdjDet.StockAdjustment = stkAdj;
+                        stkAdjDet.stockAdjustment = stkAdj;
                         unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(stkAdjDet);
                         //unitOfWork.GetRepository<StockAdjustment>().Save();
                         // step2.1 get stationery and update inventory level
@@ -245,7 +260,7 @@ namespace BackEndAD.ServiceImpl
                 }
             }
             //return stockAdjustment
-            var result = await unitOfWork.GetRepository<StockAdjustment>().FindAsync(stkAdj.id);
+            var result = await unitOfWork.GetRepository<StockAdjustment>().FindAsync(stkAdj.Id);
             return result;
 
         }
@@ -302,14 +317,15 @@ namespace BackEndAD.ServiceImpl
             throw new NotImplementedException();
         }
 
-        #endregion
-        //Bianca 
+        
+        //Bianca PO-step2
         public IList<SupplierItem> findSuppliersByStationeryId(int id)
         {
             IList<SupplierItem> itemlist = unitOfWork
                 .GetRepository<SupplierItem>()
                 .GetAllIncludeIQueryable(filter: x => x.StationeryId == id).ToList();
-            return null;
+            return itemlist;
         }
+        #endregion
     }
 }
