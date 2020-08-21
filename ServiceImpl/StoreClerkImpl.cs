@@ -155,9 +155,19 @@ namespace BackEndAD.ServiceImpl
 
             AdjustmentVoucherDetail vocDetail = unitOfWork
                 .GetRepository<AdjustmentVoucherDetail>()
-                .GetAllIncludeIQueryable(filter: x => x.adjustmentVoucherId == voc.Id).FirstOrDefault();
+                .GetAllIncludeIQueryable(filter: x => x.adjustmentVoucherId == info.stockAdustmentDetailId).FirstOrDefault();
 
-            AdjustmentVocherInfo obj = new AdjustmentVocherInfo()
+            /*IList<AdjustmentVoucher> vocList = await findAllAdjustmentVoucherAsync();
+            IList<AdjustmentVoucherDetail> vocDetailList = await findAllAdjustmentVoucherDetailAsync();
+            foreach (AdjustmentVoucher eachSAdjDetailRecord in vocList)
+            {
+                foreach (AdjustmentVoucherDetail eachVocDetailRecord in vocDetailList)
+                {
+
+                }
+            }*/
+
+                    AdjustmentVocherInfo obj = new AdjustmentVocherInfo()
             {
                 stockAdustmentDetailId = vocDetail.Id,
                 stockAdustmentId = voc.StockAdjustmentId,
