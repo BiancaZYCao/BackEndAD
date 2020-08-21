@@ -1,6 +1,7 @@
 ﻿using BackEndAD.DataContext;
 using BackEndAD.Models;
 using BackEndAD.Repo;
+using BackEndAD.TempService;
 using BackEndAD.ServiceInterface;
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,76 @@ namespace BackEndAD.ServiceImpl
         }
         #endregion
 
+
+        //StoreManager
+        public async Task<IList<StockAdjustmentDetail>> findAllStockAdjustDetailAsync()
+        {
+            IList<StockAdjustmentDetail> list = await unitOfWork.GetRepository<StockAdjustmentDetail>().GetAllAsync();
+            return list;
+        }
+
+        public async Task<StockAdjustmentDetail> findAllStockAdjustDetailByIdAsync(int stkAdjId)
+        {
+            StockAdjustmentDetail stockAdjDetail = await unitOfWork.GetRepository<StockAdjustmentDetail>().FindAsync(stkAdjId);
+            return stockAdjDetail;
+        }
+
+        public async Task<SupplierItem> findSupplierItemByIdAsync(int stkAdjId)
+        {
+            SupplierItem supplierItem = await unitOfWork.GetRepository<SupplierItem>().FindAsync(stkAdjId);
+            return supplierItem;
+        }
+
+        public async Task<Employee> findEmployeeByIdAsync(int eId)
+        {
+            Employee emp = await unitOfWork.GetRepository<Employee>().FindAsync(eId);
+            return emp;
+        }
+
+        public async Task<IList<AdjustmentVocherInfo>> StockAdjustDetailInfo()
+        {
+            float amounttotal = 0;
+            IList<AdjustmentVocherInfo> voucherInfoList = new List<AdjustmentVocherInfo>();
+            AdjustmentVocherInfo voucher1 = new AdjustmentVocherInfo()
+            {
+                stockAdustmentDetailId = 1,
+                stockAdustmentId = 1,
+                reason = "Missing",
+                empName = "Mary1",
+                itemCode = 46,
+                quantity = 2,
+                amount = amounttotal
+            };
+            voucherInfoList.Add(voucher1);
+
+            IList<StockAdjustmentDetail> list = await findAllStockAdjustDetailAsync();
+            foreach (StockAdjustmentDetail eachSAdjDetailRecord in list)
+            {
+                SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
+                amounttotal = supplierItem.price * eachSAdjDetailRecord.discpQty;
+
+                StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.id);
+                Employee emp = await findEmployeeByIdAsync(stockAdjustment.EmployeeId);
+
+                AdjustmentVocherInfo voucher = new AdjustmentVocherInfo()
+                {
+                    stockAdustmentDetailId = eachSAdjDetailRecord.id,
+                    stockAdustmentId = eachSAdjDetailRecord.StockAdjustmentId,
+                    reason = eachSAdjDetailRecord.comment,
+                    empName = emp.name,
+                    itemCode = eachSAdjDetailRecord.StationeryId,
+                    quantity = eachSAdjDetailRecord.discpQty,
+                    amount = amounttotal
+                };
+                
+            }
+
+            return voucherInfoList;
+        }
+        //end
+
         #region store clerk adjustment
+
         public async Task<StockAdjustment> generateStkAdjustmentAsync(StockAdjustment stkAdj,
                         List<StockAdjustmentDetail> stockAdjustmentDetails)
         {
@@ -134,6 +204,12 @@ namespace BackEndAD.ServiceImpl
         {
             unitOfWork.GetRepository<PurchaseOrder>().Insert(po);
         }
+
+        public Task<SupplierItem> findAllSupplierItemByIdAsync(int stkAdjId)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
     }
