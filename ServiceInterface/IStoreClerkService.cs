@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BackEndAD.TempService;
 
 namespace BackEndAD.ServiceInterface
 {
@@ -27,6 +28,13 @@ namespace BackEndAD.ServiceInterface
 
 
         public void savePurchaseOrder(PurchaseOrder po);
+        public Task<SupplierItem> findAllSupplierItemByIdAsync(int stkAdjId);
+        public Task<StockAdjustmentDetail> findAllStockAdjustDetailByIdAsync(int stkAdjId);
+        public Task<IList<StockAdjustmentDetail>> findAllStockAdjustDetailAsync();
+
+        public Task<SupplierItem> findSupplierItemByIdAsync(int stkAdjId);
+        public Task<Employee> findEmployeeByIdAsync(int eId);
+        public Task<IList<AdjustmentVocherInfo>> StockAdjustDetailInfo();
 
         public Task<IList<Supplier>> findSupplierByStationeryId(int id);
        

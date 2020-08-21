@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using BackEndAD.TempService;
 using BackEndAD.Models;
 using BackEndAD.ServiceInterface;
 using System;
@@ -69,7 +70,6 @@ namespace BackEndAD.Controllers
                 return NotFound("Suppliers not found");
         }
 
-
         [HttpPost("saveSupplier")]
         public async Task<ActionResult<Supplier>> saveSupplier([FromBody] Supplier s)
         {
@@ -93,7 +93,6 @@ namespace BackEndAD.Controllers
         [HttpPost("deleteSupplier")]
         public async Task<ActionResult<Supplier>> DeleteSupplier([FromBody] Supplier s)
         {
-            Console.WriteLine(s.Id);
             _clkService.deleteSupplier(s.Id);
             return CreatedAtAction(nameof(GetAllSuppliers), new { }, s);
         }
@@ -107,6 +106,19 @@ namespace BackEndAD.Controllers
 
         }
 
+        //StoreManager stockadjustment voucher
+        [HttpGet("adjustmentList")]
+        public async Task<ActionResult<List<AdjustmentVocherInfo>>> GetAllAdustmentInfo()
+        {
+            var result = await _clkService.StockAdjustDetailInfo();
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Error");
+        }
+        //end
 
         #region Test post method 18Aug
         [HttpPost("stkAd/{id}")]
