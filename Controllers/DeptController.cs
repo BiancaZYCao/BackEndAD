@@ -184,22 +184,6 @@ namespace BackEndAD.Controllers
 		        return NotFound("No colleciton point found");
         }
 
-        [HttpGet("collectionpt")]
-        public async Task<ActionResult<IList<CollectionInfo>>> GetAllCollectionPoint()
-        {
-            IList<CollectionInfo> result = await _deptService.findAllCollectionPointAsync();
-
-            // if find data then return result else will return a String says Department not found
-            if (result != null)
-                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-                return Ok(result.Select(x=>x.clerk.Id));
-            else
-                //this help to return a NOTfOUND result, u can customerize the string.
-                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
-                //I put here Just for u to understand the style. :) -Bianca  
-                return NotFound("No colleciton point found");
-        }
-
         [HttpGet("retrieval")]
         public async Task<ActionResult<IList<Requisition>>> GetAllPendingRequisitions()
         {
