@@ -35,7 +35,7 @@ namespace BackEndAD.ServiceImpl
         public void saveStationery(Stationery stationery)
         {
             Stationery s1 = unitOfWork.GetRepository<Stationery>().GetById(stationery.Id);
-            if(s1 != null)
+            if (s1 != null)
             {
                 s1.category = stationery.category;
                 s1.desc = stationery.desc;
@@ -89,12 +89,17 @@ namespace BackEndAD.ServiceImpl
 
 
         //StoreManager
+        public async Task<IList<StockAdjustment>> findAllStockAdjustmentAsync()
+        {
+            IList<StockAdjustment> list = await unitOfWork.GetRepository<StockAdjustment>().GetAllAsync();
+            return list;
+        }
         public async Task<IList<StockAdjustmentDetail>> findAllStockAdjustDetailAsync()
         {
             IList<StockAdjustmentDetail> list = await unitOfWork.GetRepository<StockAdjustmentDetail>().GetAllAsync();
             return list;
         }
-        
+
         public async Task<StockAdjustmentDetail> findAllStockAdjustDetailByIdAsync(int stkAdjId)
         {
             StockAdjustmentDetail stockAdjDetail = await unitOfWork.GetRepository<StockAdjustmentDetail>().FindAsync(stkAdjId);
@@ -123,111 +128,275 @@ namespace BackEndAD.ServiceImpl
             IList<AdjustmentVoucher> list = await unitOfWork.GetRepository<AdjustmentVoucher>().GetAllAsync();
             return list;
         }
-    
-        public void issueVoucher(AdjustmentVocherInfo voc)
+
+        public async Task<IList<AdjustmentVocherInfo>> issueVoucher(StockAdjustSumById voc)
         {
-            AdjustmentVoucherDetail vocDetail = new AdjustmentVoucherDetail() {
-                adjustmentVoucherId = voc.stockAdustmentId,
-                StockAdjustmentDetailId = voc.stockAdustmentDetailId,
-                price = voc.amount,
-            };
-            unitOfWork.GetRepository<AdjustmentVoucherDetail>().Insert(vocDetail);
-            unitOfWork.SaveChanges();
-
-            AdjustmentVoucher adjVoc = new AdjustmentVoucher()
+            IList<AdjustmentVocherInfo> list = await getAllAdjustDetailLineByAdjustId(voc);
+            List<AdjustmentVocherInfo> voucherResult = new List<AdjustmentVocherInfo>();
+            
+            foreach (AdjustmentVocherInfo eachInfo in list)
             {
-                StockAdjustmentId = voc.stockAdustmentId,
-                EmployeeId = voc.empId,
-                reason = voc.reason,
-                date = DateTime.Now
-            };
-            unitOfWork.GetRepository<AdjustmentVoucher>().Insert(adjVoc);
-            unitOfWork.SaveChanges();
+                AdjustmentVoucherDetail vocDetail = new AdjustmentVoucherDetail()
+                {
+                    adjustmentVoucherId = eachInfo.stockAdustmentId,
+                    StockAdjustmentDetailId = eachInfo.stockAdustmentDetailId,
+                    price = eachInfo.amount,
+                };
+                unitOfWork.GetRepository<AdjustmentVoucherDetail>().Insert(vocDetail);
+                unitOfWork.SaveChanges();
 
+                AdjustmentVoucher adjVoc = new AdjustmentVoucher()
+                {
+                    StockAdjustmentId = eachInfo.stockAdustmentId,
+                    EmployeeId = eachInfo.empId,
+                    reason = eachInfo.reason,
+                    date = DateTime.Now
+                };
+                unitOfWork.GetRepository<AdjustmentVoucher>().Insert(adjVoc);
+                unitOfWork.SaveChanges();
+
+                AdjustmentVocherInfo obj = await getEachVoucherDetail(eachInfo);
+                if (obj != null)
+                {
+                    voucherResult.Add(obj);
+                }
+                
+            }
+            return voucherResult;
         }
 
         public async Task<AdjustmentVocherInfo> getEachVoucherDetail(AdjustmentVocherInfo info)
         {
-
-            AdjustmentVoucher voc = unitOfWork
-                .GetRepository<AdjustmentVoucher>()
-                .GetAllIncludeIQueryable(filter: x => x.StockAdjustmentId == info.stockAdustmentId).FirstOrDefault();
-
             AdjustmentVoucherDetail vocDetail = unitOfWork
                 .GetRepository<AdjustmentVoucherDetail>()
-                .GetAllIncludeIQueryable(filter: x => x.adjustmentVoucherId == info.stockAdustmentDetailId).FirstOrDefault();
+                .GetAllIncludeIQueryable(filter: x => x.StockAdjustmentDetailId == info.stockAdustmentDetailId).FirstOrDefault();
 
-            /*IList<AdjustmentVoucher> vocList = await findAllAdjustmentVoucherAsync();
-            IList<AdjustmentVoucherDetail> vocDetailList = await findAllAdjustmentVoucherDetailAsync();
-            foreach (AdjustmentVoucher eachSAdjDetailRecord in vocList)
+            if (vocDetail != null)
             {
-                foreach (AdjustmentVoucherDetail eachVocDetailRecord in vocDetailList)
+                AdjustmentVoucher voc = unitOfWork
+                .GetRepository<AdjustmentVoucher>()
+                .GetAllIncludeIQueryable(filter: x => x.Id == vocDetail.adjustmentVoucherId).FirstOrDefault();
+
+                if (voc != null)
                 {
-
-                }
-            }*/
-
                     AdjustmentVocherInfo obj = new AdjustmentVocherInfo()
-            {
-                stockAdustmentDetailId = vocDetail.Id,
-                stockAdustmentId = voc.StockAdjustmentId,
-                empId = voc.EmployeeId,
-                date = voc.date,
-                reason = "Missing",
-                empName = "Mary1",
-                itemCode = info.itemCode,
-                quantity = info.quantity,
-                amount = vocDetail.price
-            };
-            return obj;
+                    {
+                        vocNo = voc.Id,
+                        stockAdustmentDetailId = vocDetail.Id,
+                        stockAdustmentId = voc.StockAdjustmentId,
+                        empId = voc.EmployeeId,
+                        date = voc.date,
+                        reason = "Missing",
+                        empName = "Mary1",
+                        itemCode = info.itemCode,
+                        quantity = info.quantity,
+                        amount = vocDetail.price
+                    };
+                    return obj;
+                }
+
+            }
+
+            return null;
         }
-        public async Task<IList<AdjustmentVocherInfo>> StockAdjustDetailInfo()
+
+        public async Task<IList<AdjustmentVocherInfo>> getAllAdjustDetailLineByAdjustId(StockAdjustSumById item)
         {
             float amounttotal = 0;
             IList<AdjustmentVocherInfo> voucherInfoList = new List<AdjustmentVocherInfo>();
-            AdjustmentVocherInfo voucher1 = new AdjustmentVocherInfo()
-            {
-                stockAdustmentDetailId = 1,
-                stockAdustmentId = 1,
-                empId = 1,
-                reason = "Missing",
-                empName = "Mary1",
-                itemCode = 46,
-                quantity = 2,
-                amount = 100
-            };
-            voucherInfoList.Add(voucher1);
-
-            IList<StockAdjustmentDetail> list = await findAllStockAdjustDetailAsync();
-
             IList<AdjustmentVoucherDetail> vocDetails = await findAllAdjustmentVoucherDetailAsync();
 
+            IList<StockAdjustmentDetail> list = unitOfWork
+               .GetRepository<StockAdjustmentDetail>()
+               .GetAllIncludeIQueryable(filter: x => x.stockAdjustmentId == item.stockAdustmentId).ToList();
+
+            IList<AdjustmentVoucherDetail> vocList = await findAllAdjustmentVoucherDetailAsync();
+
+            bool isApprove = false;
             foreach (StockAdjustmentDetail eachSAdjDetailRecord in list)
             {
                 foreach (AdjustmentVoucherDetail eachVocDetailRecord in vocDetails)
                 {
-                    if (eachVocDetailRecord.StockAdjustmentDetailId != eachSAdjDetailRecord.Id)
+                    isApprove = false;
+                    if (eachVocDetailRecord.StockAdjustmentDetailId == eachSAdjDetailRecord.Id)
                     {
-                        SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
-                        amounttotal = supplierItem.price * eachSAdjDetailRecord.discpQty;
+                        isApprove = true;
+                    }
+                }
+                if (!isApprove)
+                {
+                    SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
+                    amounttotal = supplierItem.price * eachSAdjDetailRecord.discpQty;
 
-                        StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.Id);
+                    StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.stockAdjustmentId);
+                    if (stockAdjustment != null)
+                    {
                         Employee emp = await findEmployeeByIdAsync(stockAdjustment.EmployeeId);
-
+                        if (emp != null)
+                        {
+                            AdjustmentVocherInfo voucher = new AdjustmentVocherInfo()
+                            {
+                                stockAdustmentDetailId = eachSAdjDetailRecord.Id,
+                                stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
+                                reason = eachSAdjDetailRecord.comment,
+                                empId = emp.Id,
+                                empName = emp.name,
+                                itemCode = eachSAdjDetailRecord.StationeryId,
+                                quantity = eachSAdjDetailRecord.discpQty,
+                                amount = amounttotal
+                            };
+                            voucherInfoList.Add(voucher);
+                        }
+                    }
+                    else
+                    {
                         AdjustmentVocherInfo voucher = new AdjustmentVocherInfo()
                         {
                             stockAdustmentDetailId = eachSAdjDetailRecord.Id,
                             stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
                             reason = eachSAdjDetailRecord.comment,
-                            empName = emp.name,
                             itemCode = eachSAdjDetailRecord.StationeryId,
                             quantity = eachSAdjDetailRecord.discpQty,
                             amount = amounttotal
                         };
+                        voucherInfoList.Add(voucher);
                     }
                 }
             }
+
             return voucherInfoList;
+        }
+        /*public async Task<IList<AdjustmentVocherInfo>> StockAdjustDetailInfo()
+        {
+            float amounttotal = 0;
+            IList<AdjustmentVocherInfo> voucherInfoList = new List<AdjustmentVocherInfo>();
+            IList<StockAdjustmentDetail> list = await findAllStockAdjustDetailAsync();
+
+            IList<AdjustmentVoucherDetail> vocDetails = await findAllAdjustmentVoucherDetailAsync();
+            
+            IList<StockAdjustment> stoAdjlist = await findAllStockAdjustmentAsync();
+
+            IList<AdjustmentVoucher> vocList = await findAllAdjustmentVoucherAsync();
+            
+            IList<AdjustmentVoucherDetail> vocDetails = await findAllAdjustmentVoucherDetailAsync();
+            bool isApprove=false;
+            foreach (StockAdjustmentDetail eachSAdjDetailRecord in list)
+            { 
+                foreach (AdjustmentVoucherDetail eachVocDetailRecord in vocDetails)
+                {
+                    isApprove = false;
+                    if (eachVocDetailRecord.StockAdjustmentDetailId == eachSAdjDetailRecord.Id)
+                    {
+                        isApprove = true;
+                    }
+                }
+                if (!isApprove)
+                {
+                    SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
+                    amounttotal = supplierItem.price * eachSAdjDetailRecord.discpQty;
+
+                    StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.stockAdjustmentId);
+                    if (stockAdjustment != null)
+                    {
+                        Employee emp = await findEmployeeByIdAsync(stockAdjustment.EmployeeId);
+                        if (emp != null)
+                        {
+                            AdjustmentVocherInfo voucher = new AdjustmentVocherInfo()
+                            {
+                                stockAdustmentDetailId = eachSAdjDetailRecord.Id,
+                                stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
+                                reason = eachSAdjDetailRecord.comment,
+                                empId = emp.Id,
+                                empName = emp.name,
+                                itemCode = eachSAdjDetailRecord.StationeryId,
+                                quantity = eachSAdjDetailRecord.discpQty,
+                                amount = amounttotal
+                            };
+                            voucherInfoList.Add(voucher);
+                        }
+                    }
+                    else
+                    {
+                        AdjustmentVocherInfo voucher = new AdjustmentVocherInfo()
+                        {
+                            stockAdustmentDetailId = eachSAdjDetailRecord.Id,
+                            stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
+                            reason = eachSAdjDetailRecord.comment,
+                            itemCode = eachSAdjDetailRecord.StationeryId,
+                            quantity = eachSAdjDetailRecord.discpQty,
+                            amount = amounttotal
+                        };
+                        voucherInfoList.Add(voucher);
+                    }
+                }
+            }
+
+            return voucherInfoList;
+        }*/
+        public async Task<IList<StockAdjustSumById>> StockAdjustDetailInfo()
+        {
+            IList<StockAdjustSumById> stockAdjustSumByIdList = new List<StockAdjustSumById>();
+            float amounttotal = 0;
+            IList<StockAdjustment> stoAdjlist = await findAllStockAdjustmentAsync();
+            IList<AdjustmentVoucherDetail> vocDetails = await findAllAdjustmentVoucherDetailAsync();
+            IList<AdjustmentVoucher> vocList = await findAllAdjustmentVoucherAsync();
+            bool isApprove = false;
+            StockAdjustSumById adjustSumbyId = new StockAdjustSumById() { };
+
+            foreach (StockAdjustment eachSAdjRecord in stoAdjlist)
+            {
+                List<StockAdjustmentDetail> stockAdjDetailList = unitOfWork
+               .GetRepository<StockAdjustmentDetail>()
+               .GetAllIncludeIQueryable(filter: x => x.stockAdjustmentId == eachSAdjRecord.Id).ToList();
+
+                if (stockAdjDetailList != null)
+                {
+                    foreach (StockAdjustmentDetail eachSAdjDetailRecord in stockAdjDetailList)
+                    {
+                        foreach (AdjustmentVoucherDetail eachVocRecord in vocDetails)
+                        {
+                            isApprove = false;
+                            if (eachSAdjDetailRecord.Id == eachVocRecord.StockAdjustmentDetailId)
+                            {
+                                isApprove = true;
+                            }
+                            SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
+                            amounttotal += supplierItem.price * eachSAdjDetailRecord.discpQty;
+
+                            StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.stockAdjustmentId);
+                            if (stockAdjustment != null)
+                            {
+                                Employee emp = await findEmployeeByIdAsync(stockAdjustment.EmployeeId);
+                                if (emp != null)
+                                {
+                                    adjustSumbyId = new StockAdjustSumById()
+                                    {
+                                        stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
+                                        empId = emp.Id,
+                                        empName = emp.name,
+                                        amount = amounttotal
+                                    };
+
+                                }
+                            }
+                            else
+                            {
+                                adjustSumbyId = new StockAdjustSumById()
+                                {
+                                    stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
+                                    amount = amounttotal
+                                };
+                            }
+                        }
+                    }
+                    if (!isApprove)
+                    {
+                        stockAdjustSumByIdList.Add(adjustSumbyId);
+                    }
+                }
+            }
+
+            return stockAdjustSumByIdList;
         }
         //end
 
@@ -327,7 +496,7 @@ namespace BackEndAD.ServiceImpl
             throw new NotImplementedException();
         }
 
-        
+
         //Bianca PO-step2
         public IList<SupplierItem> findSuppliersByStationeryId(int id)
         {

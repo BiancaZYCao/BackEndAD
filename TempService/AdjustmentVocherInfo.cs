@@ -17,6 +17,7 @@ namespace BackEndAD.TempService
         public int quantity { get; set; }
         public double amount { get; set; }
         public DateTime date { get; set; }
+        public int vocNo { get; set; }
 
     }
 }

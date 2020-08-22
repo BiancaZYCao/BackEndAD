@@ -40,8 +40,8 @@ namespace BackEndAD
                  */
                 
                 var host = CreateHostBuilder(args).Build();
-                /*using (IServiceScope scope = host.Services.CreateScope())
-                {
+                using (IServiceScope scope = host.Services.CreateScope())
+                /*{
                     DBSeed.Initialize(scope.ServiceProvider.GetRequiredService<IUnitOfWork<ProjectContext>>());
                 }*/
                 host.Run();

@@ -115,8 +115,9 @@ namespace BackEndAD.Controllers
 
         //StoreManager stockadjustment voucher
         [HttpGet("adjustmentList")]
-        public async Task<ActionResult<List<AdjustmentVocherInfo>>> GetAllAdustmentInfo()
+        public async Task<ActionResult<List<StockAdjustSumById>>> GetAllAdustmentInfo()
         {
+            
             var result = await _clkService.StockAdjustDetailInfo();
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
@@ -126,11 +127,29 @@ namespace BackEndAD.Controllers
                 return NotFound("Error");
         }
 
-        [HttpPost("issueVoucher")]
-        public async Task<ActionResult<AdjustmentVocherInfo>> createVoucher([FromBody] AdjustmentVocherInfo voc)
+        
+        [HttpPost("getAllAdjustDetailLine")]
+        public async Task<ActionResult<List<AdjustmentVocherInfo>>> getAllAdjustDetailLine([FromBody] StockAdjustSumById item)
         {
-            _clkService.issueVoucher(voc);
-            return CreatedAtAction(nameof(GetAllAdustmentInfo), new { }, voc);
+            var result = await _clkService.getAllAdjustDetailLineByAdjustId(item);
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Error");
+        }
+
+        [HttpPost("issueVoucher")]
+        public async Task<ActionResult<List<AdjustmentVocherInfo>>> CreateVoucher([FromBody] StockAdjustSumById voc)
+        {
+            var result = await _clkService.issueVoucher(voc);
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Error");
 
         }
 
