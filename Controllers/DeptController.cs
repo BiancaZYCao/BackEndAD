@@ -86,6 +86,19 @@ namespace BackEndAD.Controllers
                 return NotFound("Requisition not found");
         }
 
+        [HttpGet("pendingReq")]
+        public async Task<ActionResult<IList<Requisition>>> GetPendingRequisitions()
+        {
+	        var result = await _deptService.findAllRequsitionsAsync();
+	        var result_filtered = result.Where(x => x.status == "Applied");
+
+            if (result_filtered != null)
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(result_filtered);
+	        else
+		        return NotFound("No pending requisition found");
+        }
+
         [HttpGet("emp")]
         public async Task<ActionResult<IList<Employee>>> GetAllEmployees()
         {
@@ -101,7 +114,18 @@ namespace BackEndAD.Controllers
                 //I put here Just for u to understand the style. :) -Bianca  
                 return NotFound("Requisition not found");
         }
-        
+
+        [HttpGet("deptEmp/{id}")]
+        public async Task<ActionResult<IList<Employee>>> GetAllEmployeesByDept(int id)
+        {
+	        var result = await _deptService.findAllEmployeesAsync();
+	        var result_filtered = result.Where(x => x.departmentId == id);
+
+            if (result_filtered != null)
+	            return Ok(result_filtered);
+	        else
+	            return NotFound("Employees not found");
+        }
 
         //return dept info by id
         // GET: api/Dept/1
@@ -143,6 +167,22 @@ namespace BackEndAD.Controllers
             // u also need findDeptById in your service layer and repo layer 
             (DO NOT FORGET INTERFACE and AddScoped<...> for BOTH repo and service)
         }*/
+
+        [HttpGet("allCollectionpt")]
+        public async Task<ActionResult<IList<CollectionInfo>>> GetAllCollectionPointforDept()
+        {
+	        IList<CollectionInfo> result = await _deptService.findAllCollectionPointAsync();
+
+	        // if find data then return result else will return a String says Department not found
+	        if (result != null)
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(result);
+	        else
+		        //this help to return a NOTfOUND result, u can customerize the string.
+		        //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+		        //I put here Just for u to understand the style. :) -Bianca  
+		        return NotFound("No colleciton point found");
+        }
 
         [HttpGet("collectionpt")]
         public async Task<ActionResult<IList<CollectionInfo>>> GetAllCollectionPoint()

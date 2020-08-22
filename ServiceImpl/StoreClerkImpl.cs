@@ -270,7 +270,7 @@ namespace BackEndAD.ServiceImpl
                 }
             }
             //return stockAdjustment
-            var result = await unitOfWork.GetRepository<StockAdjustment>().FindAsync(stkAdj.id);
+            var result = await unitOfWork.GetRepository<StockAdjustment>().FindAsync(stkAdj.Id);
             return result;
 
         }
