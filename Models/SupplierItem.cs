@@ -23,9 +23,6 @@ namespace BackEndAD.Models
         [Required]
         public float price { get; set; }
 
-        [Required]
-        public string unit { get; set; }
-
         public virtual Stationery Stationery {get; set;}
         public virtual Supplier Supplier { get; set; }
 
