@@ -244,15 +244,17 @@ namespace BackEndAD.Controllers
 
         //api to get current clerk Id [HttpGet("/clerk")]
 
-        [HttpPost("/generatePO")]
-        public Task<ActionResult<PurchaseOrder>> PostPurchaseOrder(List<PurchaseOrder> purchaseOrders)
+        [HttpPost("generatePO")]
+        public ActionResult<PurchaseOrder> PostPurchaseOrder(
+              [FromBody] List<PurchaseOrder> purchaseOrders)
         {
             for (int i = 0; i < purchaseOrders.Count; i++)
             {
                 PurchaseOrder po = purchaseOrders[i];
-                _clkService.savePurchaseOrder(po);
+                //_clkService.savePurchaseOrder(po);
             }
-            return null;
+            PurchaseOrder po1 = purchaseOrders[0];
+            return Ok(po1);
         }
         [HttpGet("ItemsNeedOrder")]
         public async Task<ActionResult<List<Stationery>>> GetItemsNeedOrder()
