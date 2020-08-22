@@ -18,10 +18,12 @@ namespace BackEndAD.Controllers
     {
 
         private IStoreClerkService _clkService;
-
-        public StoreController(IStoreClerkService clkService)
+        
+        private IStoreManagerService _mgrService;
+        public StoreController(IStoreClerkService clkService, IStoreManagerService mgrService)
         {
             _clkService = clkService;
+            _mgrService = mgrService;
         }
 
         #region Stationery List (Inventory)
@@ -118,7 +120,7 @@ namespace BackEndAD.Controllers
         public async Task<ActionResult<List<StockAdjustSumById>>> GetAllAdustmentInfo()
         {
             
-            var result = await _clkService.StockAdjustDetailInfo();
+            var result = await _mgrService.StockAdjustDetailInfo();
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
                 return Ok(result);
@@ -131,7 +133,7 @@ namespace BackEndAD.Controllers
         [HttpPost("getAllAdjustDetailLine")]
         public async Task<ActionResult<List<AdjustmentVocherInfo>>> getAllAdjustDetailLine([FromBody] StockAdjustSumById item)
         {
-            var result = await _clkService.getAllAdjustDetailLineByAdjustId(item);
+            var result = await _mgrService.getAllAdjustDetailLineByAdjustId(item);
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
                 return Ok(result);
@@ -143,7 +145,7 @@ namespace BackEndAD.Controllers
         [HttpPost("issueVoucher")]
         public async Task<ActionResult<List<AdjustmentVocherInfo>>> CreateVoucher([FromBody] StockAdjustSumById voc)
         {
-            var result = await _clkService.issueVoucher(voc);
+            var result = await _mgrService.issueVoucher(voc);
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
                 return Ok(result);
@@ -156,7 +158,7 @@ namespace BackEndAD.Controllers
         [HttpPost("getVoucher")]
         public async Task<ActionResult<AdjustmentVocherInfo>> getVoucher([FromBody] AdjustmentVocherInfo voc)
         {
-            var result = await _clkService.getEachVoucherDetail(voc);
+            var result = await _mgrService.getEachVoucherDetail(voc);
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
                 return Ok(result);
