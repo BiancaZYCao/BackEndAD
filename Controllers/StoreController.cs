@@ -168,13 +168,13 @@ namespace BackEndAD.Controllers
         //end
 
         #region Test post method 18Aug
-        [HttpPost("stkAd")]
+        [HttpPost("stkAd/{id}")]
         public /*async*/ Task<ActionResult<StockAdjustment>> PostTestStkAd(
-               [FromBody] List<StockAdjustmentDetail> stockAdjustmentDetails)
+               [FromBody] List<StockAdjustmentDetail> stockAdjustmentDetails, int id)
         {
             Console.WriteLine("post");
-            //Console.WriteLine(id);
-            Console.WriteLine(stockAdjustmentDetails[0].comment);
+            Console.WriteLine(id);
+            Console.WriteLine(stockAdjustmentDetails[0].discpQty);
             /*StockAdjustment stkAdj = new StockAdjustment()
             {
                 date = DateTime.Now,
