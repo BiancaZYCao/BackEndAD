@@ -94,7 +94,7 @@ namespace BackEndAD.ServiceImpl
             IList<StockAdjustmentDetail> list = await unitOfWork.GetRepository<StockAdjustmentDetail>().GetAllAsync();
             return list;
         }
-
+        
         public async Task<StockAdjustmentDetail> findAllStockAdjustDetailByIdAsync(int stkAdjId)
         {
             StockAdjustmentDetail stockAdjDetail = await unitOfWork.GetRepository<StockAdjustmentDetail>().FindAsync(stkAdjId);
@@ -112,7 +112,75 @@ namespace BackEndAD.ServiceImpl
             Employee emp = await unitOfWork.GetRepository<Employee>().FindAsync(eId);
             return emp;
         }
+        public async Task<IList<AdjustmentVoucherDetail>> findAllAdjustmentVoucherDetailAsync()
+        {
+            IList<AdjustmentVoucherDetail> list = await unitOfWork.GetRepository<AdjustmentVoucherDetail>().GetAllAsync();
+            return list;
+        }
 
+        public async Task<IList<AdjustmentVoucher>> findAllAdjustmentVoucherAsync()
+        {
+            IList<AdjustmentVoucher> list = await unitOfWork.GetRepository<AdjustmentVoucher>().GetAllAsync();
+            return list;
+        }
+    
+        public void issueVoucher(AdjustmentVocherInfo voc)
+        {
+            AdjustmentVoucherDetail vocDetail = new AdjustmentVoucherDetail() {
+                adjustmentVoucherId = voc.stockAdustmentId,
+                StockAdjustmentDetailId = voc.stockAdustmentDetailId,
+                price = voc.amount,
+            };
+            unitOfWork.GetRepository<AdjustmentVoucherDetail>().Insert(vocDetail);
+            unitOfWork.SaveChanges();
+
+            AdjustmentVoucher adjVoc = new AdjustmentVoucher()
+            {
+                StockAdjustmentId = voc.stockAdustmentId,
+                EmployeeId = voc.empId,
+                reason = voc.reason,
+                date = DateTime.Now
+            };
+            unitOfWork.GetRepository<AdjustmentVoucher>().Insert(adjVoc);
+            unitOfWork.SaveChanges();
+
+        }
+
+        public async Task<AdjustmentVocherInfo> getEachVoucherDetail(AdjustmentVocherInfo info)
+        {
+
+            AdjustmentVoucher voc = unitOfWork
+                .GetRepository<AdjustmentVoucher>()
+                .GetAllIncludeIQueryable(filter: x => x.StockAdjustmentId == info.stockAdustmentId).FirstOrDefault();
+
+            AdjustmentVoucherDetail vocDetail = unitOfWork
+                .GetRepository<AdjustmentVoucherDetail>()
+                .GetAllIncludeIQueryable(filter: x => x.adjustmentVoucherId == info.stockAdustmentDetailId).FirstOrDefault();
+
+            /*IList<AdjustmentVoucher> vocList = await findAllAdjustmentVoucherAsync();
+            IList<AdjustmentVoucherDetail> vocDetailList = await findAllAdjustmentVoucherDetailAsync();
+            foreach (AdjustmentVoucher eachSAdjDetailRecord in vocList)
+            {
+                foreach (AdjustmentVoucherDetail eachVocDetailRecord in vocDetailList)
+                {
+
+                }
+            }*/
+
+                    AdjustmentVocherInfo obj = new AdjustmentVocherInfo()
+            {
+                stockAdustmentDetailId = vocDetail.Id,
+                stockAdustmentId = voc.StockAdjustmentId,
+                empId = voc.EmployeeId,
+                date = voc.date,
+                reason = "Missing",
+                empName = "Mary1",
+                itemCode = info.itemCode,
+                quantity = info.quantity,
+                amount = vocDetail.price
+            };
+            return obj;
+        }
         public async Task<IList<AdjustmentVocherInfo>> StockAdjustDetailInfo()
         {
             float amounttotal = 0;
@@ -121,36 +189,44 @@ namespace BackEndAD.ServiceImpl
             {
                 stockAdustmentDetailId = 1,
                 stockAdustmentId = 1,
+                empId = 1,
                 reason = "Missing",
                 empName = "Mary1",
                 itemCode = 46,
                 quantity = 2,
-                amount = amounttotal
+                amount = 100
             };
             voucherInfoList.Add(voucher1);
 
             IList<StockAdjustmentDetail> list = await findAllStockAdjustDetailAsync();
+
+            IList<AdjustmentVoucherDetail> vocDetails = await findAllAdjustmentVoucherDetailAsync();
+
             foreach (StockAdjustmentDetail eachSAdjDetailRecord in list)
             {
-                SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
-                amounttotal = supplierItem.price * eachSAdjDetailRecord.discpQty;
-
-                StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.Id);
-                Employee emp = await findEmployeeByIdAsync(stockAdjustment.EmployeeId);
-
-                AdjustmentVocherInfo voucher = new AdjustmentVocherInfo()
+                foreach (AdjustmentVoucherDetail eachVocDetailRecord in vocDetails)
                 {
-                    stockAdustmentDetailId = eachSAdjDetailRecord.Id,
-                    stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
-                    reason = eachSAdjDetailRecord.comment,
-                    empName = emp.name,
-                    itemCode = eachSAdjDetailRecord.StationeryId,
-                    quantity = eachSAdjDetailRecord.discpQty,
-                    amount = amounttotal
-                };
+                    if (eachVocDetailRecord.StockAdjustmentDetailId != eachSAdjDetailRecord.Id)
+                    {
+                        SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
+                        amounttotal = supplierItem.price * eachSAdjDetailRecord.discpQty;
 
+                        StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.Id);
+                        Employee emp = await findEmployeeByIdAsync(stockAdjustment.EmployeeId);
+
+                        AdjustmentVocherInfo voucher = new AdjustmentVocherInfo()
+                        {
+                            stockAdustmentDetailId = eachSAdjDetailRecord.Id,
+                            stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
+                            reason = eachSAdjDetailRecord.comment,
+                            empName = emp.name,
+                            itemCode = eachSAdjDetailRecord.StationeryId,
+                            quantity = eachSAdjDetailRecord.discpQty,
+                            amount = amounttotal
+                        };
+                    }
+                }
             }
-
             return voucherInfoList;
         }
         //end
