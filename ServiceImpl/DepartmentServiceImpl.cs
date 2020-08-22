@@ -2,6 +2,7 @@
 using BackEndAD.Models;
 using BackEndAD.Repo;
 using BackEndAD.ServiceInterface;
+using BackEndAD.TempService;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -53,6 +54,55 @@ namespace BackEndAD.ServiceImpl
         {
             IList<Requisition> reqlist = await unitOfWork.GetRepository<Requisition>().GetAllAsync();
             return reqlist;
+        }
+        #endregion
+
+        #region requisition details
+        public async Task<IList<RequisitionDetail>> findAllRequsitionDetailAsync()
+        {
+            IList<RequisitionDetail> detailsLists = await unitOfWork.GetRepository<RequisitionDetail>().GetAllAsync();
+            return detailsLists;
+        }
+
+        public async Task<IList<RequisitionDetailsList>> findAllRequisitionDetailsItemListById(Requisition req)
+        {
+            IList<RequisitionDetailsList> reqDList = new List<RequisitionDetailsList>();
+           // IList<RequisitionDetail> reqDetail = await findAllRequsitionDetailAsync();
+            IList<Stationery> stationery = await findAllStationeryAsync();
+
+            //retrieve list of req detail with equal id
+            IList<RequisitionDetail> rList = unitOfWork
+                .GetRepository<RequisitionDetail>()
+                .GetAllIncludeIQueryable(filter: x => x.RequisitionId == req.Id).ToList();
+
+            foreach(RequisitionDetail reqDetailRecord in rList)
+            {
+                foreach(Stationery sItem in stationery)
+                {
+                    if(reqDetailRecord.StationeryId == sItem.Id)
+                    {
+                        RequisitionDetailsList requisition = new RequisitionDetailsList()
+                        {
+                            requisitionDetailsId = reqDetailRecord.Id,
+                            requisitionId = reqDetailRecord.RequisitionId,
+                            description = sItem.desc,
+                            quantity = reqDetailRecord.reqQty,
+                            unit = sItem.unit,
+                            status = reqDetailRecord.status
+                        };
+                        reqDList.Add(requisition);
+                    }
+                }
+            }
+            return reqDList;
+        }
+        #endregion
+
+        #region stationery
+        public async Task<IList<Stationery>> findAllStationeryAsync()
+        {
+            IList<Stationery> stationeryList = await unitOfWork.GetRepository<Stationery>().GetAllAsync();
+            return stationeryList;
         }
         #endregion
 
