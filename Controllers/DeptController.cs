@@ -137,17 +137,35 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
-        [HttpGet("pendingReq")]
-        public async Task<ActionResult<IList<Requisition>>> GetPendingRequisitions()
+        [HttpGet("deptPendingReq/{id}")]
+        public async Task<ActionResult<IList<Requisition>>> GetPendingRequisitionsByDeptId(int id)
         {
-	        var result = await _deptService.findAllRequsitionsAsync();
-	        var result_filtered = result.Where(x => x.status == "Applied");
+	        var allRequisitionsList = await _deptService.findAllRequsitionsAsync();
+	        var allEmployeesList = await _deptService.findAllEmployeesAsync();
 
-            if (result_filtered != null)
+	        var allPendingRequisitionsList =
+	            allRequisitionsList.Where(x => x.status == "Applied");
+
+	        var allEmployeesUnderDeptList = allEmployeesList.Where(x => x.departmentId == id);
+
+            List<Requisition> allPendingRequisitionsUnderDeptList = new List<Requisition>();
+
+            foreach (Requisition requisition in allPendingRequisitionsList)
+            {
+	            foreach(Employee employee in allEmployeesUnderDeptList)
+	            {
+		            if (requisition.EmployeeId == employee.Id)
+		            {
+                        allPendingRequisitionsUnderDeptList.Add(requisition);
+		            }
+	            }
+            }
+
+            if (allPendingRequisitionsUnderDeptList != null)
 		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-		        return Ok(result_filtered);
+		        return Ok(allPendingRequisitionsUnderDeptList);
 	        else
-		        return NotFound("No pending requisition found");
+		        return NotFound("No pending requisition under this department.");
         }
 
         [HttpGet("emp")]
@@ -259,6 +277,17 @@ namespace BackEndAD.Controllers
                 return NotFound("No pending requistions");
         }
 
+        //test
+        [HttpPost("updateDeptInfo/{id}")]
+        public /*async*/ Task<ActionResult<Department>> PostDept(
+	        [FromBody] List<Department> department, int id)
+        {
+	        Console.WriteLine("Post");
+	        Console.WriteLine(id);
+	        Console.WriteLine(department[0]);
+
+	        return null;
+        }
 
     }
 }
