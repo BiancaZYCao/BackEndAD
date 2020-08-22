@@ -105,9 +105,9 @@ namespace BackEndAD
             SchedulerController scheduler = new SchedulerController();
                
             app.UseHangfireDashboard();
-            backgroundJobClient.Enqueue(() => scheduler.seeder());
-            recurringJobManager.AddOrUpdate("compile reorder",() => scheduler.reorder(), "*/5 * * * *");
-            recurringJobManager.AddOrUpdate("compile reorder monthly", () => scheduler.reorder(), "5 0 1 * *");
+            //backgroundJobClient.Enqueue(() => scheduler.seeder());
+            //recurringJobManager.AddOrUpdate("compile reorder",() => scheduler.reorder(), "*/5 * * * *");
+            recurringJobManager.AddOrUpdate("compile reorder monthly", () => scheduler.reorder(), "5 0 1 * *");//Cron string 
         }
     }
 }
