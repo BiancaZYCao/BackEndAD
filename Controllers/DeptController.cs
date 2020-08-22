@@ -160,6 +160,30 @@ namespace BackEndAD.Controllers
                 return NotFound("No colleciton point found");
         }
 
+        [HttpGet("retrieval")]
+        public async Task<ActionResult<IList<Requisition>>> GetAllPendingRequisitions()
+        {
+            var result = await _deptService.findAllRequsitionsAsync();
+
+            var result_filtered = result.Where(x => x.status != "Delivered");
+            foreach (var x in result_filtered)
+            {
+                Console.WriteLine(x.Id);
+            }
+            var result_filtered2 = result_filtered.Where(x => x.status != "Declined");
+            foreach (var x in result_filtered2)
+            {
+                Console.WriteLine(x.Id);
+            }
+
+            if (result_filtered2 != null)
+                //convert to json file
+                return Ok(result_filtered2);
+            else
+                //in case there is nothing to process
+                return NotFound("No pending requistions");
+        }
+
 
     }
 }
