@@ -285,7 +285,7 @@ public static class DBSeed
                 email = "mary@gmail.com",
                 role = "HEAD",
                 phoneNum = "91234567"
-                //DepartmentId = 1
+                
             };
 
             Employee e2 = new Employee()
@@ -296,7 +296,7 @@ public static class DBSeed
                 email = "john@gmail.com",
                 role = "HEAD",
                 phoneNum = "92234567"
-               // DepartmentId = 2
+               
             };
 
             Employee e3 = new Employee()
@@ -307,7 +307,7 @@ public static class DBSeed
                 email = "joe@gmail.com",
                 role = "HEAD",
                 phoneNum = "81234567"
-                //DepartmentId = 3
+                
             };
 
             Employee e4 = new Employee()
@@ -318,7 +318,7 @@ public static class DBSeed
                 email = "peter@gmail.com",
                 role = "HEAD",
                 phoneNum = "82234567"
-                //DepartmentId = 4
+                
             };
 
             Employee e5 = new Employee()
@@ -329,7 +329,7 @@ public static class DBSeed
                 email = "bob@gmail.com",
                 role = "HEAD",
                 phoneNum = "82334567"
-                //DepartmentId = 5
+                
             };
 
             Employee e6 = new Employee()
@@ -340,7 +340,6 @@ public static class DBSeed
                 email = "mary1@gmail.com",
                 role = "REPRESENTATIVE",
                 phoneNum = "82354567"
-                //DepartmentId = 1
             };
 
             Employee e7 = new Employee()
@@ -351,7 +350,7 @@ public static class DBSeed
                 email = "john1@gmail.com",
                 role = "REPRESENTATIVE",
                 phoneNum = "93234567"
-                //DepartmentId = 2
+                
             };
 
             Employee e8 = new Employee()
@@ -362,7 +361,7 @@ public static class DBSeed
                 email = "joe1@gmail.com",
                 role = "REPRESENTATIVE",
                 phoneNum = "91134567"
-                //DepartmentId = 3
+                
             };
 
             Employee e9 = new Employee()
@@ -373,7 +372,7 @@ public static class DBSeed
                 email = "Peter1@gmail.com",
                 role = "REPRESENTATIVE",
                 phoneNum = "92224567"
-                //DepartmentId = 4
+                
             };
 
             Employee e10 = new Employee()
@@ -384,7 +383,6 @@ public static class DBSeed
                 email = "Bob1@gmail.com",
                 role = "REPRESENTATIVE",
                 phoneNum = "91114567"
-                //DepartmentId = 5
             };
 
             Employee e11 = new Employee()
@@ -395,7 +393,6 @@ public static class DBSeed
                 email = "Mary2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "92222567"
-                //DepartmentId = 1
             };
 
             Employee e12 = new Employee()
@@ -406,7 +403,7 @@ public static class DBSeed
                 email = "Joe2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "91222567",
-                //DepartmentId = 3
+                
             };
 
             Employee e13 = new Employee()
@@ -417,7 +414,7 @@ public static class DBSeed
                 email = "Peter2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "92222267",
-                //DepartmentId = 4
+                
             };
 
             Employee e14 = new Employee()
@@ -428,7 +425,6 @@ public static class DBSeed
                 email = "BOB2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "91122267"
-                //DepartmentId = 5
             };
 
             Employee e15 = new Employee()
@@ -438,8 +434,7 @@ public static class DBSeed
                 department = dENGL,
                 email = "Mary3@gmail.com",
                 role = "STAFF",
-                phoneNum = "92222267",
-                //DepartmentId = 1
+                phoneNum = "92222267"
             };
 
             Employee e16 = new Employee()
@@ -449,8 +444,7 @@ public static class DBSeed
                 department = dENGL,
                 email = "Mary4@gmail.com",
                 role = "STAFF",
-                phoneNum = "94222267",
-                //DepartmentId = 1
+                phoneNum = "94222267"
             };
 
             Employee e17 = new Employee()
@@ -461,7 +455,6 @@ public static class DBSeed
                 email = "Mary5@gmail.com",
                 role = "STAFF",
                 phoneNum = "95222267"
-                //DepartmentId = 1
             };
 
             Employee e18 = new Employee()
@@ -472,7 +465,7 @@ public static class DBSeed
                 email = "John2@gmail.com",
                 role = "STAFF",
                 phoneNum = "82222267"
-                //DepartmentId = 2
+                
             };
 
             Employee e19 = new Employee()
@@ -482,8 +475,8 @@ public static class DBSeed
                 department = dCPSC,
                 email = "John3@gmail.com",
                 role = "STAFF",
-                phoneNum = "83222267",
-                //DepartmentId = 2
+                phoneNum = "83222267"
+                
             };
 
             Employee e20 = new Employee()
@@ -493,8 +486,8 @@ public static class DBSeed
                 department = dCPSC,
                 email = "John4@gmail.com",
                 role = "STAFF",
-                phoneNum = "84222267",
-                //DepartmentId = 2
+                phoneNum = "84222267"
+                
             };
 
             Employee e21 = new Employee()
@@ -505,7 +498,7 @@ public static class DBSeed
                 email = "John5@gmail.com",
                 role = "STAFF",
                 phoneNum = "85222267"
-                //DepartmentId = 2
+                
             };
 
             Employee e22 = new Employee()
@@ -515,8 +508,8 @@ public static class DBSeed
                 department = dCOMM,
                 email = "Joe3@gmail.com",
                 role = "STAFF",
-                phoneNum = "83322267",
-                //DepartmentId = 3
+                phoneNum = "83322267"
+                
             };
 
             Employee e23 = new Employee()
@@ -527,7 +520,7 @@ public static class DBSeed
                 email = "Joe4@gmail.com",
                 role = "STAFF",
                 phoneNum = "84422267"
-                //DepartmentId = 3
+                
             };
 
             Employee e24 = new Employee()
@@ -537,8 +530,8 @@ public static class DBSeed
                 department = dCOMM,
                 email = "Joe5@gmail.com",
                 role = "STAFF",
-                phoneNum = "85522267",
-                //DepartmentId = 3
+                phoneNum = "85522267"
+                
             };
 
             Employee e25 = new Employee()
@@ -549,7 +542,7 @@ public static class DBSeed
                 email = "Peter3@gmail.com",
                 role = "STAFF",
                 phoneNum = "85522263"
-                //DepartmentId = 4
+                
             };
 
             Employee e26 = new Employee()
@@ -559,8 +552,8 @@ public static class DBSeed
                 department = dREGR,
                 email = "Peter4@gmail.com",
                 role = "STAFF",
-                phoneNum = "85522264",
-                //DepartmentId = 4
+                phoneNum = "85522264"
+                
             };
 
             Employee e27 = new Employee()
@@ -581,7 +574,6 @@ public static class DBSeed
                 email = "bob3@gmail.com",
                 role = "STAFF",
                 phoneNum = "83522265"
-                //DepartmentId = 5
             };
 
             Employee e29 = new Employee()
@@ -592,7 +584,6 @@ public static class DBSeed
                 email = "bob4@gmail.com",
                 role = "STAFF",
                 phoneNum = "84522265"
-                //DepartmentId = 5
             };
 
             Employee e30 = new Employee()
@@ -603,7 +594,6 @@ public static class DBSeed
                 email = "bob5@gmail.com",
                 role = "STAFF",
                 phoneNum = "85522265"
-                //DepartmentId = 5
             };
 
             Employee e31 = new Employee()
@@ -613,8 +603,7 @@ public static class DBSeed
                 department = store,
                 email = "martin@gmail.com",
                 role = "STRMGR",
-                phoneNum = "85522261",
-                //DepartmentId = 
+                phoneNum = "85522261",           
             };
 
             Employee e32 = new Employee()
@@ -624,8 +613,7 @@ public static class DBSeed
                 department = store,
                 email = "tin@gmail.com",
                 role = "STRSUPV",
-                phoneNum = "85522262",
-                //DepartmentId = 
+                phoneNum = "85522262"
             };
 
             Employee e33 = new Employee()
@@ -635,8 +623,7 @@ public static class DBSeed
                 department = store,
                 email = "esther@gmail.com",
                 role = "CLERK",
-                phoneNum = "85522263",
-                //DepartmentId = 
+                phoneNum = "85522263"
             };
 
             Employee e34 = new Employee()
@@ -646,8 +633,7 @@ public static class DBSeed
                 department = store,
                 email = "esther1@gmail.com",
                 role = "CLERK",
-                phoneNum = "85522264",
-                //DepartmentId = 
+                phoneNum = "85522264"
             };
 
             Employee e35 = new Employee()
@@ -657,8 +643,7 @@ public static class DBSeed
                 department = store,
                 email = "esther2@gmail.com",
                 role = "CLERK",
-                phoneNum = "85522265",
-                //DepartmentId = 
+                phoneNum = "85522265"
             };
 
             Employee[] empArr = { e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, e25, e26, e27, e28, e29, e30, e31, e32, e33, e34, e35 };
@@ -668,28 +653,7 @@ public static class DBSeed
             }
             unitOfWork.SaveChanges();
             #endregion
-            /*
-             * Part1 no need anymore
-            #region Add FK head/rep/del
-            dENGL.head = e1 ;
-            dENGL.rep = e6;
-            dENGL.delegater = e11; //?
-            dCPSC.head = e2;
-            dCPSC.rep = e7;
-            dCOMM.head = e3;
-            dCOMM.rep = e8;
-            dCOMM.delegater = e12;
-            dREGR.head = e4;
-            dREGR.rep = e9;
-            dREGR.delegater = e13; //?
-            dZOOL.head = e5;
-            dZOOL.rep = e10;
-            dZOOL.delegater = e14; //?
-            for (int i = 0; i < DeptArr.Length; i++)
-            {
-                unitOfWork.GetRepository<Department>().Update(DeptArr[i]);
-            }
-            unitOfWork.SaveChanges();
+
             //Part 2 this is still need 
             ci1.clerk = e33;
             ci2.clerk = e33;
@@ -702,8 +666,7 @@ public static class DBSeed
                 unitOfWork.GetRepository<CollectionInfo>().Update(collectionInfoArr[i]);
             }
             unitOfWork.SaveChanges();
-            
-            #endregion*/
+
             //May
             #region requisition +detail lists
             Requisition r1 = new Requisition()
@@ -947,108 +910,109 @@ public static class DBSeed
             #region SupplierItem 
             //1-80 May
 
-            SupplierItem si1 = new SupplierItem() { SupplierId = 1, StationeryId = i2.Id, price = 1.2f, unit = "Dozen" };
-            SupplierItem si2 = new SupplierItem() { SupplierId = 1, StationeryId = i3.Id, price = 1, unit = "Dozen" };
-            SupplierItem si3 = new SupplierItem() { SupplierId = 1, StationeryId = i4.Id, price = 5, unit = "Box" };
-            SupplierItem si4 = new SupplierItem() { SupplierId = 1, StationeryId = i5.Id, price = 7, unit = "Box" };
-            SupplierItem si5 = new SupplierItem() { SupplierId = 1, StationeryId = i6.Id, price = 7.5f, unit = "Box" };
-            SupplierItem si6 = new SupplierItem() { SupplierId = 1, StationeryId = i7.Id, price = 0.4f, unit = "Each" };
-            SupplierItem si7 = new SupplierItem() { SupplierId = 1, StationeryId = i8.Id, price = 0.56f, unit = "Each" };
-            SupplierItem si8 = new SupplierItem() { SupplierId = 1, StationeryId = i9.Id, price = 0.3f, unit = "Each" };
-            SupplierItem si9 = new SupplierItem() { SupplierId = 1, StationeryId = i10.Id, price = 0.35f, unit = "Each" };
-            SupplierItem si10= new SupplierItem() { SupplierId = 1, StationeryId = i12.Id, price = 0.4f, unit = "Each" };
-            SupplierItem si11= new SupplierItem() { SupplierId = 1, StationeryId = i13.Id, price = 0.38f, unit = "Each" };
-            SupplierItem si12= new SupplierItem() { SupplierId = 1, StationeryId = i14.Id, price = 0.22f, unit = "Each" };
-            SupplierItem si13= new SupplierItem() { SupplierId = 1, StationeryId = i15.Id, price = 0.38f, unit = "Each" };
-            SupplierItem si14= new SupplierItem() { SupplierId = 1, StationeryId = i16.Id, price = 0.35f, unit = "Each" };
-            SupplierItem si15= new SupplierItem() { SupplierId = 1, StationeryId = i17.Id, price = 0.5f, unit = "Each" };
-            SupplierItem si16= new SupplierItem() { SupplierId = 1, StationeryId = i18.Id, price = 0.4f, unit = "Each" };
-            SupplierItem si17= new SupplierItem() { SupplierId = 1, StationeryId = i19.Id, price = 0.3f, unit = "Each" };
-            SupplierItem si18= new SupplierItem() { SupplierId = 1, StationeryId = i20.Id, price = 0.46f, unit = "Each" };
-            SupplierItem si19= new SupplierItem() { SupplierId = 1, StationeryId = i22.Id, price = 0.3f, unit = "Each" };
-            SupplierItem si20= new SupplierItem() { SupplierId = 1, StationeryId = i23.Id, price = 0.39f, unit = "Each" };
-            SupplierItem si21 = new SupplierItem() { SupplierId = 1, StationeryId = i24.Id, price = 8, unit = "Set" };
-            SupplierItem si22 = new SupplierItem() { SupplierId = 1, StationeryId = i25.Id, price = 16, unit = "Each" };
-            SupplierItem si23 = new SupplierItem() { SupplierId = 1, StationeryId = i26.Id, price = 18, unit = "Each" };
-            SupplierItem si24 = new SupplierItem() { SupplierId = 1, StationeryId = i27.Id, price = 16, unit = "Each" };
-            SupplierItem si25 = new SupplierItem() { SupplierId = 1, StationeryId = i28.Id, price = 18, unit = "Each" };
-            SupplierItem si26 = new SupplierItem() { SupplierId = 1, StationeryId = i29.Id, price = 0.2f, unit = "Each" };
-            SupplierItem si27 = new SupplierItem() { SupplierId = 1, StationeryId = i30.Id, price = 0.2f, unit = "Each" };
-            SupplierItem si28 = new SupplierItem() { SupplierId = 1, StationeryId = i32.Id, price = 0.2f, unit = "Each" };
-            SupplierItem si29 = new SupplierItem() { SupplierId = 1, StationeryId = i33.Id, price = 0.2f, unit = "Each" };
-            SupplierItem si30 = new SupplierItem() { SupplierId = 1, StationeryId = i34.Id, price = 8.99f, unit = "Box" };
-            SupplierItem si31 = new SupplierItem() { SupplierId = 1, StationeryId = i35.Id, price = 8.99f, unit = "Box" };
-            SupplierItem si32 = new SupplierItem() { SupplierId = 1, StationeryId = i36.Id, price = 8.99f, unit = "Box" };
-            SupplierItem si33 = new SupplierItem() { SupplierId = 1, StationeryId = i37.Id, price = 8.99f, unit = "Box" };
-            SupplierItem si34 = new SupplierItem() { SupplierId = 1, StationeryId = i38.Id, price = 6, unit = "Each" };
-            SupplierItem si35 = new SupplierItem() { SupplierId = 1, StationeryId = i39.Id, price = 7, unit = "Each" };
-            SupplierItem si36 = new SupplierItem() { SupplierId = 1, StationeryId= i40.Id, price = 20, unit = "Each" };
-            SupplierItem si37 = new SupplierItem() { SupplierId = 1, StationeryId = i42.Id, price = 12.99f, unit = "Packet" };
-            SupplierItem si38 = new SupplierItem() { SupplierId = 1, StationeryId = i43.Id, price = 12.99f, unit = "Packet" };
-            SupplierItem si39 = new SupplierItem() { SupplierId = 1, StationeryId = i44.Id, price = 16.99f, unit = "Packet" };
-            SupplierItem si40 = new SupplierItem() { SupplierId = 1, StationeryId = i45.Id, price = 19.99f, unit = "Packet" };
-            SupplierItem si41 = new SupplierItem() { SupplierId = 1, StationeryId = i46.Id, price = 19.99f, unit = "Packet" };
-            SupplierItem si42 = new SupplierItem() { SupplierId = 1, StationeryId = i47.Id, price = 10.99f, unit = "Packet" };
-            SupplierItem si43 = new SupplierItem() { SupplierId = 1, StationeryId = i48.Id, price = 10, unit = "Box" };
-            SupplierItem si44 = new SupplierItem() { SupplierId = 1, StationeryId = i49.Id, price = 4, unit = "Box" };
-            SupplierItem si45 = new SupplierItem() { SupplierId = 1, StationeryId = i50.Id, price = 5.99f, unit = "Dozen" };
-            SupplierItem si46 = new SupplierItem() { SupplierId = 1, StationeryId = i52.Id, price = 5.99f, unit = "Dozen" };
-            SupplierItem si47 = new SupplierItem() { SupplierId = 1, StationeryId = i53.Id, price = 13.99f, unit = "Dozen" };
-            SupplierItem si48 = new SupplierItem() { SupplierId = 1, StationeryId = i54.Id, price = 13.99f, unit = "Dozen" };
-            SupplierItem si49 = new SupplierItem() { SupplierId = 1, StationeryId = i55.Id, price = 13.99f, unit = "Dozen" };
-            SupplierItem si50 = new SupplierItem() { SupplierId = 1, StationeryId = i56.Id, price = 5.99f, unit = "Packet" };
-            SupplierItem si51 = new SupplierItem() { SupplierId = 1, StationeryId = i57.Id, price = 8.99f, unit = "Packet" };
-            SupplierItem si52 = new SupplierItem() { SupplierId = 1, StationeryId = i58.Id, price = 6, unit = "Box" };
-            SupplierItem si53 = new SupplierItem() { SupplierId = 1, StationeryId = i59.Id, price = 8.5f, unit = "Box" };
-            SupplierItem si54 = new SupplierItem() { SupplierId = 1, StationeryId = i60.Id, price = 8.5f, unit = "Box" };
-            SupplierItem si55 = new SupplierItem() { SupplierId = 1, StationeryId = i62.Id, price = 2.8f, unit = "Dozen" };
-            SupplierItem si56 = new SupplierItem() { SupplierId = 1, StationeryId = i63.Id, price = 3.6f, unit = "Dozen" };
-            SupplierItem si57 = new SupplierItem() { SupplierId = 1, StationeryId = i64.Id, price = 2.4f, unit = "Dozen" };
-            SupplierItem si58 = new SupplierItem() { SupplierId = 1, StationeryId = i65.Id, price = 3.6f, unit = "Dozen" };
-            SupplierItem si59 = new SupplierItem() { SupplierId = 1, StationeryId = i66.Id, price = 4, unit = "Dozen" };
-            SupplierItem si60 = new SupplierItem() { SupplierId = 1, StationeryId = i67.Id, price = 3.9f, unit = "Dozen" };
-            SupplierItem si61 = new SupplierItem() { SupplierId = 1, StationeryId = i68.Id, price = 2.2f, unit = "Each" };
-            SupplierItem si62 = new SupplierItem() { SupplierId = 1, StationeryId = i69.Id, price = 4.9f, unit = "Each" };
-            SupplierItem si63 = new SupplierItem() { SupplierId = 1, StationeryId = i70.Id, price = 2.5f, unit = "Each" };
-            SupplierItem si64 = new SupplierItem() { SupplierId = 1, StationeryId = i72.Id, price = 5.9f, unit = "Each" };
-            SupplierItem si65 = new SupplierItem() { SupplierId = 1, StationeryId = i73.Id, price = 16.2f, unit = "Each" };
-            SupplierItem si66 = new SupplierItem() { SupplierId = 1, StationeryId = i74.Id, price = 20, unit = "Each" };
-            SupplierItem si67 = new SupplierItem() { SupplierId = 1, StationeryId = i75.Id, price = 12.2f, unit = "Each" };
-            SupplierItem si68 = new SupplierItem() { SupplierId = 1, StationeryId = i76.Id, price = 2.5f, unit = "Each" };
-            SupplierItem si69 = new SupplierItem() { SupplierId = 1, StationeryId = i77.Id, price = 3.5f, unit = "Each" };
-            SupplierItem si70 = new SupplierItem() { SupplierId = 1, StationeryId = i78.Id, price = 10.5f, unit = "Box" };
-            SupplierItem si71 = new SupplierItem() { SupplierId = 1, StationeryId = i79.Id, price = 12.5f, unit = "Box" };
-            SupplierItem si72 = new SupplierItem() { SupplierId = 1, StationeryId = i80.Id, price = 7.2f, unit = "Box" };
-            SupplierItem si73 = new SupplierItem() { SupplierId = 1, StationeryId = i82.Id, price = 3.4f, unit = "Box" };
-            SupplierItem si74 = new SupplierItem() { SupplierId = 1, StationeryId = i83.Id, price = 12, unit = "Box" };
-            SupplierItem si75 = new SupplierItem() { SupplierId = 1, StationeryId = i84.Id, price = 12, unit = "Box" };
-            SupplierItem si76 = new SupplierItem() { SupplierId = 1, StationeryId = i85.Id, price = 12, unit = "Box" };
-            SupplierItem si77 = new SupplierItem() { SupplierId = 1, StationeryId = i86.Id, price = 12, unit = "Box" };
-            SupplierItem si78 = new SupplierItem() { SupplierId = 1, StationeryId = i87.Id, price = 12, unit = "Box" };
-            SupplierItem si79 = new SupplierItem() { SupplierId = 1, StationeryId = i88.Id, price = 10, unit = "Box" };
-            SupplierItem si80 = new SupplierItem() { SupplierId = 1, StationeryId = i89.Id, price = 12, unit = "Set" };
+            SupplierItem si1 = new SupplierItem() { SupplierId = 1, StationeryId = i2.Id, price = 1.2f};
+            SupplierItem si2 = new SupplierItem() { SupplierId = 1, StationeryId = i3.Id, price = 1};
+            SupplierItem si3 = new SupplierItem() { SupplierId = 1, StationeryId = i4.Id, price = 5 };
+            SupplierItem si4 = new SupplierItem() { SupplierId = 1, StationeryId = i5.Id, price = 7};
+            SupplierItem si5 = new SupplierItem() { SupplierId = 1, StationeryId = i6.Id, price = 7.5f };
+            SupplierItem si6 = new SupplierItem() { SupplierId = 1, StationeryId = i7.Id, price = 0.4f};
+            SupplierItem si7 = new SupplierItem() { SupplierId = 1, StationeryId = i8.Id, price = 0.56f};
+            SupplierItem si8 = new SupplierItem() { SupplierId = 1, StationeryId = i9.Id, price = 0.3f};
+            SupplierItem si9 = new SupplierItem() { SupplierId = 1, StationeryId = i10.Id, price = 0.35f  };
+            SupplierItem si10= new SupplierItem() { SupplierId = 1, StationeryId = i12.Id, price = 0.4f  };
+            SupplierItem si11= new SupplierItem() { SupplierId = 1, StationeryId = i13.Id, price = 0.38f  };
+            SupplierItem si12= new SupplierItem() { SupplierId = 1, StationeryId = i14.Id, price = 0.22f };
+            SupplierItem si13= new SupplierItem() { SupplierId = 1, StationeryId = i15.Id, price = 0.38f  };
+            SupplierItem si14= new SupplierItem() { SupplierId = 1, StationeryId = i16.Id, price = 0.35f  };
+            SupplierItem si15= new SupplierItem() { SupplierId = 1, StationeryId = i17.Id, price = 0.5f  };
+            SupplierItem si16= new SupplierItem() { SupplierId = 1, StationeryId = i18.Id, price = 0.4f  };
+            SupplierItem si17= new SupplierItem() { SupplierId = 1, StationeryId = i19.Id, price = 0.3f  };
+            SupplierItem si18= new SupplierItem() { SupplierId = 1, StationeryId = i20.Id, price = 0.46f  };
+            SupplierItem si19= new SupplierItem() { SupplierId = 1, StationeryId = i22.Id, price = 0.3f  };
+            SupplierItem si20= new SupplierItem() { SupplierId = 1, StationeryId = i23.Id, price = 0.39f  };
+            SupplierItem si21 = new SupplierItem() { SupplierId = 1, StationeryId = i24.Id, price = 8 };
+            SupplierItem si22 = new SupplierItem() { SupplierId = 1, StationeryId = i25.Id, price = 16  };
+            SupplierItem si23 = new SupplierItem() { SupplierId = 1, StationeryId = i26.Id, price = 18  };
+            SupplierItem si24 = new SupplierItem() { SupplierId = 1, StationeryId = i27.Id, price = 16  };
+            SupplierItem si25 = new SupplierItem() { SupplierId = 1, StationeryId = i28.Id, price = 18  };
+            SupplierItem si26 = new SupplierItem() { SupplierId = 1, StationeryId = i29.Id, price = 0.2f  };
+            SupplierItem si27 = new SupplierItem() { SupplierId = 1, StationeryId = i30.Id, price = 0.2f  };
+            SupplierItem si28 = new SupplierItem() { SupplierId = 1, StationeryId = i32.Id, price = 0.2f  };
+            SupplierItem si29 = new SupplierItem() { SupplierId = 1, StationeryId = i33.Id, price = 0.2f  };
+            SupplierItem si30 = new SupplierItem() { SupplierId = 1, StationeryId = i34.Id, price = 8.99f };
+            SupplierItem si31 = new SupplierItem() { SupplierId = 1, StationeryId = i35.Id, price = 8.99f };
+            SupplierItem si32 = new SupplierItem() { SupplierId = 1, StationeryId = i36.Id, price = 8.99f };
+            SupplierItem si33 = new SupplierItem() { SupplierId = 1, StationeryId = i37.Id, price = 8.99f };
+            SupplierItem si34 = new SupplierItem() { SupplierId = 1, StationeryId = i38.Id, price = 6  };
+            SupplierItem si35 = new SupplierItem() { SupplierId = 1, StationeryId = i39.Id, price = 7  };
+            SupplierItem si36 = new SupplierItem() { SupplierId = 1, StationeryId= i40.Id, price = 20  };
+            SupplierItem si37 = new SupplierItem() { SupplierId = 1, StationeryId = i42.Id, price = 12.99f };
+            SupplierItem si38 = new SupplierItem() { SupplierId = 1, StationeryId = i43.Id, price = 12.99f };
+            SupplierItem si39 = new SupplierItem() { SupplierId = 1, StationeryId = i44.Id, price = 16.99f };
+            SupplierItem si40 = new SupplierItem() { SupplierId = 1, StationeryId = i45.Id, price = 19.99f };
+            SupplierItem si41 = new SupplierItem() { SupplierId = 1, StationeryId = i46.Id, price = 19.99f };
+            SupplierItem si42 = new SupplierItem() { SupplierId = 1, StationeryId = i47.Id, price = 10.99f };
+            SupplierItem si43 = new SupplierItem() { SupplierId = 1, StationeryId = i48.Id, price = 10 };
+            SupplierItem si44 = new SupplierItem() { SupplierId = 1, StationeryId = i49.Id, price = 4 };
+            SupplierItem si45 = new SupplierItem() { SupplierId = 1, StationeryId = i50.Id, price = 5.99f };
+            SupplierItem si46 = new SupplierItem() { SupplierId = 1, StationeryId = i52.Id, price = 5.99f };
+            SupplierItem si47 = new SupplierItem() { SupplierId = 1, StationeryId = i53.Id, price = 13.99f };
+            SupplierItem si48 = new SupplierItem() { SupplierId = 1, StationeryId = i54.Id, price = 13.99f };
+            SupplierItem si49 = new SupplierItem() { SupplierId = 1, StationeryId = i55.Id, price = 13.99f };
+            SupplierItem si50 = new SupplierItem() { SupplierId = 1, StationeryId = i56.Id, price = 5.99f };
+            SupplierItem si51 = new SupplierItem() { SupplierId = 1, StationeryId = i57.Id, price = 8.99f };
+            SupplierItem si52 = new SupplierItem() { SupplierId = 1, StationeryId = i58.Id, price = 6 };
+            SupplierItem si53 = new SupplierItem() { SupplierId = 1, StationeryId = i59.Id, price = 8.5f };
+            SupplierItem si54 = new SupplierItem() { SupplierId = 1, StationeryId = i60.Id, price = 8.5f };
+            SupplierItem si55 = new SupplierItem() { SupplierId = 1, StationeryId = i62.Id, price = 2.8f };
+            SupplierItem si56 = new SupplierItem() { SupplierId = 1, StationeryId = i63.Id, price = 3.6f };
+            SupplierItem si57 = new SupplierItem() { SupplierId = 1, StationeryId = i64.Id, price = 2.4f };
+            SupplierItem si58 = new SupplierItem() { SupplierId = 1, StationeryId = i65.Id, price = 3.6f };
+            SupplierItem si59 = new SupplierItem() { SupplierId = 1, StationeryId = i66.Id, price = 4 };
+            SupplierItem si60 = new SupplierItem() { SupplierId = 1, StationeryId = i67.Id, price = 3.9f };
+            SupplierItem si61 = new SupplierItem() { SupplierId = 1, StationeryId = i68.Id, price = 2.2f };
+            SupplierItem si62 = new SupplierItem() { SupplierId = 1, StationeryId = i69.Id, price = 4.9f };
+            SupplierItem si63 = new SupplierItem() { SupplierId = 1, StationeryId = i70.Id, price = 2.5f };
+            SupplierItem si64 = new SupplierItem() { SupplierId = 1, StationeryId = i72.Id, price = 5.9f };
+            SupplierItem si65 = new SupplierItem() { SupplierId = 1, StationeryId = i73.Id, price = 16.2f };
+            SupplierItem si66 = new SupplierItem() { SupplierId = 1, StationeryId = i74.Id, price = 20 };
+            SupplierItem si67 = new SupplierItem() { SupplierId = 1, StationeryId = i75.Id, price = 12.2f };
+            SupplierItem si68 = new SupplierItem() { SupplierId = 1, StationeryId = i76.Id, price = 2.5f };
+            SupplierItem si69 = new SupplierItem() { SupplierId = 1, StationeryId = i77.Id, price = 3.5f };
+            SupplierItem si70 = new SupplierItem() { SupplierId = 1, StationeryId = i78.Id, price = 10.5f };
+            SupplierItem si71 = new SupplierItem() { SupplierId = 1, StationeryId = i79.Id, price = 12.5f };
+            SupplierItem si72 = new SupplierItem() { SupplierId = 1, StationeryId = i80.Id, price = 7.2f };
+            SupplierItem si73 = new SupplierItem() { SupplierId = 1, StationeryId = i82.Id, price = 3.4f };
+            SupplierItem si74 = new SupplierItem() { SupplierId = 1, StationeryId = i83.Id, price = 12 };
+            SupplierItem si75 = new SupplierItem() { SupplierId = 1, StationeryId = i84.Id, price = 12 };
+            SupplierItem si76 = new SupplierItem() { SupplierId = 1, StationeryId = i85.Id, price = 12 };
+            SupplierItem si77 = new SupplierItem() { SupplierId = 1, StationeryId = i86.Id, price = 12 };
+            SupplierItem si78 = new SupplierItem() { SupplierId = 1, StationeryId = i87.Id, price = 12 };
+            SupplierItem si79 = new SupplierItem() { SupplierId = 1, StationeryId = i88.Id, price = 10 };
+            SupplierItem si80 = new SupplierItem() { SupplierId = 1, StationeryId = i89.Id, price = 12 };
            
-            SupplierItem si81 = new SupplierItem() {SupplierId = 2, StationeryId = i11.Id, price = 0.2f, unit = "Each"};
-            SupplierItem si82 = new SupplierItem() { SupplierId = 2, StationeryId = i21.Id, price = 0.62f, unit = "Each" };
-            SupplierItem si83 = new SupplierItem() { SupplierId = 2, StationeryId = i31.Id, price = 0.2f, unit = "Each" };
-            SupplierItem si84 = new SupplierItem() { SupplierId = 2, StationeryId = i41.Id, price = 13.99f, unit = "Packet" };
-            SupplierItem si85 = new SupplierItem() { SupplierId = 2, StationeryId = i51.Id, price = 5.99f, unit = "Dozen" };
-            SupplierItem si86 = new SupplierItem() { SupplierId = 2, StationeryId = i61.Id, price = 8.5f, unit = "Box" };
-            SupplierItem si87 = new SupplierItem() { SupplierId = 2, StationeryId = i71.Id, price = 2.2f, unit = "Each" };
-            SupplierItem si88 = new SupplierItem() { SupplierId = 2, StationeryId = i81.Id, price = 5.2f, unit = "Box" };
-            SupplierItem si89 = new SupplierItem() { SupplierId = 2, StationeryId = i9.Id, price = 0.5f, unit = "Each" };
-            SupplierItem si90 = new SupplierItem() { SupplierId = 2, StationeryId = i10.Id, price = 0.55f, unit = "Each" };
+            SupplierItem si81 = new SupplierItem() {SupplierId = 2, StationeryId = i11.Id, price = 0.2f};
+            SupplierItem si82 = new SupplierItem() { SupplierId = 2, StationeryId = i21.Id, price = 0.62f };
+            SupplierItem si83 = new SupplierItem() { SupplierId = 2, StationeryId = i31.Id, price = 0.2f };
+            SupplierItem si84 = new SupplierItem() { SupplierId = 2, StationeryId = i41.Id, price = 13.99f };
+            SupplierItem si85 = new SupplierItem() { SupplierId = 2, StationeryId = i51.Id, price = 5.99f };
+            SupplierItem si86 = new SupplierItem() { SupplierId = 2, StationeryId = i61.Id, price = 8.5f };
+            SupplierItem si87 = new SupplierItem() { SupplierId = 2, StationeryId = i71.Id, price = 2.2f };
+            SupplierItem si88 = new SupplierItem() { SupplierId = 2, StationeryId = i81.Id, price = 5.2f };
+            SupplierItem si89 = new SupplierItem() { SupplierId = 2, StationeryId = i9.Id, price = 0.5f };
+            SupplierItem si90 = new SupplierItem() { SupplierId = 2, StationeryId = i10.Id, price = 0.55f };
 
-            SupplierItem si91 = new SupplierItem() {SupplierId = 3, StationeryId = i15.Id, price = 0.45f, unit = "Each"};
-            SupplierItem si92 = new SupplierItem() { SupplierId = 3, StationeryId = i25.Id, price = 16.8f, unit = "Each" };
-            SupplierItem si93 = new SupplierItem() { SupplierId = 3, StationeryId = i35.Id, price = 9.99f, unit = "Box" };
-            SupplierItem si94 = new SupplierItem() { SupplierId = 3, StationeryId = i45.Id, price = 21.8f, unit = "Packet" };
-            SupplierItem si95 = new SupplierItem() { SupplierId = 3, StationeryId = i55.Id, price = 15.99f, unit = "Dozen" };
-            SupplierItem si96 = new SupplierItem() { SupplierId = 3, StationeryId = i1.Id, price = 5.99f, unit = "Dozen" };
+            SupplierItem si91 = new SupplierItem() {SupplierId = 3, StationeryId = i15.Id, price = 0.45f};
+            SupplierItem si92 = new SupplierItem() { SupplierId = 3, StationeryId = i25.Id, price = 16.8f };
+            SupplierItem si93 = new SupplierItem() { SupplierId = 3, StationeryId = i35.Id, price = 9.99f };
+            SupplierItem si94 = new SupplierItem() { SupplierId = 3, StationeryId = i45.Id, price = 21.8f };
+            SupplierItem si95 = new SupplierItem() { SupplierId = 3, StationeryId = i55.Id, price = 15.99f };
+            SupplierItem si96 = new SupplierItem() { SupplierId = 3, StationeryId = i1.Id, price = 5.99f };
             SupplierItem[] supItemArr = { si1,si2,si3,si4,si5,si6,si7,si8,si9,si10, si11, si12, si13, si14, si15, si16, si17, si18, si19, si20, si21, si22, si23, si24, si25, si26, si27, si28, si29, si30, si31, si32, si33, si34, si35, si36, si37, si38, si39, si40, si41, si42, si43, si44, si45, si46, si47, si48, si49, si50, si51, si52, si53, si54, si55, si56, si57, si58, si59, si60, si61, si62, si63, si64, si65, si66, si67, si68, si69, si70, si71, si72, si73, si74, si75, si76, si77, si78, si79, si80, si81, si82, si83, si84, si85, si86, si87, si88, si89, si90, si91, si92, si93, si94, si95};
             for (int z = 0; z < supItemArr.Length; z++)
             {
                 unitOfWork.GetRepository<SupplierItem>().Insert(supItemArr[z]);
+                unitOfWork.SaveChanges();
             }
             #endregion
 

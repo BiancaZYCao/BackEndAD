@@ -17,7 +17,7 @@ namespace BackEndAD.Controllers
         public IActionResult reorder()
         {
             bool success = true;
-            Console.WriteLine("Compiling order");
+            //Console.WriteLine("Compiling order");
             string seederurl = String.Format("http://127.0.0.1:5000/reorder");
             WebRequest webRequest = WebRequest.Create(seederurl);
             webRequest.Method = "GET";
@@ -35,12 +35,12 @@ namespace BackEndAD.Controllers
 
             if (success)
             {
-                Console.WriteLine("done compiling");
+                //Console.WriteLine("done compiling");
                 return Ok("done compiling");
             }
             else
             {
-                Console.WriteLine("compiling failed");
+                //Console.WriteLine("compiling failed");
                 return Ok("failed compiling");
 
             }
@@ -68,12 +68,12 @@ namespace BackEndAD.Controllers
              
             if (success)
             {
-                Console.WriteLine("done seeding");
+                //Console.WriteLine("done seeding");
                 return Ok("done seeding");
             }
             else
             {
-                Console.WriteLine("seeding failed");
+                //Console.WriteLine("seeding failed");
                 return Ok("failed seeding");
             }
 

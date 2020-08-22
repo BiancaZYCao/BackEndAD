@@ -12,7 +12,10 @@ namespace BackEndAD.Models
         public int StationeryId { get; set; }
         public int discpQty { get; set; }
         public string comment { get; set; }
+        public string Status { get; set; }
+        //to record manager/supervisor issue Adjust-voucher or reject adjustment
         public virtual StockAdjustment stockAdjustment { get; set; }
         public virtual Stationery Stationery { get; set; }
+
     }
 }

@@ -205,7 +205,7 @@ namespace BackEndAD.Controllers
         #endregion
 
         #region place order 
-        [HttpGet("placeOrder")]
+        /*[HttpGet("placeOrder")]
         public async Task<ActionResult<ReOrderRecViewModel>> GetReOrderRec()
         {
             //iterate through stationery
@@ -238,7 +238,7 @@ namespace BackEndAD.Controllers
 
             else
                 return NotFound("No reorder items at this time.");
-        }
+        }*/
 
         //api to get current clerk Id [HttpGet("/clerk")]
 
