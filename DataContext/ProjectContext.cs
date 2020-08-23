@@ -9,6 +9,9 @@ namespace BackEndAD.DataContext
 {
     public class ProjectContext:DbContext
     {
+        public ProjectContext()
+        {
+        }
 
         public ProjectContext(DbContextOptions<ProjectContext> options): base(options)
         {
