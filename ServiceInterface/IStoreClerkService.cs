@@ -29,6 +29,10 @@ namespace BackEndAD.ServiceInterface
         public void savePurchaseOrder(PurchaseOrder po);
 
         public IList<SupplierItem> findSuppliersByStationeryId(int id);
+        public Task<IList<RequesterRow>> GetAllRequesterRow();
+        public Task<IList<DisbursementList>> findAllDisbursementListAsync();
+        public Task<Employee> findEmployeeByIdAsync(int eId);
+
     }
 
 }

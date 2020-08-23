@@ -122,7 +122,7 @@ namespace BackEndAD.Controllers
         public async Task<ActionResult<List<StockAdjustSumById>>> GetAllRequesterRow()
         {
 
-            var result = await _supervisorService.StockAdjustDetailInfo();
+            var result = await _clkService.GetAllRequesterRow();
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
                 return Ok(result);
