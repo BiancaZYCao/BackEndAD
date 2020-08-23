@@ -68,6 +68,7 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
+        #region Get Suppliers + CRUD
         [HttpGet("Suppliers")]
         public async Task<ActionResult<List<Supplier>>> GetAllSuppliers()
         {
@@ -115,9 +116,10 @@ namespace BackEndAD.Controllers
             return CreatedAtAction(nameof(GetAllSuppliers), new { }, sup);
 
         }
+        #endregion
 
+        #region inventory management tasks: adjustment + voucher
         //Clerk
-        
         [HttpGet("getAllRequesterRow")]
         public async Task<ActionResult<List<StockAdjustSumById>>> GetAllRequesterRow()
         {
@@ -240,6 +242,7 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Suppliers not found");
         }
+        #endregion
         #endregion
 
         #region place order 
