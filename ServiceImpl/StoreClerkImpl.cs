@@ -295,6 +295,24 @@ namespace BackEndAD.ServiceImpl
            return unitOfWork.GetRepository<RequisitionDetail>().GetAllAsync();
         }
 
-      
+        public Task<IList<StockAdjustSumById>> StockAdjustDetailInfo()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<AdjustmentVocherInfo>> getAllAdjustDetailLineByAdjustId(StockAdjustSumById item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AdjustmentVocherInfo> getEachVoucherDetail(AdjustmentVocherInfo info)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<AdjustmentVocherInfo>> issueVoucher(StockAdjustSumById voc)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
