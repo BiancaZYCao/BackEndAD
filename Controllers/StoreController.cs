@@ -18,12 +18,13 @@ namespace BackEndAD.Controllers
     {
 
         private IStoreClerkService _clkService;
-        
         private IStoreManagerService _mgrService;
-        public StoreController(IStoreClerkService clkService, IStoreManagerService mgrService)
+        private IStoreSupervisorService _supervisorService;
+        public StoreController(IStoreClerkService clkService, IStoreManagerService mgrService, IStoreSupervisorService supervisorService)
         {
             _clkService = clkService;
             _mgrService = mgrService;
+            _supervisorService = supervisorService;
         }
 
         #region Stationery List (Inventory)
@@ -115,6 +116,35 @@ namespace BackEndAD.Controllers
 
         }
 
+        //Clerk
+        
+        [HttpGet("getAllRequesterRow")]
+        public async Task<ActionResult<List<StockAdjustSumById>>> GetAllRequesterRow()
+        {
+
+            var result = await _supervisorService.StockAdjustDetailInfo();
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Error");
+        }
+
+        //Supervisor
+        [HttpGet("supervisorAdjustment")]
+        public async Task<ActionResult<List<StockAdjustSumById>>> GetAllSupervisorAdustmentInfo()
+        {
+
+            var result = await _supervisorService.StockAdjustDetailInfo();
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Error");
+        }
+
         //StoreManager stockadjustment voucher
         [HttpGet("adjustmentList")]
         public async Task<ActionResult<List<StockAdjustSumById>>> GetAllAdustmentInfo()
@@ -126,7 +156,7 @@ namespace BackEndAD.Controllers
                 return Ok(result);
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
-                return NotFound("Error");
+                return NotFound("Empty");
         }
 
         
@@ -140,6 +170,12 @@ namespace BackEndAD.Controllers
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");
+        }
+
+        [HttpPost("rejectRequest")]
+        public async void RejectRequest([FromBody] StockAdjustSumById voc)
+        {
+             _supervisorService.rejectRequest(voc);
         }
 
         [HttpPost("issueVoucher")]

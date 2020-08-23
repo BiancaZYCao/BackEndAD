@@ -46,7 +46,7 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 //There are 3 Department alr seeded in DB, so this line should nvr appears. 
                 //I put here Just for u to understand the style. :) -Bianca  
-                return NotFound("Departments not found");
+                return NotFound("Departments not found.");
         }
 
         //This is not finished! -Bianca
@@ -85,7 +85,7 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 //There are 3 Department alr seeded in DB, so this line should nvr appears. 
                 //I put here Just for u to understand the style. :) -Bianca  
-                return NotFound("Requisition not found");
+                return NotFound("Requisition not found.");
         }
         #endregion
 
@@ -103,7 +103,7 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 //There are 3 Department alr seeded in DB, so this line should nvr appears. 
                 //I put here Just for u to understand the style. :) -Bianca  
-                return NotFound("Requisition Details not found");
+                return NotFound("Requisition Details not found.");
         }
 
         [HttpPost("getAllItemList")]
@@ -133,7 +133,7 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 //There are 3 Department alr seeded in DB, so this line should nvr appears. 
                 //I put here Just for u to understand the style. :) -Bianca  
-                return NotFound("Requisition Details not found");
+                return NotFound("Requisition Details not found.");
         }
         #endregion
 
@@ -161,39 +161,85 @@ namespace BackEndAD.Controllers
 	            }
             }
 
-            if (allPendingRequisitionsUnderDeptList != null)
+            if (allPendingRequisitionsUnderDeptList.Any())
 		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
 		        return Ok(allPendingRequisitionsUnderDeptList);
 	        else
 		        return NotFound("No pending requisition under this department.");
         }
 
+        [HttpGet("deptPendingReqDetail/{id}")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> GetPendingRequisitionsDetailByDeptId(int id)
+        {
+	        var allRequisitionsList = await _deptService.findAllRequsitionsAsync();
+	        var allRequisitionsDetailList = await _deptService.findAllRequsitionDetailAsync();
+            var allEmployeesList = await _deptService.findAllEmployeesAsync();
+
+	        var allPendingRequisitionsList =
+		        allRequisitionsList.Where(x => x.status == "Applied");
+
+	        var allEmployeesUnderDeptList = allEmployeesList.Where(x => x.departmentId == id);
+
+	        List<Requisition> allPendingRequisitionsUnderDeptList = new List<Requisition>();
+
+	        foreach (Requisition requisition in allPendingRequisitionsList)
+	        {
+		        foreach (Employee employee in allEmployeesUnderDeptList)
+		        {
+			        if (requisition.EmployeeId == employee.Id)
+			        {
+				        allPendingRequisitionsUnderDeptList.Add(requisition);
+			        }
+		        }
+	        }
+
+	        List<RequisitionDetail> allPendingRequisitionsDetailUnderDeptList = new List<RequisitionDetail>();
+	        
+            foreach (RequisitionDetail requisitionDetail in allRequisitionsDetailList)
+	        {
+		        foreach (Requisition requisition in allPendingRequisitionsUnderDeptList)
+		        {
+			        if (requisitionDetail.RequisitionId == requisition.Id) 
+
+                    {
+                        allPendingRequisitionsDetailUnderDeptList.Add(requisitionDetail);
+			        }
+		        }
+	        }
+
+	        if (allPendingRequisitionsDetailUnderDeptList.Any())
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(allPendingRequisitionsDetailUnderDeptList);
+	        else
+		        return NotFound("No pending requisition detail under this department.");
+        }
+
         [HttpGet("emp")]
         public async Task<ActionResult<IList<Employee>>> GetAllEmployees()
         {
-            var result = await _deptService.findAllEmployeesAsync();
+            var allEmployeesList = await _deptService.findAllEmployeesAsync();
            
             // if find data then return result else will return a String says Department not found
-            if (result != null)
+            if (allEmployeesList != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-                return Ok(result);
+                return Ok(allEmployeesList);
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 //There are 3 Department alr seeded in DB, so this line should nvr appears. 
                 //I put here Just for u to understand the style. :) -Bianca  
-                return NotFound("Requisition not found");
+                return NotFound("Employees not found.");
         }
 
         [HttpGet("deptEmp/{id}")]
         public async Task<ActionResult<IList<Employee>>> GetAllEmployeesByDept(int id)
         {
-	        var result = await _deptService.findAllEmployeesAsync();
-	        var result_filtered = result.Where(x => x.departmentId == id);
+	        var allEmployeesList = await _deptService.findAllEmployeesAsync();
+	        var allEmployeesUnderDeptList = allEmployeesList.Where(x => x.departmentId == id);
 
-            if (result_filtered != null)
-	            return Ok(result_filtered);
+            if (allEmployeesUnderDeptList.Any())
+	            return Ok(allEmployeesUnderDeptList);
 	        else
-	            return NotFound("Employees not found");
+	            return NotFound("Employees not found.");
         }
 
         //return dept info by id
@@ -202,12 +248,12 @@ namespace BackEndAD.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Department>> GetDepartmentByIdAsync(int id)
         {
-            var result = await _deptService.findDepartmentByIdAsync(id);
+            var resultDepartment = await _deptService.findDepartmentByIdAsync(id);
             // if find data then return result else will return a String says Department not found
-            if (result != null)
-                return Ok(result);
+            if (resultDepartment != null)
+                return Ok(resultDepartment);
             else
-                return NotFound("Department not found");
+                return NotFound("Department not found.");
         }
 
         //this not work Sry Idk details, it is weird. -Bianca
@@ -240,17 +286,17 @@ namespace BackEndAD.Controllers
         [HttpGet("allCollectionpt")]
         public async Task<ActionResult<IList<CollectionInfo>>> GetAllCollectionPointforDept()
         {
-	        IList<CollectionInfo> result = await _deptService.findAllCollectionPointAsync();
+	        var allCollectionPtList = await _deptService.findAllCollectionPointAsync();
 
 	        // if find data then return result else will return a String says Department not found
-	        if (result != null)
+	        if (allCollectionPtList != null)
 		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-		        return Ok(result);
+		        return Ok(allCollectionPtList);
 	        else
 		        //this help to return a NOTfOUND result, u can customerize the string.
 		        //There are 3 Department alr seeded in DB, so this line should nvr appears. 
 		        //I put here Just for u to understand the style. :) -Bianca  
-		        return NotFound("No colleciton point found");
+		        return NotFound("No collection point found");
         }
 
         [HttpGet("retrieval")]
@@ -274,7 +320,7 @@ namespace BackEndAD.Controllers
                 return Ok(result_filtered2);
             else
                 //in case there is nothing to process
-                return NotFound("No pending requistions");
+                return NotFound("No pending requistions.");
         }
 
         //test

@@ -1030,9 +1030,33 @@ public static class DBSeed
             /// 2 monthly check + 3 get good from ware house find missing or damage
             /// 4 manager revert adjustment after not issue voucher
             StockAdjustment sa1 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 7, 27), EmployeeId = e33.Id};
+
             StockAdjustment sa2 = new StockAdjustment() { type = "missing when collecting goods", date = new DateTime(2020, 8, 23), EmployeeId = e34.Id };
             StockAdjustment sa3 = new StockAdjustment() { type = "Warehouse flooding", date = new DateTime(2020, 6, 2), EmployeeId = e35.Id };
             StockAdjustment sa4 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 4, 24), EmployeeId = e33.Id };
+
+            StockAdjustmentDetail sa1sad1 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i1.Id, discpQty = -5, comment = "Broken", Status="Pending Approval"};
+            StockAdjustmentDetail sa1sad2 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i2.Id, discpQty = 1, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa1sad3 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i3.Id, discpQty = -2, comment = "Missing", Status = "Rejected" };
+
+            StockAdjustment sa2 = new StockAdjustment() { type = "missing when collecting goods", date = new DateTime(2020, 8, 27), EmployeeId = e34.Id };
+            StockAdjustmentDetail sa2sad1 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i1.Id, discpQty = -10, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa2sad2 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i2.Id, discpQty = -50, comment = null, Status = "Pending Approval" };
+            StockAdjustmentDetail sa2sad3 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i3.Id, discpQty = -2, comment = "Broken", Status = "Approved" };
+
+            StockAdjustment sa3 = new StockAdjustment() { type = "Warehouse flooding", date = new DateTime(2020, 6, 2), EmployeeId = e35.Id};
+            StockAdjustmentDetail sa3sad1 = new StockAdjustmentDetail() { stockAdjustment = sa3, StationeryId = i4.Id, discpQty = -20, comment = "Damaged", Status = "Approved"};
+            StockAdjustmentDetail sa3sad2 = new StockAdjustmentDetail() { stockAdjustment = sa3, StationeryId = i5.Id, discpQty = 1, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa3sad3 = new StockAdjustmentDetail() { stockAdjustment = sa3, StationeryId = i6.Id, discpQty = -15, comment = "Soaked", Status = "Approved" };
+            StockAdjustmentDetail sa3sad4 = new StockAdjustmentDetail() { stockAdjustment = sa3, StationeryId = i7.Id, discpQty = -18, comment = "Soaked", Status = "Approved"};
+            StockAdjustmentDetail sa3sad5 = new StockAdjustmentDetail() { stockAdjustment = sa3, StationeryId = i8.Id, discpQty = 3, comment = null, Status = "Approved" };
+
+            StockAdjustment sa4 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 4, 24), EmployeeId = e33.Id};
+            StockAdjustmentDetail sa4sad1 = new StockAdjustmentDetail() { stockAdjustment = sa4, StationeryId = i9.Id, discpQty = -5, comment = "Expired", Status="Pending Approval"};
+            StockAdjustmentDetail sa4sad2 = new StockAdjustmentDetail() { stockAdjustment = sa4, StationeryId = i10.Id, discpQty = 1, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa4sad3 = new StockAdjustmentDetail() { stockAdjustment = sa4, StationeryId = i11.Id, discpQty = -2, comment = "Missing", Status = "Approved" };
+
+
             StockAdjustment sa5 = new StockAdjustment() { type = "extra found after school fair", date = new DateTime(2020, 7, 7), EmployeeId = e34.Id };
             StockAdjustment sa6 = new StockAdjustment() { type = "Warehouse Break in", date = new DateTime(2020, 5, 2), EmployeeId = e35.Id };
             StockAdjustment sa7 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 6, 26), EmployeeId = e33.Id };

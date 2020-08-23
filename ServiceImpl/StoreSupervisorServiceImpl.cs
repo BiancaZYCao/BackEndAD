@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace BackEndAD.ServiceImpl
 {
-    public class StoreManagerServiceImpl: IStoreManagerService
+    public class StoreSupervisorServiceImpl: IStoreSupervisorService
     {
         public IUnitOfWork<ProjectContext> unitOfWork;
 
-        public StoreManagerServiceImpl(IUnitOfWork<ProjectContext> unitOfWork)
+        public StoreSupervisorServiceImpl(IUnitOfWork<ProjectContext> unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
@@ -55,6 +55,55 @@ namespace BackEndAD.ServiceImpl
         {
             IList<AdjustmentVoucher> list = await unitOfWork.GetRepository<AdjustmentVoucher>().GetAllAsync();
             return list;
+        }
+
+        public async void rejectRequest(StockAdjustSumById voc)
+        {
+            IList<AdjustmentVocherInfo> list = await getAllAdjustDetailLineByAdjustId(voc);
+            List<AdjustmentVocherInfo> voucherResult = new List<AdjustmentVocherInfo>();
+
+            foreach (AdjustmentVocherInfo eachInfo in list)
+            {
+                StockAdjustmentDetail stkDetail = unitOfWork
+               .GetRepository<StockAdjustmentDetail>()
+               .GetAllIncludeIQueryable(filter: x => x.Id == eachInfo.stockAdustmentDetailId).FirstOrDefault();
+                if (stkDetail != null)
+                {
+                    stkDetail.Status = "Rejected";
+                    unitOfWork.GetRepository<StockAdjustmentDetail>().Update(stkDetail);
+                    unitOfWork.SaveChanges();
+                }
+
+                StockAdjustment stkAdj = new StockAdjustment()
+                {
+                    type = "Revert",
+                    date = eachInfo.date,
+                    EmployeeId = eachInfo.empId
+                };
+                unitOfWork.GetRepository<StockAdjustment>().Insert(stkAdj);
+                unitOfWork.SaveChanges();
+
+                StockAdjustmentDetail stkAdjDetail = new StockAdjustmentDetail()
+                {
+                    stockAdjustmentId = stkAdj.Id,
+                    StationeryId = eachInfo.empId,
+                    discpQty = -(eachInfo.quantity),
+                    comment = eachInfo.reason,
+                    Status = "Reverted"
+                };
+                unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(stkAdjDetail);
+                unitOfWork.SaveChanges();
+
+                Stationery stationery = unitOfWork
+               .GetRepository<Stationery>()
+               .GetAllIncludeIQueryable(filter: x => x.Id == eachInfo.itemCode).FirstOrDefault();
+                if (stationery != null)
+                {
+                    stationery.inventoryQty += -(eachInfo.quantity);
+                    unitOfWork.GetRepository<Stationery>().Update(stationery);
+                    unitOfWork.SaveChanges();
+                }
+            }
         }
         public async Task<IList<AdjustmentVocherInfo>> issueVoucher(StockAdjustSumById voc)
         {
@@ -112,51 +161,50 @@ namespace BackEndAD.ServiceImpl
                 {
                     foreach (StockAdjustmentDetail eachSAdjDetailRecord in stockAdjDetailList)
                     {
+                        isApprove = false;
                         foreach (AdjustmentVoucherDetail eachVocRecord in vocDetails)
                         {
-                            isApprove = false;
                             if (eachSAdjDetailRecord.Id == eachVocRecord.StockAdjustmentDetailId)
                             {
                                 isApprove = true;
                             }
                         }
-                        SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
-                        amounttotal += supplierItem.price * eachSAdjDetailRecord.discpQty;
-                        if (Math.Abs(amounttotal) > 250)
+                        
+                        if (eachSAdjDetailRecord.Status != "Rejected" && eachSAdjDetailRecord.Status != "Reverted")
                         {
-                            StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.stockAdjustmentId);
-                            if (stockAdjustment != null)
+                            SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
+                            amounttotal += supplierItem.price * eachSAdjDetailRecord.discpQty;
+                            if (Math.Abs(amounttotal) <= 250)
                             {
-                                Employee emp = await findEmployeeByIdAsync(stockAdjustment.EmployeeId);
-                                if (emp != null)
+                                StockAdjustment stockAdjustment = await findStockAdjustmentByIdAsync(eachSAdjDetailRecord.stockAdjustmentId);
+                                if (stockAdjustment != null)
+                                {
+                                    Employee emp = await findEmployeeByIdAsync(stockAdjustment.EmployeeId);
+                                    if (emp != null)
+                                    {
+                                        adjustSumbyId = new StockAdjustSumById()
+                                        {
+                                            stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
+                                            empId = emp.Id,
+                                            empName = emp.name,
+                                            amount = amounttotal
+                                        };
+                                    }
+                                }
+                                else
                                 {
                                     adjustSumbyId = new StockAdjustSumById()
                                     {
                                         stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
-                                        empId = emp.Id,
-                                        empName = emp.name,
                                         amount = amounttotal
                                     };
-
                                 }
                             }
-                            else
-                            {
-                                adjustSumbyId = new StockAdjustSumById()
-                                {
-                                    stockAdustmentId = eachSAdjDetailRecord.stockAdjustmentId,
-                                    amount = amounttotal
-                                };
-                            }
                         }
-                    }
-                    if (!isApprove && adjustSumbyId != null)
+                    } //End StockAdjustmentDetail loop
+                    if (!isApprove) 
                     {
-                        stockAdjustSumByIdList.Add(adjustSumbyId);
-                    }
-                    else
-                    {
-                        return null;
+                        stockAdjustSumByIdList.Add(adjustSumbyId); // Sum
                     }
                 }
             }
@@ -164,7 +212,7 @@ namespace BackEndAD.ServiceImpl
             return stockAdjustSumByIdList;
         }
         //end
-       public async Task<IList<AdjustmentVocherInfo>> getAllAdjustDetailLineByAdjustId(StockAdjustSumById item)
+        public async Task<IList<AdjustmentVocherInfo>> getAllAdjustDetailLineByAdjustId(StockAdjustSumById item)
         {
             float amounttotal = 0;
             IList<AdjustmentVocherInfo> voucherInfoList = new List<AdjustmentVocherInfo>();
@@ -187,7 +235,7 @@ namespace BackEndAD.ServiceImpl
                         isApprove = true;
                     }
                 }
-                if (!isApprove)
+                if (!isApprove && eachSAdjDetailRecord.Status!="Reverted" && eachSAdjDetailRecord.Status!="Rejected")
                 {
                     SupplierItem supplierItem = await findSupplierItemByIdAsync(eachSAdjDetailRecord.StationeryId);
                     amounttotal = supplierItem.price * eachSAdjDetailRecord.discpQty;
