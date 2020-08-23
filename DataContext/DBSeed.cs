@@ -1022,22 +1022,69 @@ public static class DBSeed
             /// 2 monthly check + 3 get good from ware house find missing or damage
             /// 4 manager revert adjustment after not issue voucher
             StockAdjustment sa1 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 7, 27), EmployeeId = e33.Id};
-            StockAdjustmentDetail sa1sad1 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i1.Id, discpQty = -5, comment = "Broken"};
-            StockAdjustmentDetail sa1sad2 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i2.Id, discpQty = 1, comment = null };
-            StockAdjustmentDetail sa1sad3 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i3.Id, discpQty = -2, comment = "Missing" };
+            StockAdjustmentDetail sa1sad1 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i1.Id, discpQty = -5, comment = "Broken", Status="Pending Approval"};
+            StockAdjustmentDetail sa1sad2 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i2.Id, discpQty = 1, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa1sad3 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i3.Id, discpQty = -2, comment = "Missing", Status = "Rejected" };
 
             StockAdjustment sa2 = new StockAdjustment() { type = "missing when collecting goods", date = new DateTime(2020, 8, 27), EmployeeId = e34.Id };
-            StockAdjustmentDetail sa2sad1 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i1.Id, discpQty = -10, comment = null };
-            StockAdjustmentDetail sa2sad2 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i2.Id, discpQty = -50, comment = null };
-            StockAdjustmentDetail sa2sad3 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i3.Id, discpQty = -2, comment = "Broken" };
+            StockAdjustmentDetail sa2sad1 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i1.Id, discpQty = -10, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa2sad2 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i2.Id, discpQty = -50, comment = null, Status = "Pending Approval" };
+            StockAdjustmentDetail sa2sad3 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i3.Id, discpQty = -2, comment = "Broken" = "Approved" };
 
-            StockAdjustment[] saArr = { sa1, sa2 };
+            StockAdjustment sa3 = new StockAdjustment() { type = "Warehouse flooding", date = new DateTime(2020, 6, 2), EmployeeId = e35.Id};
+            StockAdjustmentDetail sa3sad1 = new StockAdjustmentDetail() { stockAdjustment = sa3, StationeryId = i4.Id, discpQty = -20, comment = "Damaged", Status = "Approved"};
+            StockAdjustmentDetail sa3sad2 = new StockAdjustmentDetail() { stockAdjustment = sa3, StationeryId = i5.Id, discpQty = 1, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa3sad3 = new StockAdjustmentDetail() { stockAdjustment = sa3, StationeryId = i6.Id, discpQty = -15, comment = "Soaked", Status = "Approved" };
+            StockAdjustmentDetail sa3sad4 = new StockAdjustmentDetail() { stockAdjustment = sa3, StationeryId = i7.Id, discpQty = -18, comment = "Soaked", Status = "Approved"};
+            StockAdjustmentDetail sa3sad5 = new StockAdjustmentDetail() { stockAdjustment = sa3, StationeryId = i8.Id, discpQty = 3, comment = null, Status = "Approved" };
+
+            StockAdjustment sa4 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 4, 24), EmployeeId = e33.Id};
+            StockAdjustmentDetail sa4sad1 = new StockAdjustmentDetail() { stockAdjustment = sa4, StationeryId = i9.Id, discpQty = -5, comment = "Expired", Status="Pending Approval"};
+            StockAdjustmentDetail sa4sad2 = new StockAdjustmentDetail() { stockAdjustment = sa4, StationeryId = i10.Id, discpQty = 1, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa4sad3 = new StockAdjustmentDetail() { stockAdjustment = sa4, StationeryId = i11.Id, discpQty = -2, comment = "Missing", Status = "Approved" };
+
+            StockAdjustment sa5 = new StockAdjustment() { type = "extra found after school fair", date = new DateTime(2020, 7, 7), EmployeeId = e34.Id };
+            StockAdjustmentDetail sa5sad1 = new StockAdjustmentDetail() { stockAdjustment = sa5, StationeryId = i12.Id, discpQty = 3, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa5sad2 = new StockAdjustmentDetail() { stockAdjustment = sa5, StationeryId = i13.Id, discpQty = 7, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa5sad3 = new StockAdjustmentDetail() { stockAdjustment = sa5, StationeryId = i14.Id, discpQty = 11, comment = null, Status = "Approved" };
+
+            StockAdjustment sa6 = new StockAdjustment() { type = "Warehouse Break in", date = new DateTime(2020, 5, 2), EmployeeId = e35.Id};
+            StockAdjustmentDetail sa6sad1 = new StockAdjustmentDetail() { stockAdjustment = sa6, StationeryId = i15.Id, discpQty = -20, comment = "Stolen", Status = "Approved"};
+            StockAdjustmentDetail sa6sad2 = new StockAdjustmentDetail() { stockAdjustment = sa6, StationeryId = i16.Id, discpQty = -19, comment = "Stolen", Status = "Approved" };
+            StockAdjustmentDetail sa6sad3 = new StockAdjustmentDetail() { stockAdjustment = sa6, StationeryId = i17.Id, discpQty = -15, comment = "Stolen", Status = "Approved" };
+            StockAdjustmentDetail sa6sad4 = new StockAdjustmentDetail() { stockAdjustment = sa6, StationeryId = i18.Id, discpQty = -18, comment = "Stolen", Status = "Approved"};
+            StockAdjustmentDetail sa6sad5 = new StockAdjustmentDetail() { stockAdjustment = sa6, StationeryId = i19.Id, discpQty = -30, comment = "Stolen", Status = "Approved" };
+
+            StockAdjustment sa7 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 6, 26), EmployeeId = e33.Id};
+            StockAdjustmentDetail sa7sad1 = new StockAdjustmentDetail() { stockAdjustment = sa7, StationeryId = i20.Id, discpQty = 5, comment = null, Status="Approved"};
+            StockAdjustmentDetail sa7sad2 = new StockAdjustmentDetail() { stockAdjustment = sa7, StationeryId = i21.Id, discpQty = 13, comment = "Leftover", Status = "Pending Approval" };
+            StockAdjustmentDetail sa7sad3 = new StockAdjustmentDetail() { stockAdjustment = sa7, StationeryId = i22.Id, discpQty = 20, comment = "New Box found", Status = "Rejected" };
+
+            StockAdjustment sa8 = new StockAdjustment() { type = "missing when collecting goods", date = new DateTime(2020, 8, 17), EmployeeId = e34.Id };
+            StockAdjustmentDetail sa8sad1 = new StockAdjustmentDetail() { stockAdjustment = sa8, StationeryId = i23.Id, discpQty = -7, comment = "Damaged", Status = "Approved" };
+            StockAdjustmentDetail sa8sad2 = new StockAdjustmentDetail() { stockAdjustment = sa8, StationeryId = i24.Id, discpQty = -6, comment = "Missing", Status = "Pending Approval" };
+            StockAdjustmentDetail sa8sad3 = new StockAdjustmentDetail() { stockAdjustment = sa8, StationeryId = i25.Id, discpQty = -1, comment = "Broken", Status = "Approved" };
+
+            StockAdjustment sa9 = new StockAdjustment() { type = "Moving to New Warehouse Location", date = new DateTime(2020, 6, 12), EmployeeId = e35.Id};
+            StockAdjustmentDetail sa9sad1 = new StockAdjustmentDetail() { stockAdjustment = sa9, StationeryId = i26.Id, discpQty = -20, comment = "Missing", Status = "Approved"};
+            StockAdjustmentDetail sa9sad2 = new StockAdjustmentDetail() { stockAdjustment = sa9, StationeryId = i27.Id, discpQty = -21, comment = "Missing", Status = "Approved" };
+            StockAdjustmentDetail sa9sad3 = new StockAdjustmentDetail() { stockAdjustment = sa9, StationeryId = i28.Id, discpQty = -15, comment = "Damaged during move", Status = "Rejected" };
+            StockAdjustmentDetail sa9sad4 = new StockAdjustmentDetail() { stockAdjustment = sa9, StationeryId = i29.Id, discpQty = -18, comment = "Missing", Status = "Approved"};
+            StockAdjustmentDetail sa9sad5 = new StockAdjustmentDetail() { stockAdjustment = sa9, StationeryId = i30.Id, discpQty = -33, comment = "Damaged during move", Status = "Pending Approval" };
+
+            StockAdjustment sa10 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 7, 27), EmployeeId = e33.Id};
+            StockAdjustmentDetail sa10sad1 = new StockAdjustmentDetail() { stockAdjustment = sa10, StationeryId = i31.Id, discpQty = -25, comment = "Broken", Status = "Rejected"};
+            StockAdjustmentDetail sa10sad2 = new StockAdjustmentDetail() { stockAdjustment = sa10, StationeryId = i32.Id, discpQty = -14, comment = "Missing", Status = "Rejected" };
+            StockAdjustmentDetail sa10sad3 = new StockAdjustmentDetail() { stockAdjustment = sa10, StationeryId = i33.Id, discpQty = -28, comment = "Missing", Status = "Rejected" };
+
+            StockAdjustment[] saArr = { sa1, sa2, sa3, sa4, sa5, sa6, sa7, sa8, sa9, sa10 };
             for (int e = 0; e < saArr.Length; e++)
             {
                 unitOfWork.GetRepository<StockAdjustment>().Insert(saArr[e]);
                 unitOfWork.SaveChanges();
             }
-            StockAdjustmentDetail[] sadArr = { sa1sad1, sa1sad2, sa1sad3, sa2sad1, sa2sad2, sa2sad3 };
+            StockAdjustmentDetail[] sadArr = { sa1sad1, sa1sad2, sa1sad3, sa2sad1, sa2sad2, sa2sad3, sa3sad1, sa3sad2, sa3sad3, sa3sad4, sa3sad5, sa4sad1, sa4sad2, sa4sad3, sa5sad1, sa5sad2, sa5sad3, 
+                sa6sad1, sa6sad2, sa6sad3,sa6sad3, sa6sad4, sa6sad5, sa7sad1, sa7sad2, sa7sad3, sa8sad1, sa8sad2, sa8sad3, sa9sad1, sa9sad2, sa9sad3, sa9sad4, sa9sad5, sa10sad1, sa10sad2, sa10sad3 };
             for (int f = 0; f < sadArr.Length; f++)
             {
                 unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(sadArr[f]);
