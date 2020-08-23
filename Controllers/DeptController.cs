@@ -273,8 +273,8 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
-       
 
+        #region read this before starting
         //this not work Sry Idk details, it is weird. -Bianca
         // GET: api/dept/search?name=ComputerScience
         /*
@@ -299,9 +299,9 @@ namespace BackEndAD.Controllers
             // u also need findDeptById in your service layer and repo layer 
             (DO NOT FORGET INTERFACE and AddScoped<...> for BOTH repo and service)
         }*/
+        #endregion
 
-        
-
+        #region stock Clerk-fulfill req
         [HttpGet("retrieval")]
         public async Task<ActionResult<IList<Requisition>>> GetAllPendingRequisitions()
         {
@@ -325,18 +325,8 @@ namespace BackEndAD.Controllers
                 //in case there is nothing to process
                 return NotFound("No pending requistions.");
         }
+        #endregion
 
-        //test
-        [HttpPost("updateDeptInfo/{id}")]
-        public /*async*/ Task<ActionResult<Department>> PostDept(
-	        [FromBody] List<Department> department, int id)
-        {
-	        Console.WriteLine("Post");
-	        Console.WriteLine(id);
-	        Console.WriteLine(department[0]);
-
-	        return null;
-        }
 
     }
 }
