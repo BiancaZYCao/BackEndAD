@@ -20,5 +20,6 @@ namespace BackEndAD.ServiceInterface
         public Task<IList<StockAdjustment>> findAllStockAdjustmentAsync();
         public Task<IList<AdjustmentVocherInfo>> issueVoucher(StockAdjustSumById voc);
         public Task<Employee> findEmployeeByIdAsync(int eId);
+        public Task<IList<StockAdjustSumById>> rejectRequest(StockAdjustSumById voc);
     }
 }

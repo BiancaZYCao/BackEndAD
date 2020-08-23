@@ -1003,7 +1003,7 @@ public static class DBSeed
             SupplierItem si87 = new SupplierItem() { SupplierId = 2, StationeryId = i71.Id, price = 2.2f };
             SupplierItem si88 = new SupplierItem() { SupplierId = 2, StationeryId = i81.Id, price = 5.2f };
             SupplierItem si89 = new SupplierItem() { SupplierId = 2, StationeryId = i9.Id, price = 0.5f };
-            SupplierItem si90 = new SupplierItem() { SupplierId = 2, StationeryId = i10.Id, price = 0.55f };
+            SupplierItem si90 = new SupplierItem() { SupplierId = 2, StationeryId = i1.Id, price = 0.55f };
 
             SupplierItem si91 = new SupplierItem() {SupplierId = 3, StationeryId = i15.Id, price = 0.45f};
             SupplierItem si92 = new SupplierItem() { SupplierId = 3, StationeryId = i25.Id, price = 16.8f };
@@ -1099,7 +1099,7 @@ public static class DBSeed
 
             
             StockAdjustmentDetail sa6sad1 = new StockAdjustmentDetail() { stockAdjustmentId = 6, StationeryId = 15, discpQty = -20, comment = "Stolen", Status = "Approved"};
-            StockAdjustmentDetail sa6sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 6, StationeryId =16, discpQty = -19, comment = "Stolen", Status = "Approved" };
+            StockAdjustmentDetail sa6sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 6, StationeryId = 16, discpQty = -19, comment = "Stolen", Status = "Approved" };
             StockAdjustmentDetail sa6sad3 = new StockAdjustmentDetail() { stockAdjustmentId = 6, StationeryId = 17, discpQty = -15, comment = "Stolen", Status = "Approved" };
             StockAdjustmentDetail sa6sad4 = new StockAdjustmentDetail() { stockAdjustmentId = 6, StationeryId = 18, discpQty = -18, comment = "Stolen", Status = "Approved"};
             StockAdjustmentDetail sa6sad5 = new StockAdjustmentDetail() { stockAdjustmentId = 6, StationeryId = 19, discpQty = -30, comment = "Stolen", Status = "Approved" };
@@ -1135,21 +1135,62 @@ public static class DBSeed
                 unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(sadDetArr[f]);
                 unitOfWork.SaveChanges();
             }
+
+            
             /*#endregion*/
 
                         /*
                         #region AdjustmentVoucher and Detail
                         AdjustmentVoucher av1 = new AdjustmentVoucher() { StockAdjustmentId=sa1.Id, date=new DateTime(2020, 7, 31), EmployeeId=e32.Id, reason="" };
-                        //AdjustmentVoucherDetail av1avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av1, StockAdjustmentDetailId=sa1sad1.Id, price=29.95 };
-                        //AdjustmentVoucherDetail av1avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av1, StockAdjustmentDetailId=sa1sad2.Id, price=1.2 };
-                        //AdjustmentVoucherDetail av1avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher= av1, StockAdjustmentDetailId=sa1sad3.Id, price=2 };
+                        //AdjustmentVoucherDetail av1avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av1, StockAdjustmentDetailId=sa1sad2.Id, price=0.55 };
+                        
 
                         AdjustmentVoucher av2 = new AdjustmentVoucher() { StockAdjustmentId=sa2.Id, date=new DateTime(2020, 8, 13), EmployeeId=e32.Id, reason=""};
-                        //AdjustmentVoucherDetail av2avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId=sa2sad1.Id, price=59.9 };
-                        //AdjustmentVoucherDetail av2avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId=sa2sad2.Id, price= 60};
-                        //AdjustmentVoucherDetail av2avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId=sa2sad3.Id, price=2 };
+                        //AdjustmentVoucherDetail av2avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId=sa2sad1.Id, price= 5.5 };
+                        //AdjustmentVoucherDetail av2avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId=sa2sad3.Id, price= 2};
 
-                        AdjustmentVoucher[] avArr = { av1, av2 };
+                        AdjustmentVoucher av3 = new AdjustmentVoucher() { StockAdjustmentId=sa3.Id, date=new DateTime(2020, 6, 6), EmployeeId=e32.Id, reason=""};
+                        //AdjustmentVoucherDetail av3avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av3, StockAdjustmentDetailId=sa3sad1.Id, price= 100 };
+                        //AdjustmentVoucherDetail av3avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av3, StockAdjustmentDetailId=sa3sad2.Id, price= 7};
+                        //AdjustmentVoucherDetail av3avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher = av3, StockAdjustmentDetailId=sa3sad3.Id, price= 112.5 };
+                        //AdjustmentVoucherDetail av3avd4 = new AdjustmentVoucherDetail() { adjustmentVoucher = av3, StockAdjustmentDetailId=sa3sad4.Id, price= 10.08};
+                        //AdjustmentVoucherDetail av3avd5 = new AdjustmentVoucherDetail() { adjustmentVoucher = av3, StockAdjustmentDetailId=sa3sad5.Id, price= 0.9 };
+
+                         AdjustmentVoucher av4 = new AdjustmentVoucher() { StockAdjustmentId=sa4.Id, date=new DateTime(2020, 5, 3), EmployeeId=e32.Id, reason=""};
+                        //AdjustmentVoucherDetail av4avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av4, StockAdjustmentDetailId=sa4sad2.Id, price= 0.4 };
+                        //AdjustmentVoucherDetail av4avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av4, StockAdjustmentDetailId=sa4sad3.Id, price= 0.4};
+                        
+                        AdjustmentVoucher av5 = new AdjustmentVoucher() { StockAdjustmentId=sa5.Id, date=new DateTime(2020, 7, 10), EmployeeId=e32.Id, reason=""};
+                        //AdjustmentVoucherDetail av3avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId=sa5sad1.Id, price= 1.2 };
+                        //AdjustmentVoucherDetail av3avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId=sa5sad2.Id, price= 2.66};
+                        //AdjustmentVoucherDetail av3avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId=sa5sad3.Id, price= 2.42 };
+                        
+                        AdjustmentVoucher av6 = new AdjustmentVoucher() { StockAdjustmentId=sa6.Id, date=new DateTime(2020, 5, 10), EmployeeId=e32.Id, reason=""};
+                        //AdjustmentVoucherDetail av6avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId=sa6sad1.Id, price= 7.6 };
+                        //AdjustmentVoucherDetail av6avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId=sa6sad2.Id, price= 6.65};
+                        //AdjustmentVoucherDetail av6avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId=sa6sad3.Id, price= 7.5 };
+                        //AdjustmentVoucherDetail av6avd4 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId=sa6sad4.Id, price= 7.2 };
+                        //AdjustmentVoucherDetail av6avd5 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId=sa6sad5.Id, price= 9 };
+                        
+                         AdjustmentVoucher av7 = new AdjustmentVoucher() { StockAdjustmentId=sa7.Id, date=new DateTime(2020, 7, 4), EmployeeId=e32.Id, reason=""};
+                        //AdjustmentVoucherDetail av7avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av7, StockAdjustmentDetailId=sa7sad1.Id, price= 2.3 };
+
+                        AdjustmentVoucher av8 = new AdjustmentVoucher() { StockAdjustmentId=sa8.Id, date=new DateTime(2020, 8, 25), EmployeeId=e32.Id, reason=""};
+                        //AdjustmentVoucherDetail av8avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av8, StockAdjustmentDetailId=sa8sad1.Id, price= 2.73 };
+                        //AdjustmentVoucherDetail av8avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av8, StockAdjustmentDetailId=sa8sad3.Id, price= 16};
+
+                        AdjustmentVoucher av9 = new AdjustmentVoucher() { StockAdjustmentId=sa9.Id, date=new DateTime(2020, 6, 22), EmployeeId=e31.Id, reason=""};
+                        //AdjustmentVoucherDetail av9avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av9, StockAdjustmentDetailId=sa9sad1.Id, price= 360 };
+                        //AdjustmentVoucherDetail av9avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av9, StockAdjustmentDetailId=sa9sad2.Id, price= 336};
+                        //AdjustmentVoucherDetail av9avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av9, StockAdjustmentDetailId=sa9sad4.Id, price= 3.6};
+        
+
+            
+  
+       
+       
+
+                        AdjustmentVoucher[] avArr = { av1, av2, av3, av4, av5, av6, av7, av8, av9 };
                         for (int g = 0; g < avArr.Length; g++)
                         {
                             unitOfWork.GetRepository<AdjustmentVoucher>().Insert(avArr[g]);
@@ -1157,7 +1198,8 @@ public static class DBSeed
                         }*/
 
             /*
-            AdjustmentVoucherDetail[] avdDetArr = { av1avd1, av1avd2,av1avd3,av2avd1,av2avd2,av2avd3 };
+            AdjustmentVoucherDetail[] avdDetArr = { av1avd1, av2avd1,av2avd2, av3avd1, av3avd2, av3avd3, av3avd4, av3avd5, av4avd1, av4avd2, av5avd1, av5avd2, av5avd3
+            , av6avd1, av6avd2, av6avd3, av6avd4, av6avd5, av7avd1, av8avd1, av8avd2, av9avd1, av9avd2, av9avd3};
             for (int h = 0; h < avdDetArr.Length; h++)
             {
                 unitOfWork.GetRepository<AdjustmentVoucherDetail>().Insert(avdDetArr[h]);
