@@ -168,6 +168,52 @@ namespace BackEndAD.Controllers
 		        return NotFound("No pending requisition under this department.");
         }
 
+        [HttpGet("deptPendingReqDetail/{id}")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> GetPendingRequisitionsDetailByDeptId(int id)
+        {
+	        var allRequisitionsList = await _deptService.findAllRequsitionsAsync();
+	        var allRequisitionsDetailList = await _deptService.findAllRequsitionDetailAsync();
+            var allEmployeesList = await _deptService.findAllEmployeesAsync();
+
+	        var allPendingRequisitionsList =
+		        allRequisitionsList.Where(x => x.status == "Applied");
+
+	        var allEmployeesUnderDeptList = allEmployeesList.Where(x => x.departmentId == id);
+
+	        List<Requisition> allPendingRequisitionsUnderDeptList = new List<Requisition>();
+
+	        foreach (Requisition requisition in allPendingRequisitionsList)
+	        {
+		        foreach (Employee employee in allEmployeesUnderDeptList)
+		        {
+			        if (requisition.EmployeeId == employee.Id)
+			        {
+				        allPendingRequisitionsUnderDeptList.Add(requisition);
+			        }
+		        }
+	        }
+
+	        List<RequisitionDetail> allPendingRequisitionsDetailUnderDeptList = new List<RequisitionDetail>();
+	        
+            foreach (RequisitionDetail requisitionDetail in allRequisitionsDetailList)
+	        {
+		        foreach (Requisition requisition in allPendingRequisitionsUnderDeptList)
+		        {
+			        if (requisitionDetail.RequisitionId == requisition.Id) 
+
+                    {
+                        allPendingRequisitionsDetailUnderDeptList.Add(requisitionDetail);
+			        }
+		        }
+	        }
+
+	        if (allPendingRequisitionsDetailUnderDeptList != null)
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(allPendingRequisitionsDetailUnderDeptList);
+	        else
+		        return NotFound("No pending requisition detail under this department.");
+        }
+
         [HttpGet("emp")]
         public async Task<ActionResult<IList<Employee>>> GetAllEmployees()
         {
