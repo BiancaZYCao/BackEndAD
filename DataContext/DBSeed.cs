@@ -1029,7 +1029,7 @@ public static class DBSeed
             StockAdjustment sa2 = new StockAdjustment() { type = "missing when collecting goods", date = new DateTime(2020, 8, 27), EmployeeId = e34.Id };
             StockAdjustmentDetail sa2sad1 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i1.Id, discpQty = -10, comment = null, Status = "Approved" };
             StockAdjustmentDetail sa2sad2 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i2.Id, discpQty = -50, comment = null, Status = "Pending Approval" };
-            StockAdjustmentDetail sa2sad3 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i3.Id, discpQty = -2, comment = "Broken" = "Approved" };
+            StockAdjustmentDetail sa2sad3 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i3.Id, discpQty = -2, comment = "Broken", Status = "Approved" };
 
             StockAdjustment sa3 = new StockAdjustment() { type = "Warehouse flooding", date = new DateTime(2020, 6, 2), EmployeeId = e35.Id};
             StockAdjustmentDetail sa3sad1 = new StockAdjustmentDetail() { stockAdjustment = sa3, StationeryId = i4.Id, discpQty = -20, comment = "Damaged", Status = "Approved"};
