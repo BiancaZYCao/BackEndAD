@@ -21,8 +21,9 @@ namespace BackEndAD.ServiceImpl
 
         public async Task<Employee> findEmployee(string email)
         {
-            Employee emp = await unitOfWork.GetRepository<Employee>().FindAsync(email);
-            return emp;
+            var emp = await unitOfWork.GetRepository<Employee>().GetAllAsync();
+            var emp1 = emp.FirstOrDefault<Employee>(e => e.email.Equals(email));
+            return emp1;
         }
     }
 }

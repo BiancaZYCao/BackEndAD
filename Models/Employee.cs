@@ -9,11 +9,11 @@ namespace BackEndAD.Models
 {
     public class Employee
     {
-        [Required]
+        //[Required]
         public int Id {get; set;}
-        [Required]
+        //[Required]
         public string name { get; set; }
-        [Required]
+        //[Required]
         public string password { get; set; }
         public string email { get; set; }
         public string role { get; set; }
