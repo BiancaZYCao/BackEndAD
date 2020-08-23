@@ -65,18 +65,53 @@ namespace BackEndAD.Controllers
             dr.Close();
             cn.Close();
             #endregion
+
+            if (result != null)
+                return Ok(result);
+            else
+                return NotFound("QUERY FAILED.");
+        }
+
+        [HttpGet("ReOrder")]
+        public ActionResult<IList<RequisitionTrend>> GenerateReOrderGrouped()
+        {
+            #region  sql conn then sqlcommand
+            string cnstr = "Server=tcp:team8-sa50.database.windows.net,1433;Initial Catalog=ADProj;Persist Security Info=False;User ID=Bianca;Password=!Str0ngPsword;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=600;";
+            SqlConnection cn = new SqlConnection(cnstr);
+            cn.Open();
+            string sqlstr = "SELECT category,datediff(mm,ord.dateOfOrder,getdate()) as monthBefore,SUM(qty) as totalQty " +
+                "FROM (SELECT StationeryId, qty, sta.category, PurchaseOrderId FROM[dbo].[Stationery_Table] as sta " +
+                "JOIN[dbo].[PurchaseOrderDetail_Table] as ordDet ON  ordDet.StationeryId = sta.Id) as ordCat " +
+                "JOIN[dbo].[PurchaseOrder_Table] as ord ON ordCat.PurchaseOrderId = ord.Id " +
+                "Where datediff(mm, ord.dateOfOrder, getdate())<= 3" +
+                "GROUP BY category,datediff(mm, ord.dateOfOrder, getdate())";
+
+            SqlCommand cmd = new SqlCommand(sqlstr, cn);
+
+            SqlDataReader dr = cmd.ExecuteReader();
+            IList<RequisitionTrend> result = new List<RequisitionTrend>();
+            while (dr.Read())
+            {
+                RequisitionTrend reqT = new RequisitionTrend()
+                {
+                    Category = dr["category"].ToString(),
+                    DateOfAuthorizing = int.Parse(dr["monthBefore"].ToString()),
+                    ReqQty = int.Parse(dr["totalQty"].ToString())
+                };
+                result.Add(reqT);
+
+            }
+            dr.Close();
+            cn.Close();
+            #endregion
             foreach (RequisitionTrend rt in result)
             {
                 Console.WriteLine(rt.ToString());//output testing
             }
 
             if (result != null)
-                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
                 return Ok(result);
             else
-                //this help to return a NOTfOUND result, u can customerize the string.
-                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
-                //I put here Just for u to understand the style. :) -Bianca  
                 return NotFound("QUERY FAILED.");
         }
     }
