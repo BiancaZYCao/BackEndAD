@@ -134,6 +134,7 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
+        //requisition-details
         #region requisition details
         [HttpGet("reqDetails")]
         public async Task<ActionResult<IList<Requisition>>> GetAllRequisitionsDetails()
