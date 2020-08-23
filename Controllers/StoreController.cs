@@ -281,17 +281,64 @@ namespace BackEndAD.Controllers
         //api to get current clerk Id [HttpGet("/clerk")]
 
         [HttpPost("generatePO")]
-        public ActionResult<PurchaseOrder> PostPurchaseOrder(
+        public int[] PostPurchaseOrder(
               [FromBody] List<PurchaseOrder> purchaseOrders)
         {
+            int[] result = new int[ purchaseOrders.Count];
+           
             for (int i = 0; i < purchaseOrders.Count; i++)
             {
                 PurchaseOrder po = purchaseOrders[i];
-                //_clkService.savePurchaseOrder(po);
+                po.dateOfOrder = DateTime.Now;
+                _clkService.savePurchaseOrder(po);
+                result[i]= po.id;
             }
-            PurchaseOrder po1 = purchaseOrders[0];
-            return Ok(po1);
+            
+            return result;
         }
+
+        [HttpGet("getPO/{id}")]
+        public async Task<ActionResult<List<PurchaseOrderDetail>>> GetPurchaseOrder(int id)
+        {
+            var result = await _clkService.findPOById(id);
+
+            if (result != null)
+                return Ok(result);
+            else return null;
+            
+        }
+
+        
+
+        [HttpGet("getEmployee/{id}")]
+        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        {
+            var result = await _clkService.findEmployeeByIdAsync(id);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else 
+                return null;
+
+        }
+
+        [HttpGet("getSupplier/{id}")]
+        public async Task<ActionResult<Supplier>> GetSupplier(int id)
+        {
+            var result = await _clkService.findSupplierByIdAsync(id);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+                return null;
+
+
+        }
+
         [HttpGet("ItemsNeedOrder")]
         public async Task<ActionResult<List<Stationery>>> GetItemsNeedOrder()
         {
@@ -319,6 +366,19 @@ namespace BackEndAD.Controllers
             
 
         }
+
+        [HttpGet("getPOD/{id}")]
+        public IList<PurchaseOrderDetail> GetPurchaseOrderDetail(int id)
+        {
+            IList<PurchaseOrderDetail> result = _clkService.findPODById(id);
+
+            if (result != null)
+                return result;
+            else return null;
+
+        }
+
+
 
         #endregion
 

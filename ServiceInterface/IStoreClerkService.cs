@@ -15,6 +15,8 @@ namespace BackEndAD.ServiceInterface
         public void saveStationery(Stationery stationery);
         public Task<IList<Supplier>> findAllSuppliersAsync();
         public Task<Supplier> findSupplierByIdAsync(int id);
+        public Task<PurchaseOrder> findPOById(int id);
+        public IList<PurchaseOrderDetail> findPODById(int id);
 
         public Task<StockAdjustment> generateStkAdjustmentAsync(StockAdjustment stkAdj,
                         List<StockAdjustmentDetail> stockAdjustmentDetails);
@@ -27,6 +29,7 @@ namespace BackEndAD.ServiceInterface
         public void updateSupplier(Supplier s);
 
         public void savePurchaseOrder(PurchaseOrder po);
+        public void savePurchaseOrderDetail(PurchaseOrderDetail pod);
 
         public IList<SupplierItem> findSuppliersByStationeryId(int id);
         public Task<IList<RequesterRow>> GetAllRequesterRow();

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BackEndAD.ServiceImpl
 {
@@ -177,11 +178,18 @@ namespace BackEndAD.ServiceImpl
         public void savePurchaseOrder(PurchaseOrder po)
         {
             unitOfWork.GetRepository<PurchaseOrder>().Insert(po);
+            unitOfWork.SaveChanges();
         }
 
         public Task<SupplierItem> findAllSupplierItemByIdAsync(int stkAdjId)
         {
             throw new NotImplementedException();
+        }
+
+        public void savePurchaseOrderDetail(PurchaseOrderDetail pod)
+        {
+            unitOfWork.GetRepository<PurchaseOrderDetail>().Insert(pod);
+            unitOfWork.SaveChanges();
         }
 
 
@@ -193,6 +201,24 @@ namespace BackEndAD.ServiceImpl
                 .GetAllIncludeIQueryable(filter: x => x.StationeryId == id).ToList();
             return itemlist;
         }
+
+        public async Task<PurchaseOrder> findPOById(int id) {
+            
+            PurchaseOrder po= await unitOfWork.GetRepository<PurchaseOrder>().FindAsync(id);
+
+            return po;
+
+        }
+        public IList<PurchaseOrderDetail> findPODById(int id) {
+
+            IList<PurchaseOrderDetail> podlist = unitOfWork
+                .GetRepository<PurchaseOrderDetail>()
+                .GetAllIncludeIQueryable(filter: x => x.PurchaseOrderId == id).ToList();
+
+            return podlist;
+        }
+
+    
         #endregion
 
         //Disbursement
