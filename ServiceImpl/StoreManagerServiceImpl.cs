@@ -137,7 +137,7 @@ namespace BackEndAD.ServiceImpl
                 {
                     StockAdjustmentId = eachInfo.stockAdustmentId,
                     EmployeeId = eachInfo.empId,
-                    reason = eachInfo.reason,
+                    
                     date = DateTime.Now
                 };
                 unitOfWork.GetRepository<AdjustmentVoucher>().Insert(adjVoc);
