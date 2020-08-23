@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 
 namespace BackEndAD.ServiceImpl
 {
@@ -193,5 +194,68 @@ namespace BackEndAD.ServiceImpl
             return itemlist;
         }
         #endregion
+
+        //Disbursement
+        public async Task<Employee> findEmployeeByIdAsync(int eId)
+        {
+            Employee e = await unitOfWork.GetRepository<Employee>().FindAsync(eId);
+            return e;
+        }
+        public async Task<IList<DisbursementList>> findAllDisbursementListAsync()
+        {
+            IList<DisbursementList> list = await unitOfWork.GetRepository<DisbursementList>().GetAllAsync();
+            return list;
+        }
+        public async Task<IList<RequesterRow>> GetAllRequesterRow()
+        {
+            IList<DisbursementList> disbursementlist = await findAllDisbursementListAsync();
+
+            IList<RequesterRow> resultList = new List<RequesterRow>();
+            RequesterRow row1 = new RequesterRow()
+            {
+                date = DateTime.Today,
+                departmentId = 1,
+                departmentName = "Zoology Department",
+                itemCount = 1,
+                status = "Approved"
+                //representativeName = emp.name;
+            };
+            resultList.Add(row1);
+
+            foreach (DisbursementList disburseList in disbursementlist)
+            {
+                DisbursementDetail disburseDetail = unitOfWork
+                   .GetRepository<DisbursementDetail>()
+                   .GetAllIncludeIQueryable(filter: x => x.DisbursementListId == disburseList.id).FirstOrDefault();
+                
+                if (disburseDetail != null)
+                {
+                    RequisitionDetail requestionDetail = unitOfWork
+                   .GetRepository<RequisitionDetail>()
+                   .GetAllIncludeIQueryable(filter: x => x.Id == disburseDetail.RequisitionDetailId).FirstOrDefault();
+                   
+                    Department dept = unitOfWork
+                   .GetRepository<Department>()
+                   .GetAllIncludeIQueryable(filter: x => x.Id == disburseList.DepartmentId).FirstOrDefault();
+                   
+                    if (dept != null && requestionDetail!=null)
+                    {
+                        //Employee emp = findEmployeeByIdAsync(dept.repId);
+                        RequesterRow row = new RequesterRow()
+                        {
+                            date = disburseList.date,
+                            departmentId = disburseList.DepartmentId,
+                            departmentName = dept.deptName,
+                            itemCount = disburseDetail.qty,
+                            status = requestionDetail.status
+                            //representativeName = emp.name;
+                        };
+                        resultList.Add(row);
+                    }
+                }
+                
+            }//end forEach
+            return resultList;
+        }
     }
 }
