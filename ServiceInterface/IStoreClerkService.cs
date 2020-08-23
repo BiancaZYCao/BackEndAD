@@ -11,7 +11,6 @@ namespace BackEndAD.ServiceInterface
     {
         public Task<IList<Stationery>> findAllStationeriesAsync();
         public Task<Stationery> findStationeryByIdAsync(int id);
-
         public void saveStationery(Stationery stationery);
         public Task<IList<Supplier>> findAllSuppliersAsync();
         public Task<Supplier> findSupplierByIdAsync(int id);
@@ -41,6 +40,9 @@ namespace BackEndAD.ServiceInterface
         public Task<IList<AdjustmentVocherInfo>> issueVoucher(StockAdjustSumById voc);
         public Task<IList<Requisition>> findAllRequsitionAsync();
         public Task<IList<RequisitionDetail>> findAllRequsitionDetailsAsync();
+        public void saveStockAdjustment(StockAdjustment newSA);
+        public void saveStockAdjustmentDetail(StockAdjustmentDetail sAD);
+        public Task<IList<Department>> findAllDepartmentAsync();
     }
 
 }

@@ -314,5 +314,22 @@ namespace BackEndAD.ServiceImpl
         {
             throw new NotImplementedException();
         }
+
+        public void saveStockAdjustment(StockAdjustment newSA)
+        {
+            unitOfWork.GetRepository<StockAdjustment>().Insert(newSA);
+            unitOfWork.SaveChanges();
+        }
+
+        public void saveStockAdjustmentDetail(StockAdjustmentDetail SAD)
+        {
+            unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(SAD);
+            unitOfWork.SaveChanges();
+        }
+
+        public Task<IList<Department>> findAllDepartmentAsync()
+        {
+            return unitOfWork.GetRepository<Department>().GetAllAsync();
+        }
     }
 }

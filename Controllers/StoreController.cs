@@ -269,9 +269,60 @@ namespace BackEndAD.Controllers
         {
             var result = await _clkService.findAllRequsitionDetailsAsync();
             Console.WriteLine("post");
-            Console.WriteLine(requistitions);
-           
+            Console.WriteLine(requistitions);           
             return Ok(requistitions);
+        }
+
+        [HttpPost("processRetrieval")]
+        public async Task<ActionResult<Requisition>> processRetrieval(
+              [FromBody] List<fakeRequisitionDetails> fakeRequisitions)
+        {
+            Console.WriteLine("post");
+            var allRD = await _clkService.findAllRequsitionDetailsAsync();
+            var nonDeliveredRD = allRD.Where(x => x.status != "Delivered");
+            var result = nonDeliveredRD.Where(x => x.status != "Declined");
+            var requisitions = await _clkService.findAllRequsitionAsync();
+            var stationeries = await _clkService.findAllStationeriesAsync();
+            var departments = await _clkService.findAllDepartmentAsync();
+            Console.WriteLine("fetching done and starting processing");
+
+
+            //process incoming i which are not 0 in reqQty
+            //fetch the i.Id to match the RD in db
+            //1.based on the RD found, add the i.rcvQty to the RD.rcvQty
+            //1.1save the RD back in database
+            //2.create a new StockAdjustment
+            //2.1create a list of stockadjustments based on i.id and i.rcvqty
+            //3.update the quantity of stationery
+
+            StockAdjustment newSA = new StockAdjustment();
+            newSA.date = DateTime.Now;
+            newSA.EmployeeId = 15;
+            newSA.type = "stock retrieval";
+            _clkService.saveStockAdjustment(newSA);
+            Console.WriteLine("created stock adjustment");
+            foreach (fakeRequisitionDetails i in fakeRequisitions)
+            {
+                foreach (RequisitionDetail rd in result)
+                {
+                    if ((i.reqQty!=0) && (i.id == rd.Id))
+                    {
+                        var rul =await _clkService.findEmployeeByIdAsync(requisitions.Where(y => y.Id == rd.RequisitionId).FirstOrDefault().EmployeeId);
+                        StockAdjustmentDetail SAD = new StockAdjustmentDetail();
+                        SAD.stockAdjustmentId = newSA.Id;
+                        SAD.StationeryId = rd.StationeryId;
+                        SAD.discpQty = -i.rcvQty;
+                        SAD.comment = "sent to " + departments.Where(x => x.Id == rul.departmentId).FirstOrDefault().deptName;
+                        SAD.Status = null;
+                        _clkService.saveStockAdjustmentDetail(SAD);
+                        
+
+                        Console.WriteLine("id:"+ i.id + ", reqID:"+rd.RequisitionId+", qty:" + i.reqQty);
+                    }
+                }
+            }
+            Console.WriteLine("done");
+            return Ok(fakeRequisitions);
         }
 
 
