@@ -18,10 +18,13 @@ namespace BackEndAD.Controllers
     {
 
         private IStoreClerkService _clkService;
-
-        public StoreController(IStoreClerkService clkService)
+        private IStoreManagerService _mgrService;
+        private IStoreSupervisorService _supervisorService;
+        public StoreController(IStoreClerkService clkService, IStoreManagerService mgrService, IStoreSupervisorService supervisorService)
         {
             _clkService = clkService;
+            _mgrService = mgrService;
+            _supervisorService = supervisorService;
         }
 
         #region Stationery List (Inventory)
@@ -65,6 +68,7 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
+        #region Get Suppliers + CRUD
         [HttpGet("Suppliers")]
         public async Task<ActionResult<List<Supplier>>> GetAllSuppliers()
         {
@@ -112,13 +116,56 @@ namespace BackEndAD.Controllers
             return CreatedAtAction(nameof(GetAllSuppliers), new { }, sup);
 
         }
+        #endregion
+
+        #region inventory management tasks: adjustment + voucher
+        //Clerk
+        [HttpGet("getAllRequesterRow")]
+        public async Task<ActionResult<List<StockAdjustSumById>>> GetAllRequesterRow()
+        {
+
+            var result = await _clkService.GetAllRequesterRow();
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Error");
+        }
+
+        //Supervisor
+        [HttpGet("supervisorAdjustment")]
+        public async Task<ActionResult<List<StockAdjustSumById>>> GetAllSupervisorAdustmentInfo()
+        {
+
+            var result = await _supervisorService.StockAdjustDetailInfo();
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Error");
+        }
 
         //StoreManager stockadjustment voucher
         [HttpGet("adjustmentList")]
         public async Task<ActionResult<List<StockAdjustSumById>>> GetAllAdustmentInfo()
         {
             
-            var result = await _clkService.StockAdjustDetailInfo();
+            var result = await _mgrService.StockAdjustDetailInfo();
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Empty");
+        }
+
+        
+        [HttpPost("getAllAdjustDetailLine")]
+        public async Task<ActionResult<List<AdjustmentVocherInfo>>> getAllAdjustDetailLine([FromBody] StockAdjustSumById item)
+        {
+            var result = await _mgrService.getAllAdjustDetailLineByAdjustId(item);
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
                 return Ok(result);
@@ -128,10 +175,10 @@ namespace BackEndAD.Controllers
         }
 
         
-        [HttpPost("getAllAdjustDetailLine")]
-        public async Task<ActionResult<List<AdjustmentVocherInfo>>> getAllAdjustDetailLine([FromBody] StockAdjustSumById item)
+        [HttpPost("getAllSupervisorAdjustDetailLine")]
+        public async Task<ActionResult<List<AdjustmentVocherInfo>>> getAllSupervisorAdjustDetailLine([FromBody] StockAdjustSumById item)
         {
-            var result = await _clkService.getAllAdjustDetailLineByAdjustId(item);
+            var result = await _supervisorService.getAllAdjustDetailLineByAdjustId(item);
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
                 return Ok(result);
@@ -140,10 +187,38 @@ namespace BackEndAD.Controllers
                 return NotFound("Error");
         }
 
+        
+        [HttpPost("supervisorRejectRequest")]
+        public async Task<ActionResult<List<StockAdjustSumById>>> RejectRequest([FromBody] StockAdjustSumById voc)
+        {
+
+            var result = await _supervisorService.rejectRequest(voc); 
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Empty");
+        }
+
         [HttpPost("issueVoucher")]
         public async Task<ActionResult<List<AdjustmentVocherInfo>>> CreateVoucher([FromBody] StockAdjustSumById voc)
         {
-            var result = await _clkService.issueVoucher(voc);
+            var result = await _mgrService.issueVoucher(voc);
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Error");
+
+        }
+
+        
+        [HttpPost("supervisorissueVoucher")]
+        public async Task<ActionResult<List<AdjustmentVocherInfo>>> SupervisorissueVoucher([FromBody] StockAdjustSumById voc)
+        {
+            var result = await _supervisorService.issueVoucher(voc);
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
                 return Ok(result);
@@ -156,7 +231,7 @@ namespace BackEndAD.Controllers
         [HttpPost("getVoucher")]
         public async Task<ActionResult<AdjustmentVocherInfo>> getVoucher([FromBody] AdjustmentVocherInfo voc)
         {
-            var result = await _clkService.getEachVoucherDetail(voc);
+            var result = await _mgrService.getEachVoucherDetail(voc);
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
                 return Ok(result);
@@ -204,13 +279,13 @@ namespace BackEndAD.Controllers
         //end
 
         #region Test post method 18Aug
-        [HttpPost("stkAd")]
+        [HttpPost("stkAd/{id}")]
         public /*async*/ Task<ActionResult<StockAdjustment>> PostTestStkAd(
-               [FromBody] List<StockAdjustmentDetail> stockAdjustmentDetails)
+               [FromBody] List<StockAdjustmentDetail> stockAdjustmentDetails, int id)
         {
             Console.WriteLine("post");
-            //Console.WriteLine(id);
-            Console.WriteLine(stockAdjustmentDetails[0].comment);
+            Console.WriteLine(id);
+            Console.WriteLine(stockAdjustmentDetails[0].discpQty);
             /*StockAdjustment stkAdj = new StockAdjustment()
             {
                 date = DateTime.Now,
@@ -238,6 +313,7 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Suppliers not found");
         }
+        #endregion
         #endregion
 
         #region place order 
@@ -278,16 +354,65 @@ namespace BackEndAD.Controllers
 
         //api to get current clerk Id [HttpGet("/clerk")]
 
-        [HttpPost("/generatePO")]
-        public Task<ActionResult<PurchaseOrder>> PostPurchaseOrder(List<PurchaseOrder> purchaseOrders)
+        [HttpPost("generatePO")]
+        public int[] PostPurchaseOrder(
+              [FromBody] List<PurchaseOrder> purchaseOrders)
         {
+            int[] result = new int[ purchaseOrders.Count];
+           
             for (int i = 0; i < purchaseOrders.Count; i++)
             {
                 PurchaseOrder po = purchaseOrders[i];
+                po.dateOfOrder = DateTime.Now;
                 _clkService.savePurchaseOrder(po);
+                result[i]= po.id;
             }
-            return null;
+            
+            return result;
         }
+
+        [HttpGet("getPO/{id}")]
+        public async Task<ActionResult<List<PurchaseOrderDetail>>> GetPurchaseOrder(int id)
+        {
+            var result = await _clkService.findPOById(id);
+
+            if (result != null)
+                return Ok(result);
+            else return null;
+            
+        }
+
+        
+
+        [HttpGet("getEmployee/{id}")]
+        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        {
+            var result = await _clkService.findEmployeeByIdAsync(id);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else 
+                return null;
+
+        }
+
+        [HttpGet("getSupplier/{id}")]
+        public async Task<ActionResult<Supplier>> GetSupplier(int id)
+        {
+            var result = await _clkService.findSupplierByIdAsync(id);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+                return null;
+
+
+        }
+
         [HttpGet("ItemsNeedOrder")]
         public async Task<ActionResult<List<Stationery>>> GetItemsNeedOrder()
         {
@@ -315,6 +440,19 @@ namespace BackEndAD.Controllers
             
 
         }
+
+        [HttpGet("getPOD/{id}")]
+        public IList<PurchaseOrderDetail> GetPurchaseOrderDetail(int id)
+        {
+            IList<PurchaseOrderDetail> result = _clkService.findPODById(id);
+
+            if (result != null)
+                return result;
+            else return null;
+
+        }
+
+
 
         #endregion
 

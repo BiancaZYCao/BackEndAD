@@ -15,6 +15,8 @@ namespace BackEndAD.ServiceInterface
         public void saveStationery(Stationery stationery);
         public Task<IList<Supplier>> findAllSuppliersAsync();
         public Task<Supplier> findSupplierByIdAsync(int id);
+        public Task<PurchaseOrder> findPOById(int id);
+        public IList<PurchaseOrderDetail> findPODById(int id);
 
         public Task<StockAdjustment> generateStkAdjustmentAsync(StockAdjustment stkAdj,
                         List<StockAdjustmentDetail> stockAdjustmentDetails);
@@ -25,13 +27,13 @@ namespace BackEndAD.ServiceInterface
         public void deleteSupplier(int id);
        
         public void updateSupplier(Supplier s);
-        public Task<IList<StockAdjustment>> findAllStockAdjustmentAsync();
 
         public void savePurchaseOrder(PurchaseOrder po);
-        public Task<StockAdjustmentDetail> findAllStockAdjustDetailByIdAsync(int stkAdjId);
-        public Task<IList<StockAdjustmentDetail>> findAllStockAdjustDetailAsync();
+        public void savePurchaseOrderDetail(PurchaseOrderDetail pod);
 
-        public Task<SupplierItem> findSupplierItemByIdAsync(int stkAdjId);
+        public IList<SupplierItem> findSuppliersByStationeryId(int id);
+        public Task<IList<RequesterRow>> GetAllRequesterRow();
+        public Task<IList<DisbursementList>> findAllDisbursementListAsync();
         public Task<Employee> findEmployeeByIdAsync(int eId);
         public Task<IList<StockAdjustSumById>> StockAdjustDetailInfo();
         public Task<IList<AdjustmentVocherInfo>> getAllAdjustDetailLineByAdjustId(StockAdjustSumById item);

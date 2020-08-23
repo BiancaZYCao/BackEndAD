@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace BackEndAD.Models
 {
     public class StockAdjustmentDetail
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public int stockAdjustmentId { get; set; }
         public int StationeryId { get; set; }
         public int discpQty { get; set; }

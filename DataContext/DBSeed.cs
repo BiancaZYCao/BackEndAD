@@ -14,7 +14,10 @@ public static class DBSeed
         if (unitOfWork.DbContext.Database.EnsureCreated())
         {
             isCreateDb = true;
+
+            #region Seeded
             //Done yirui W/O clerkId
+
             #region CollectionInfo
             CollectionInfo ci1 = new CollectionInfo()
             {
@@ -162,17 +165,6 @@ public static class DBSeed
             unitOfWork.SaveChanges();
             #endregion
 
-            #region Test TodoItem
-            TodoItem tdi = new TodoItem()
-            {
-                Name = "Cook dinner",
-                IsComplete = false,
-                Secret = "Dangerous Secret info"
-            };
-            unitOfWork.GetRepository<TodoItem>().Insert(tdi);
-            unitOfWork.SaveChanges();
-            #endregion
-
             //Bianca Transfer into C# code - pending testing & seed
             #region stationery pending testing & seed
             Stationery i1 = new Stationery() { category = "Clip", desc = "Clips Double 1\"", reOrderLevel = 50, reOrderQty = 30, inventoryQty = 59, unit = "Dozen" };
@@ -272,7 +264,7 @@ public static class DBSeed
                 unitOfWork.GetRepository<Stationery>().Insert(stationeryArr[d]);
                 unitOfWork.SaveChanges();
             }
-            
+
             #endregion
 
             //done Yirui
@@ -285,7 +277,7 @@ public static class DBSeed
                 email = "mary@gmail.com",
                 role = "HEAD",
                 phoneNum = "91234567"
-                
+
             };
 
             Employee e2 = new Employee()
@@ -296,7 +288,7 @@ public static class DBSeed
                 email = "john@gmail.com",
                 role = "HEAD",
                 phoneNum = "92234567"
-               
+
             };
 
             Employee e3 = new Employee()
@@ -307,7 +299,7 @@ public static class DBSeed
                 email = "joe@gmail.com",
                 role = "HEAD",
                 phoneNum = "81234567"
-                
+
             };
 
             Employee e4 = new Employee()
@@ -318,7 +310,7 @@ public static class DBSeed
                 email = "peter@gmail.com",
                 role = "HEAD",
                 phoneNum = "82234567"
-                
+
             };
 
             Employee e5 = new Employee()
@@ -329,7 +321,7 @@ public static class DBSeed
                 email = "bob@gmail.com",
                 role = "HEAD",
                 phoneNum = "82334567"
-                
+
             };
 
             Employee e6 = new Employee()
@@ -350,7 +342,7 @@ public static class DBSeed
                 email = "john1@gmail.com",
                 role = "REPRESENTATIVE",
                 phoneNum = "93234567"
-                
+
             };
 
             Employee e8 = new Employee()
@@ -361,7 +353,7 @@ public static class DBSeed
                 email = "joe1@gmail.com",
                 role = "REPRESENTATIVE",
                 phoneNum = "91134567"
-                
+
             };
 
             Employee e9 = new Employee()
@@ -372,7 +364,7 @@ public static class DBSeed
                 email = "Peter1@gmail.com",
                 role = "REPRESENTATIVE",
                 phoneNum = "92224567"
-                
+
             };
 
             Employee e10 = new Employee()
@@ -403,7 +395,7 @@ public static class DBSeed
                 email = "Joe2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "91222567",
-                
+
             };
 
             Employee e13 = new Employee()
@@ -414,7 +406,7 @@ public static class DBSeed
                 email = "Peter2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "92222267",
-                
+
             };
 
             Employee e14 = new Employee()
@@ -465,7 +457,7 @@ public static class DBSeed
                 email = "John2@gmail.com",
                 role = "STAFF",
                 phoneNum = "82222267"
-                
+
             };
 
             Employee e19 = new Employee()
@@ -476,7 +468,7 @@ public static class DBSeed
                 email = "John3@gmail.com",
                 role = "STAFF",
                 phoneNum = "83222267"
-                
+
             };
 
             Employee e20 = new Employee()
@@ -487,7 +479,7 @@ public static class DBSeed
                 email = "John4@gmail.com",
                 role = "STAFF",
                 phoneNum = "84222267"
-                
+
             };
 
             Employee e21 = new Employee()
@@ -498,7 +490,7 @@ public static class DBSeed
                 email = "John5@gmail.com",
                 role = "STAFF",
                 phoneNum = "85222267"
-                
+
             };
 
             Employee e22 = new Employee()
@@ -509,7 +501,7 @@ public static class DBSeed
                 email = "Joe3@gmail.com",
                 role = "STAFF",
                 phoneNum = "83322267"
-                
+
             };
 
             Employee e23 = new Employee()
@@ -520,7 +512,7 @@ public static class DBSeed
                 email = "Joe4@gmail.com",
                 role = "STAFF",
                 phoneNum = "84422267"
-                
+
             };
 
             Employee e24 = new Employee()
@@ -531,7 +523,7 @@ public static class DBSeed
                 email = "Joe5@gmail.com",
                 role = "STAFF",
                 phoneNum = "85522267"
-                
+
             };
 
             Employee e25 = new Employee()
@@ -542,7 +534,7 @@ public static class DBSeed
                 email = "Peter3@gmail.com",
                 role = "STAFF",
                 phoneNum = "85522263"
-                
+
             };
 
             Employee e26 = new Employee()
@@ -553,7 +545,7 @@ public static class DBSeed
                 email = "Peter4@gmail.com",
                 role = "STAFF",
                 phoneNum = "85522264"
-                
+
             };
 
             Employee e27 = new Employee()
@@ -603,7 +595,7 @@ public static class DBSeed
                 department = store,
                 email = "martin@gmail.com",
                 role = "STRMGR",
-                phoneNum = "85522261",           
+                phoneNum = "85522261",
             };
 
             Employee e32 = new Employee()
@@ -910,42 +902,42 @@ public static class DBSeed
             #region SupplierItem 
             //1-80 May
 
-            SupplierItem si1 = new SupplierItem() { SupplierId = 1, StationeryId = i2.Id, price = 1.2f};
-            SupplierItem si2 = new SupplierItem() { SupplierId = 1, StationeryId = i3.Id, price = 1};
+            SupplierItem si1 = new SupplierItem() { SupplierId = 1, StationeryId = i2.Id, price = 1.2f };
+            SupplierItem si2 = new SupplierItem() { SupplierId = 1, StationeryId = i3.Id, price = 1 };
             SupplierItem si3 = new SupplierItem() { SupplierId = 1, StationeryId = i4.Id, price = 5 };
-            SupplierItem si4 = new SupplierItem() { SupplierId = 1, StationeryId = i5.Id, price = 7};
+            SupplierItem si4 = new SupplierItem() { SupplierId = 1, StationeryId = i5.Id, price = 7 };
             SupplierItem si5 = new SupplierItem() { SupplierId = 1, StationeryId = i6.Id, price = 7.5f };
-            SupplierItem si6 = new SupplierItem() { SupplierId = 1, StationeryId = i7.Id, price = 0.4f};
-            SupplierItem si7 = new SupplierItem() { SupplierId = 1, StationeryId = i8.Id, price = 0.56f};
-            SupplierItem si8 = new SupplierItem() { SupplierId = 1, StationeryId = i9.Id, price = 0.3f};
-            SupplierItem si9 = new SupplierItem() { SupplierId = 1, StationeryId = i10.Id, price = 0.35f  };
-            SupplierItem si10= new SupplierItem() { SupplierId = 1, StationeryId = i12.Id, price = 0.4f  };
-            SupplierItem si11= new SupplierItem() { SupplierId = 1, StationeryId = i13.Id, price = 0.38f  };
-            SupplierItem si12= new SupplierItem() { SupplierId = 1, StationeryId = i14.Id, price = 0.22f };
-            SupplierItem si13= new SupplierItem() { SupplierId = 1, StationeryId = i15.Id, price = 0.38f  };
-            SupplierItem si14= new SupplierItem() { SupplierId = 1, StationeryId = i16.Id, price = 0.35f  };
-            SupplierItem si15= new SupplierItem() { SupplierId = 1, StationeryId = i17.Id, price = 0.5f  };
-            SupplierItem si16= new SupplierItem() { SupplierId = 1, StationeryId = i18.Id, price = 0.4f  };
-            SupplierItem si17= new SupplierItem() { SupplierId = 1, StationeryId = i19.Id, price = 0.3f  };
-            SupplierItem si18= new SupplierItem() { SupplierId = 1, StationeryId = i20.Id, price = 0.46f  };
-            SupplierItem si19= new SupplierItem() { SupplierId = 1, StationeryId = i22.Id, price = 0.3f  };
-            SupplierItem si20= new SupplierItem() { SupplierId = 1, StationeryId = i23.Id, price = 0.39f  };
+            SupplierItem si6 = new SupplierItem() { SupplierId = 1, StationeryId = i7.Id, price = 0.4f };
+            SupplierItem si7 = new SupplierItem() { SupplierId = 1, StationeryId = i8.Id, price = 0.56f };
+            SupplierItem si8 = new SupplierItem() { SupplierId = 1, StationeryId = i9.Id, price = 0.3f };
+            SupplierItem si9 = new SupplierItem() { SupplierId = 1, StationeryId = i10.Id, price = 0.35f };
+            SupplierItem si10 = new SupplierItem() { SupplierId = 1, StationeryId = i12.Id, price = 0.4f };
+            SupplierItem si11 = new SupplierItem() { SupplierId = 1, StationeryId = i13.Id, price = 0.38f };
+            SupplierItem si12 = new SupplierItem() { SupplierId = 1, StationeryId = i14.Id, price = 0.22f };
+            SupplierItem si13 = new SupplierItem() { SupplierId = 1, StationeryId = i15.Id, price = 0.38f };
+            SupplierItem si14 = new SupplierItem() { SupplierId = 1, StationeryId = i16.Id, price = 0.35f };
+            SupplierItem si15 = new SupplierItem() { SupplierId = 1, StationeryId = i17.Id, price = 0.5f };
+            SupplierItem si16 = new SupplierItem() { SupplierId = 1, StationeryId = i18.Id, price = 0.4f };
+            SupplierItem si17 = new SupplierItem() { SupplierId = 1, StationeryId = i19.Id, price = 0.3f };
+            SupplierItem si18 = new SupplierItem() { SupplierId = 1, StationeryId = i20.Id, price = 0.46f };
+            SupplierItem si19 = new SupplierItem() { SupplierId = 1, StationeryId = i22.Id, price = 0.3f };
+            SupplierItem si20 = new SupplierItem() { SupplierId = 1, StationeryId = i23.Id, price = 0.39f };
             SupplierItem si21 = new SupplierItem() { SupplierId = 1, StationeryId = i24.Id, price = 8 };
-            SupplierItem si22 = new SupplierItem() { SupplierId = 1, StationeryId = i25.Id, price = 16  };
-            SupplierItem si23 = new SupplierItem() { SupplierId = 1, StationeryId = i26.Id, price = 18  };
-            SupplierItem si24 = new SupplierItem() { SupplierId = 1, StationeryId = i27.Id, price = 16  };
-            SupplierItem si25 = new SupplierItem() { SupplierId = 1, StationeryId = i28.Id, price = 18  };
-            SupplierItem si26 = new SupplierItem() { SupplierId = 1, StationeryId = i29.Id, price = 0.2f  };
-            SupplierItem si27 = new SupplierItem() { SupplierId = 1, StationeryId = i30.Id, price = 0.2f  };
-            SupplierItem si28 = new SupplierItem() { SupplierId = 1, StationeryId = i32.Id, price = 0.2f  };
-            SupplierItem si29 = new SupplierItem() { SupplierId = 1, StationeryId = i33.Id, price = 0.2f  };
+            SupplierItem si22 = new SupplierItem() { SupplierId = 1, StationeryId = i25.Id, price = 16 };
+            SupplierItem si23 = new SupplierItem() { SupplierId = 1, StationeryId = i26.Id, price = 18 };
+            SupplierItem si24 = new SupplierItem() { SupplierId = 1, StationeryId = i27.Id, price = 16 };
+            SupplierItem si25 = new SupplierItem() { SupplierId = 1, StationeryId = i28.Id, price = 18 };
+            SupplierItem si26 = new SupplierItem() { SupplierId = 1, StationeryId = i29.Id, price = 0.2f };
+            SupplierItem si27 = new SupplierItem() { SupplierId = 1, StationeryId = i30.Id, price = 0.2f };
+            SupplierItem si28 = new SupplierItem() { SupplierId = 1, StationeryId = i32.Id, price = 0.2f };
+            SupplierItem si29 = new SupplierItem() { SupplierId = 1, StationeryId = i33.Id, price = 0.2f };
             SupplierItem si30 = new SupplierItem() { SupplierId = 1, StationeryId = i34.Id, price = 8.99f };
             SupplierItem si31 = new SupplierItem() { SupplierId = 1, StationeryId = i35.Id, price = 8.99f };
             SupplierItem si32 = new SupplierItem() { SupplierId = 1, StationeryId = i36.Id, price = 8.99f };
             SupplierItem si33 = new SupplierItem() { SupplierId = 1, StationeryId = i37.Id, price = 8.99f };
-            SupplierItem si34 = new SupplierItem() { SupplierId = 1, StationeryId = i38.Id, price = 6  };
-            SupplierItem si35 = new SupplierItem() { SupplierId = 1, StationeryId = i39.Id, price = 7  };
-            SupplierItem si36 = new SupplierItem() { SupplierId = 1, StationeryId= i40.Id, price = 20  };
+            SupplierItem si34 = new SupplierItem() { SupplierId = 1, StationeryId = i38.Id, price = 6 };
+            SupplierItem si35 = new SupplierItem() { SupplierId = 1, StationeryId = i39.Id, price = 7 };
+            SupplierItem si36 = new SupplierItem() { SupplierId = 1, StationeryId = i40.Id, price = 20 };
             SupplierItem si37 = new SupplierItem() { SupplierId = 1, StationeryId = i42.Id, price = 12.99f };
             SupplierItem si38 = new SupplierItem() { SupplierId = 1, StationeryId = i43.Id, price = 12.99f };
             SupplierItem si39 = new SupplierItem() { SupplierId = 1, StationeryId = i44.Id, price = 16.99f };
@@ -990,8 +982,8 @@ public static class DBSeed
             SupplierItem si78 = new SupplierItem() { SupplierId = 1, StationeryId = i87.Id, price = 12 };
             SupplierItem si79 = new SupplierItem() { SupplierId = 1, StationeryId = i88.Id, price = 10 };
             SupplierItem si80 = new SupplierItem() { SupplierId = 1, StationeryId = i89.Id, price = 12 };
-           
-            SupplierItem si81 = new SupplierItem() {SupplierId = 2, StationeryId = i11.Id, price = 0.2f};
+
+            SupplierItem si81 = new SupplierItem() { SupplierId = 2, StationeryId = i11.Id, price = 0.2f };
             SupplierItem si82 = new SupplierItem() { SupplierId = 2, StationeryId = i21.Id, price = 0.62f };
             SupplierItem si83 = new SupplierItem() { SupplierId = 2, StationeryId = i31.Id, price = 0.2f };
             SupplierItem si84 = new SupplierItem() { SupplierId = 2, StationeryId = i41.Id, price = 13.99f };
@@ -1000,15 +992,15 @@ public static class DBSeed
             SupplierItem si87 = new SupplierItem() { SupplierId = 2, StationeryId = i71.Id, price = 2.2f };
             SupplierItem si88 = new SupplierItem() { SupplierId = 2, StationeryId = i81.Id, price = 5.2f };
             SupplierItem si89 = new SupplierItem() { SupplierId = 2, StationeryId = i9.Id, price = 0.5f };
-            SupplierItem si90 = new SupplierItem() { SupplierId = 2, StationeryId = i10.Id, price = 0.55f };
+            SupplierItem si90 = new SupplierItem() { SupplierId = 2, StationeryId = i1.Id, price = 0.55f };
 
-            SupplierItem si91 = new SupplierItem() {SupplierId = 3, StationeryId = i15.Id, price = 0.45f};
+            SupplierItem si91 = new SupplierItem() { SupplierId = 3, StationeryId = i15.Id, price = 0.45f };
             SupplierItem si92 = new SupplierItem() { SupplierId = 3, StationeryId = i25.Id, price = 16.8f };
             SupplierItem si93 = new SupplierItem() { SupplierId = 3, StationeryId = i35.Id, price = 9.99f };
             SupplierItem si94 = new SupplierItem() { SupplierId = 3, StationeryId = i45.Id, price = 21.8f };
             SupplierItem si95 = new SupplierItem() { SupplierId = 3, StationeryId = i55.Id, price = 15.99f };
             SupplierItem si96 = new SupplierItem() { SupplierId = 3, StationeryId = i1.Id, price = 5.99f };
-            SupplierItem[] supItemArr = { si1,si2,si3,si4,si5,si6,si7,si8,si9,si10, si11, si12, si13, si14, si15, si16, si17, si18, si19, si20, si21, si22, si23, si24, si25, si26, si27, si28, si29, si30, si31, si32, si33, si34, si35, si36, si37, si38, si39, si40, si41, si42, si43, si44, si45, si46, si47, si48, si49, si50, si51, si52, si53, si54, si55, si56, si57, si58, si59, si60, si61, si62, si63, si64, si65, si66, si67, si68, si69, si70, si71, si72, si73, si74, si75, si76, si77, si78, si79, si80, si81, si82, si83, si84, si85, si86, si87, si88, si89, si90, si91, si92, si93, si94, si95};
+            SupplierItem[] supItemArr = { si1, si2, si3, si4, si5, si6, si7, si8, si9, si10, si11, si12, si13, si14, si15, si16, si17, si18, si19, si20, si21, si22, si23, si24, si25, si26, si27, si28, si29, si30, si31, si32, si33, si34, si35, si36, si37, si38, si39, si40, si41, si42, si43, si44, si45, si46, si47, si48, si49, si50, si51, si52, si53, si54, si55, si56, si57, si58, si59, si60, si61, si62, si63, si64, si65, si66, si67, si68, si69, si70, si71, si72, si73, si74, si75, si76, si77, si78, si79, si80, si81, si82, si83, si84, si85, si86, si87, si88, si89, si90, si91, si92, si93, si94, si95 };
             for (int z = 0; z < supItemArr.Length; z++)
             {
                 unitOfWork.GetRepository<SupplierItem>().Insert(supItemArr[z]);
@@ -1016,59 +1008,169 @@ public static class DBSeed
             }
             #endregion
 
-            //only 2 Done May 
+            #endregion
+
+
+
+
+            //only 2 Done  by May + yirui & Theingi more
             #region StockAdjustment and Detail
             /// 1 receiveGood (after PO)
             /// 2 monthly check + 3 get good from ware house find missing or damage
             /// 4 manager revert adjustment after not issue voucher
-            StockAdjustment sa1 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 7, 27), EmployeeId = e33.Id};
-            StockAdjustmentDetail sa1sad1 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i1.Id, discpQty = -5, comment = "Broken"};
-            StockAdjustmentDetail sa1sad2 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i2.Id, discpQty = 1, comment = null };
-            StockAdjustmentDetail sa1sad3 = new StockAdjustmentDetail() { stockAdjustment = sa1, StationeryId = i3.Id, discpQty = -2, comment = "Missing" };
+            StockAdjustment sa1 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 7, 27), EmployeeId = e33.Id };
 
             StockAdjustment sa2 = new StockAdjustment() { type = "missing when collecting goods", date = new DateTime(2020, 8, 27), EmployeeId = e34.Id };
-            StockAdjustmentDetail sa2sad1 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i1.Id, discpQty = -10, comment = null };
-            StockAdjustmentDetail sa2sad2 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i2.Id, discpQty = -50, comment = null };
-            StockAdjustmentDetail sa2sad3 = new StockAdjustmentDetail() { stockAdjustment = sa2, StationeryId = i3.Id, discpQty = -2, comment = "Broken" };
 
-            StockAdjustment[] saArr = { sa1, sa2 };
+            StockAdjustment sa3 = new StockAdjustment() { type = "Warehouse flooding", date = new DateTime(2020, 6, 2), EmployeeId = e35.Id };
+
+            StockAdjustment sa4 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 4, 24), EmployeeId = e33.Id };
+
+
+            StockAdjustment sa5 = new StockAdjustment() { type = "extra found after school fair", date = new DateTime(2020, 7, 7), EmployeeId = e34.Id };
+            StockAdjustment sa6 = new StockAdjustment() { type = "Warehouse Break in", date = new DateTime(2020, 5, 2), EmployeeId = e35.Id };
+            StockAdjustment sa7 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 6, 26), EmployeeId = e33.Id };
+            StockAdjustment sa8 = new StockAdjustment() { type = "missing when collecting goods", date = new DateTime(2020, 8, 17), EmployeeId = e34.Id };
+            StockAdjustment sa9 = new StockAdjustment() { type = "Moving to New Warehouse Location", date = new DateTime(2020, 6, 12), EmployeeId = e35.Id };
+            StockAdjustment sa10 = new StockAdjustment() { type = "regular inventory check", date = new DateTime(2020, 7, 27), EmployeeId = e33.Id };
+            StockAdjustment[] saArr = { sa1, sa2, sa3, sa4, sa5, sa6, sa7, sa8, sa9, sa10 };
             for (int e = 0; e < saArr.Length; e++)
             {
                 unitOfWork.GetRepository<StockAdjustment>().Insert(saArr[e]);
                 unitOfWork.SaveChanges();
             }
-            StockAdjustmentDetail[] sadArr = { sa1sad1, sa1sad2, sa1sad3, sa2sad1, sa2sad2, sa2sad3 };
-            for (int f = 0; f < sadArr.Length; f++)
+            unitOfWork.SaveChanges();
+            StockAdjustmentDetail sa1sad1 = new StockAdjustmentDetail() { stockAdjustmentId = 1, StationeryId = 1, discpQty = -5, comment = "Broken", Status = "Pending Approval" };
+            StockAdjustmentDetail sa1sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 1, StationeryId = 2, discpQty = 1, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa1sad3 = new StockAdjustmentDetail() { stockAdjustmentId = 1, StationeryId = 3, discpQty = -2, comment = "Missing", Status = "Rejected" };
+
+
+            StockAdjustmentDetail sa2sad1 = new StockAdjustmentDetail() { stockAdjustmentId = 2, StationeryId = 1, discpQty = -10, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa2sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 2, StationeryId = 2, discpQty = -50, comment = null, Status = "Pending Approval" };
+            StockAdjustmentDetail sa2sad3 = new StockAdjustmentDetail() { stockAdjustmentId = 2, StationeryId = 3, discpQty = -2, comment = "Broken", Status = "Approved" };
+
+
+            StockAdjustmentDetail sa3sad1 = new StockAdjustmentDetail() { stockAdjustmentId = 3, StationeryId = 4, discpQty = -20, comment = "Damaged", Status = "Approved" };
+            StockAdjustmentDetail sa3sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 3, StationeryId = 5, discpQty = 1, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa3sad3 = new StockAdjustmentDetail() { stockAdjustmentId = 3, StationeryId = 6, discpQty = -15, comment = "Soaked", Status = "Approved" };
+            StockAdjustmentDetail sa3sad4 = new StockAdjustmentDetail() { stockAdjustmentId = 3, StationeryId = 7, discpQty = -18, comment = "Soaked", Status = "Approved" };
+            StockAdjustmentDetail sa3sad5 = new StockAdjustmentDetail() { stockAdjustmentId = 3, StationeryId = 8, discpQty = 3, comment = null, Status = "Approved" };
+
+
+            StockAdjustmentDetail sa4sad1 = new StockAdjustmentDetail() { stockAdjustmentId = 4, StationeryId = 9, discpQty = -5, comment = "Expired", Status = "Pending Approval" };
+            StockAdjustmentDetail sa4sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 4, StationeryId = 10, discpQty = 1, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa4sad3 = new StockAdjustmentDetail() { stockAdjustmentId = 4, StationeryId = 11, discpQty = -2, comment = "Missing", Status = "Approved" };
+
+
+            StockAdjustmentDetail sa5sad1 = new StockAdjustmentDetail() { stockAdjustmentId = 5, StationeryId = 12, discpQty = 3, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa5sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 5, StationeryId = 13, discpQty = 7, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa5sad3 = new StockAdjustmentDetail() { stockAdjustmentId = 5, StationeryId = 14, discpQty = 11, comment = null, Status = "Approved" };
+
+
+            StockAdjustmentDetail sa6sad1 = new StockAdjustmentDetail() { stockAdjustmentId = 6, StationeryId = 15, discpQty = -20, comment = "Stolen", Status = "Approved" };
+            StockAdjustmentDetail sa6sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 6, StationeryId = 16, discpQty = -19, comment = "Stolen", Status = "Approved" };
+            StockAdjustmentDetail sa6sad3 = new StockAdjustmentDetail() { stockAdjustmentId = 6, StationeryId = 17, discpQty = -15, comment = "Stolen", Status = "Approved" };
+            StockAdjustmentDetail sa6sad4 = new StockAdjustmentDetail() { stockAdjustmentId = 6, StationeryId = 18, discpQty = -18, comment = "Stolen", Status = "Approved" };
+            StockAdjustmentDetail sa6sad5 = new StockAdjustmentDetail() { stockAdjustmentId = 6, StationeryId = 19, discpQty = -30, comment = "Stolen", Status = "Approved" };
+
+            StockAdjustmentDetail sa7sad1 = new StockAdjustmentDetail() { stockAdjustmentId = 7, StationeryId = 20, discpQty = 5, comment = null, Status = "Approved" };
+            StockAdjustmentDetail sa7sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 7, StationeryId = 21, discpQty = 13, comment = "Leftover", Status = "Pending Approval" };
+            StockAdjustmentDetail sa7sad3 = new StockAdjustmentDetail() { stockAdjustmentId = 7, StationeryId = 22, discpQty = 20, comment = "New Box found", Status = "Rejected" };
+
+
+            StockAdjustmentDetail sa8sad1 = new StockAdjustmentDetail() { stockAdjustmentId = 8, StationeryId = 23, discpQty = -7, comment = "Damaged", Status = "Approved" };
+            StockAdjustmentDetail sa8sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 8, StationeryId = 24, discpQty = -6, comment = "Missing", Status = "Pending Approval" };
+            StockAdjustmentDetail sa8sad3 = new StockAdjustmentDetail() { stockAdjustmentId = 8, StationeryId = 25, discpQty = -1, comment = "Broken", Status = "Approved" };
+
+
+            StockAdjustmentDetail sa9sad1 = new StockAdjustmentDetail() { stockAdjustmentId = 9, StationeryId = 26, discpQty = -20, comment = "Missing", Status = "Approved" };
+            StockAdjustmentDetail sa9sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 9, StationeryId = 27, discpQty = -21, comment = "Missing", Status = "Approved" };
+            StockAdjustmentDetail sa9sad3 = new StockAdjustmentDetail() { stockAdjustmentId = 9, StationeryId = 28, discpQty = -15, comment = "Damaged during move", Status = "Rejected" };
+            StockAdjustmentDetail sa9sad4 = new StockAdjustmentDetail() { stockAdjustmentId = 9, StationeryId = 29, discpQty = -18, comment = "Missing", Status = "Approved" };
+            StockAdjustmentDetail sa9sad5 = new StockAdjustmentDetail() { stockAdjustmentId = 9, StationeryId = 30, discpQty = -33, comment = "Damaged during move", Status = "Pending Approval" };
+
+
+            StockAdjustmentDetail sa10sad1 = new StockAdjustmentDetail() { stockAdjustmentId = 10, StationeryId = 31, discpQty = -25, comment = "Broken", Status = "Rejected" };
+            StockAdjustmentDetail sa10sad2 = new StockAdjustmentDetail() { stockAdjustmentId = 10, StationeryId = 32, discpQty = -14, comment = "Missing", Status = "Rejected" };
+            StockAdjustmentDetail sa10sad3 = new StockAdjustmentDetail() { stockAdjustmentId = 10, StationeryId = 33, discpQty = -28, comment = "Missing", Status = "Rejected" };
+
+
+            StockAdjustmentDetail[] sadDetArr = {sa1sad1,sa1sad2,sa1sad3,sa2sad1,sa2sad2,sa2sad3,sa3sad1,sa3sad2,sa3sad3,sa3sad4,sa3sad5,
+                sa4sad1,sa4sad2,sa4sad3,sa5sad1,sa5sad2,sa5sad3,sa6sad1,sa6sad2,sa6sad3,sa6sad4, sa6sad5,
+         sa7sad1, sa7sad2, sa7sad3, sa8sad1, sa8sad2, sa8sad3, sa9sad1, sa9sad2, sa9sad3, sa9sad4, sa9sad5,
+         sa10sad1,sa10sad2,sa10sad3};
+            for (int f = 0; f < sadDetArr.Length; f++)
             {
-                unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(sadArr[f]);
+                unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(sadDetArr[f]);
                 unitOfWork.SaveChanges();
             }
+
+
             #endregion
-            
+
+
             #region AdjustmentVoucher and Detail
-            AdjustmentVoucher av1 = new AdjustmentVoucher() { StockAdjustmentId=sa1.Id, date=new DateTime(2020, 7, 31), EmployeeId=e32.Id, reason="" };
-            AdjustmentVoucherDetail av1avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av1, StockAdjustmentDetailId=sa1sad1.Id, price=29.95 };
-            AdjustmentVoucherDetail av1avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av1, StockAdjustmentDetailId=sa1sad2.Id, price=1.2 };
-            AdjustmentVoucherDetail av1avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher= av1, StockAdjustmentDetailId=sa1sad3.Id, price=2 };
 
-            AdjustmentVoucher av2 = new AdjustmentVoucher() { StockAdjustmentId=sa2.Id, date=new DateTime(2020, 8, 31), EmployeeId=e32.Id, reason=""};
-            AdjustmentVoucherDetail av2avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId=sa2sad1.Id, price=59.9 };
-            AdjustmentVoucherDetail av2avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId=sa2sad2.Id, price= 60};
-            AdjustmentVoucherDetail av2avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId=sa2sad3.Id, price=2 };
+            AdjustmentVoucher av1 = new AdjustmentVoucher() { StockAdjustmentId = 1, date = new DateTime(2020, 7, 31), EmployeeId = 14 };
+            AdjustmentVoucherDetail av1avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av1, StockAdjustmentDetailId = sa1sad2.Id, price = 0.55 };
 
-            AdjustmentVoucher[] avArr = { av1, av2 };
+
+            AdjustmentVoucher av2 = new AdjustmentVoucher() { StockAdjustmentId = 2, date = new DateTime(2020, 8, 13), EmployeeId = 14 };
+            AdjustmentVoucherDetail av2avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId = sa2sad1.Id, price = 5.5 };
+            AdjustmentVoucherDetail av2avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av2, StockAdjustmentDetailId = sa2sad3.Id, price = 2 };
+
+            AdjustmentVoucher av3 = new AdjustmentVoucher() { StockAdjustmentId = 3, date = new DateTime(2020, 6, 6), EmployeeId = 14 };
+            AdjustmentVoucherDetail av3avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av3, StockAdjustmentDetailId = sa3sad1.Id, price = 100 };
+            AdjustmentVoucherDetail av3avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av3, StockAdjustmentDetailId = sa3sad2.Id, price = 7 };
+            AdjustmentVoucherDetail av3avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher = av3, StockAdjustmentDetailId = sa3sad3.Id, price = 112.5 };
+            AdjustmentVoucherDetail av3avd4 = new AdjustmentVoucherDetail() { adjustmentVoucher = av3, StockAdjustmentDetailId = sa3sad4.Id, price = 10.08 };
+            AdjustmentVoucherDetail av3avd5 = new AdjustmentVoucherDetail() { adjustmentVoucher = av3, StockAdjustmentDetailId = sa3sad5.Id, price = 0.9 };
+
+            AdjustmentVoucher av4 = new AdjustmentVoucher() { StockAdjustmentId = 4, date = new DateTime(2020, 5, 3), EmployeeId = 14 };
+            AdjustmentVoucherDetail av4avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av4, StockAdjustmentDetailId = sa4sad2.Id, price = 0.4 };
+            AdjustmentVoucherDetail av4avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av4, StockAdjustmentDetailId = sa4sad3.Id, price = 0.4 };
+
+            AdjustmentVoucher av5 = new AdjustmentVoucher() { StockAdjustmentId = 5, date = new DateTime(2020, 7, 10), EmployeeId = 14 };
+            AdjustmentVoucherDetail av5avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId = sa5sad1.Id, price = 1.2 };
+            AdjustmentVoucherDetail av5avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId = sa5sad2.Id, price = 2.66 };
+            AdjustmentVoucherDetail av5avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId = sa5sad3.Id, price = 2.42 };
+
+            AdjustmentVoucher av6 = new AdjustmentVoucher() { StockAdjustmentId = 6, date = new DateTime(2020, 5, 10), EmployeeId = 14 };
+            AdjustmentVoucherDetail av6avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId = sa6sad1.Id, price = 7.6 };
+            AdjustmentVoucherDetail av6avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId = sa6sad2.Id, price = 6.65 };
+            AdjustmentVoucherDetail av6avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId = sa6sad3.Id, price = 7.5 };
+            AdjustmentVoucherDetail av6avd4 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId = sa6sad4.Id, price = 7.2 };
+            AdjustmentVoucherDetail av6avd5 = new AdjustmentVoucherDetail() { adjustmentVoucher = av5, StockAdjustmentDetailId = sa6sad5.Id, price = 9 };
+
+            AdjustmentVoucher av7 = new AdjustmentVoucher() { StockAdjustmentId = 7, date = new DateTime(2020, 7, 4), EmployeeId = 14 };
+            AdjustmentVoucherDetail av7avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av7, StockAdjustmentDetailId = sa7sad1.Id, price = 2.3 };
+
+            AdjustmentVoucher av8 = new AdjustmentVoucher() { StockAdjustmentId = 8, date = new DateTime(2020, 8, 25), EmployeeId = 14 };
+            AdjustmentVoucherDetail av8avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av8, StockAdjustmentDetailId = sa8sad1.Id, price = 2.73 };
+            AdjustmentVoucherDetail av8avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av8, StockAdjustmentDetailId = sa8sad3.Id, price = 16 };
+
+            AdjustmentVoucher av9 = new AdjustmentVoucher() { StockAdjustmentId = 9, date = new DateTime(2020, 6, 22), EmployeeId = 12 };
+            AdjustmentVoucherDetail av9avd1 = new AdjustmentVoucherDetail() { adjustmentVoucher = av9, StockAdjustmentDetailId = sa9sad1.Id, price = 360 };
+            AdjustmentVoucherDetail av9avd2 = new AdjustmentVoucherDetail() { adjustmentVoucher = av9, StockAdjustmentDetailId = sa9sad2.Id, price = 336 };
+            AdjustmentVoucherDetail av9avd3 = new AdjustmentVoucherDetail() { adjustmentVoucher = av9, StockAdjustmentDetailId = sa9sad4.Id, price = 3.6 };
+
+
+            AdjustmentVoucher[] avArr = { av1, av2, av3, av4, av5, av6, av7, av8, av9 };
             for (int g = 0; g < avArr.Length; g++)
             {
                 unitOfWork.GetRepository<AdjustmentVoucher>().Insert(avArr[g]);
                 unitOfWork.SaveChanges();
             }
-            AdjustmentVoucherDetail[] avdArr = { av1avd1, av1avd2,av1avd3,av2avd1,av2avd2,av2avd3 };
-            for (int h = 0; h < avdArr.Length; h++)
+
+
+            AdjustmentVoucherDetail[] avdDetArr = { av1avd1, av2avd1,av2avd2, av3avd1, av3avd2, av3avd3, av3avd4, av3avd5, av4avd1, av4avd2, av5avd1, av5avd2, av5avd3
+            , av6avd1, av6avd2, av6avd3, av6avd4, av6avd5, av7avd1, av8avd1, av8avd2, av9avd1, av9avd2, av9avd3};
+            for (int h = 0; h < avdDetArr.Length; h++)
             {
-                unitOfWork.GetRepository<AdjustmentVoucherDetail>().Insert(avdArr[h]);
+                unitOfWork.GetRepository<AdjustmentVoucherDetail>().Insert(avdDetArr[h]);
                 unitOfWork.SaveChanges();
             }
-            
+
             #endregion
             /*
             #region Disbursement and Detail
@@ -1083,10 +1185,8 @@ public static class DBSeed
             unitOfWork.SaveChanges();
 
 
-        }
 
+        }
         return isCreateDb;
     }
-
-
 }

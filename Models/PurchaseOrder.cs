@@ -20,6 +20,10 @@ namespace BackEndAD.Models
         public virtual Employee Employee { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual StockAdjustment StockAdjustment { get; set; }
-        
+
+        //Test [HttpPost("generatePO")]
+        public List<PurchaseOrderDetail> DetailList { get; set; } 
+
+
     }
 }
