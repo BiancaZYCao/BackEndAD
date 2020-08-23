@@ -52,6 +52,8 @@ namespace BackEndAD
             services.AddScoped<IDepartmentService, DepartmentServiceImpl>();
             services.AddScoped<IStoreClerkService, StoreClerkServiceImpl>();
             services.AddScoped<IStoreManagerService, StoreManagerServiceImpl>();
+            services.AddScoped<IStoreSupervisorService, StoreSupervisorServiceImpl>();
+
             services.AddControllers();
 
             services.AddCors(options =>
