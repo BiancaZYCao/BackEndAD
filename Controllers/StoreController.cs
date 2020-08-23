@@ -164,7 +164,43 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");
         }
-        
+
+        [HttpGet("retrieval")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> GetAllPendingRequisitions()
+        {
+            var allRD = await _clkService.findAllRequsitionDetailsAsync();
+
+            var nonDeliveredRD = allRD.Where(x => x.status != "Delivered");
+            
+            var result = nonDeliveredRD.Where(x => x.status != "Declined");
+
+
+            if (result != null)
+            {
+                //convert to json file
+                Console.WriteLine("android called for pending retrievals");
+                return Ok(result);
+            }
+            else
+                //in case there is nothing to process
+                return NotFound("No pending requistions");
+        }
+
+       
+
+        [HttpPost("getRetrieval")]
+        public async Task<ActionResult<Requisition>> processRetrieval(
+              [FromBody] fakeRequisition requistitions)
+        {
+            var result = await _clkService.findAllRequsitionDetailsAsync();
+            Console.WriteLine("post");
+            Console.WriteLine(requistitions);
+           
+            return Ok(requistitions);
+        }
+
+
+
         //end
 
         #region Test post method 18Aug

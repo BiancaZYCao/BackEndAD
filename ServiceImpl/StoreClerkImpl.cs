@@ -472,5 +472,18 @@ namespace BackEndAD.ServiceImpl
         {
             unitOfWork.GetRepository<PurchaseOrder>().Insert(po);
         }
+
+        public Task<IList<Requisition>> findAllRequsitionAsync()
+        {
+            return unitOfWork.GetRepository<Requisition>().GetAllAsync();
+            
+        }
+
+        public Task<IList<RequisitionDetail>> findAllRequsitionDetailsAsync()
+        {
+           return unitOfWork.GetRepository<RequisitionDetail>().GetAllAsync();
+        }
+
+      
     }
 }
