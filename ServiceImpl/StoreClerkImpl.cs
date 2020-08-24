@@ -53,6 +53,11 @@ namespace BackEndAD.ServiceImpl
                 unitOfWork.SaveChanges();
             }
         }
+        public void deleteStationery(int id)
+        {
+            unitOfWork.GetRepository<Stationery>().Delete(id);
+            unitOfWork.SaveChanges();
+        }
         #endregion
 
         #region supplier

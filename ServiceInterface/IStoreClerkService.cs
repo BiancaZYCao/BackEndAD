@@ -14,6 +14,7 @@ namespace BackEndAD.ServiceInterface
         public Task<IList<Stationery>> findAllStationeriesAsync();
         public Task<Stationery> findStationeryByIdAsync(int id);
         public void saveStationery(Stationery stationery);
+        public void deleteStationery(int id);
         public Task<IList<Supplier>> findAllSuppliersAsync();
         public Task<Supplier> findSupplierByIdAsync(int id);
         public Task<PurchaseOrder> findPOById(int id);

@@ -48,6 +48,12 @@ namespace BackEndAD.Controllers
             _clkService.saveStationery(stationery);
             return null;
         }
+        [HttpDelete("Stationery/delete/{id}")]
+        public Task<ActionResult<Stationery>> DeleteStationery(int id)
+        {
+            _clkService.deleteStationery(id);
+            return null;
+        }
 
         [HttpGet("Stationeries/{id}")]
         public async Task<ActionResult<Stationery>> GetStationeryByIdAsync(int id)
