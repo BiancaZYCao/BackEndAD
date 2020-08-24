@@ -133,6 +133,19 @@ namespace BackEndAD.Controllers
                 return NotFound("Error");
         }
 
+        
+        [HttpPost("getDisburseItemDetail")]
+        public async Task<ActionResult<List<DisburseItemDetails>>> GetDisburseItemDetail([FromBody] RequesterRow row)
+        {
+            var result = await _clkService.getDisburseItemDetail(row);
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Error");
+        }
+
         //Supervisor
         [HttpGet("supervisorAdjustment")]
         public async Task<ActionResult<List<StockAdjustSumById>>> GetAllSupervisorAdustmentInfo()

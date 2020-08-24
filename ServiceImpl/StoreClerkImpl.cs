@@ -243,46 +243,107 @@ namespace BackEndAD.ServiceImpl
                 departmentId = 1,
                 departmentName = "Zoology Department",
                 itemCount = 1,
-                status = "Approved"
+                status = "Approved",
                 //representativeName = emp.name;
+                representativeName = "Mr.John",
             };
+
             resultList.Add(row1);
 
             foreach (DisbursementList disburseList in disbursementlist)
             {
-                DisbursementDetail disburseDetail = unitOfWork
+                List<DisbursementDetail> disburseDetailList = unitOfWork
                    .GetRepository<DisbursementDetail>()
-                   .GetAllIncludeIQueryable(filter: x => x.DisbursementListId == disburseList.id).FirstOrDefault();
-                
-                if (disburseDetail != null)
+                   .GetAllIncludeIQueryable(filter: x => x.DisbursementListId == disburseList.id).ToList();
+
+                String requisitionStatus = "";
+                int itemCountTotal = 0;
+                RequisitionDetail requestionDetail = new RequisitionDetail();
+
+                foreach (DisbursementDetail disburseDetail in disburseDetailList)
                 {
-                    RequisitionDetail requestionDetail = unitOfWork
+                    itemCountTotal += disburseDetail.qty;
+
+                    requestionDetail = unitOfWork
                    .GetRepository<RequisitionDetail>()
                    .GetAllIncludeIQueryable(filter: x => x.Id == disburseDetail.RequisitionDetailId).FirstOrDefault();
-                   
-                    Department dept = unitOfWork
-                   .GetRepository<Department>()
-                   .GetAllIncludeIQueryable(filter: x => x.Id == disburseList.DepartmentId).FirstOrDefault();
-                   
-                    if (dept != null && requestionDetail!=null)
+
+                }
+                Department dept = unitOfWork
+                       .GetRepository<Department>()
+                       .GetAllIncludeIQueryable(filter: x => x.Id == disburseList.DepartmentId).FirstOrDefault();
+
+                if (dept != null && requestionDetail != null)
+                {
+                    Requisition requisition = unitOfWork
+                      .GetRepository<Requisition>()
+                      .GetAllIncludeIQueryable(filter: x => x.Id == requestionDetail.RequisitionId).FirstOrDefault();
+                    //Employee emp = findEmployeeByIdAsync(dept.repId);
+                    if (requisition != null)
                     {
-                        //Employee emp = findEmployeeByIdAsync(dept.repId);
                         RequesterRow row = new RequesterRow()
                         {
                             date = disburseList.date,
                             departmentId = disburseList.DepartmentId,
                             departmentName = dept.deptName,
-                            itemCount = disburseDetail.qty,
-                            status = requestionDetail.status
-                            //representativeName = emp.name;
+                            itemCount = itemCountTotal,
+                            status = requisition.status,
+                            collectionPoint = disburseList.deliveryPoint,
+                            //representativeName = emp.name
                         };
                         resultList.Add(row);
                     }
                 }
-                
+
             }//end forEach
             return resultList;
         }
+
+        public async Task<IList<DisburseItemDetails>> getDisburseItemDetail(RequesterRow row)
+        {
+            IList<DisburseItemDetails> returnList = new List<DisburseItemDetails>();
+            DisburseItemDetails itemObj1 = new DisburseItemDetails()
+            {
+                itemDescription = "Clip Double 1\"",
+                requisitionDetailId = 1,
+                requisitionId = 1,
+                revQuantity = 5,
+            };
+            returnList.Add(itemObj1);
+
+            List<DisbursementDetail> detailList = unitOfWork
+               .GetRepository<DisbursementDetail>()
+               .GetAllIncludeIQueryable(filter: x => x.DisbursementListId == row.disbursementListId).ToList();
+
+            foreach(DisbursementDetail detail in detailList)
+            {
+                RequisitionDetail requisitionDetail = unitOfWork
+               .GetRepository<RequisitionDetail>()
+               .GetAllIncludeIQueryable(filter: x => x.Id == detail.RequisitionDetailId).FirstOrDefault();
+
+                if (requisitionDetail != null)
+                {
+                    Stationery stationery = unitOfWork
+                   .GetRepository<Stationery>()
+                   .GetAllIncludeIQueryable(filter: x => x.Id == requisitionDetail.StationeryId).FirstOrDefault();
+
+                    if (stationery != null)
+                    {
+                        DisburseItemDetails itemObj = new DisburseItemDetails()
+                        {
+                            itemDescription = stationery.desc,
+                            requisitionDetailId = requisitionDetail.Id,
+                            requisitionId = requisitionDetail.RequisitionId,
+                            revQuantity = requisitionDetail.rcvQty,
+                        };
+                        returnList.Add(itemObj);
+                    }
+                }
+            }
+            return returnList;
+        }
+
+        //end
 
         public Task<IList<Requisition>> findAllRequsitionAsync()
         {
