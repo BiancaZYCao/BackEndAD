@@ -68,6 +68,7 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
+        #region Get Suppliers + CRUD
         [HttpGet("Suppliers")]
         public async Task<ActionResult<List<Supplier>>> GetAllSuppliers()
         {
@@ -115,9 +116,10 @@ namespace BackEndAD.Controllers
             return CreatedAtAction(nameof(GetAllSuppliers), new { }, sup);
 
         }
+        #endregion
 
+        #region inventory management tasks: adjustment + voucher
         //Clerk
-        
         [HttpGet("getAllRequesterRow")]
         public async Task<ActionResult<List<StockAdjustSumById>>> GetAllRequesterRow()
         {
@@ -237,7 +239,94 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");
         }
-        
+
+        [HttpGet("retrieval")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> GetAllPendingRequisitions()
+        {
+            var allRD = await _clkService.findAllRequsitionDetailsAsync();
+
+            var nonDeliveredRD = allRD.Where(x => x.status != "Delivered");
+            
+            var result = nonDeliveredRD.Where(x => x.status != "Declined");
+
+
+            if (result != null)
+            {
+                //convert to json file
+                Console.WriteLine("android called for pending retrievals");
+                return Ok(result);
+            }
+            else
+                //in case there is nothing to process
+                return NotFound("No pending requistions");
+        }
+
+       
+
+        [HttpPost("getRetrieval")]
+        public async Task<ActionResult<Requisition>> processRetrieval(
+              [FromBody] fakeRequisition requistitions)
+        {
+            var result = await _clkService.findAllRequsitionDetailsAsync();
+            Console.WriteLine("post");
+            Console.WriteLine(requistitions);           
+            return Ok(requistitions);
+        }
+
+        [HttpPost("processRetrieval")]
+        public async Task<ActionResult<Requisition>> processRetrieval(
+              [FromBody] List<fakeRequisitionDetails> fakeRequisitions)
+        {
+            Console.WriteLine("post");
+            var allRD = await _clkService.findAllRequsitionDetailsAsync();
+            var nonDeliveredRD = allRD.Where(x => x.status != "Delivered");
+            var result = nonDeliveredRD.Where(x => x.status != "Declined");
+            var requisitions = await _clkService.findAllRequsitionAsync();
+            var stationeries = await _clkService.findAllStationeriesAsync();
+            var departments = await _clkService.findAllDepartmentAsync();
+            Console.WriteLine("fetching done and starting processing");
+
+
+            //process incoming i which are not 0 in reqQty
+            //fetch the i.Id to match the RD in db
+            //1.based on the RD found, add the i.rcvQty to the RD.rcvQty
+            //1.1save the RD back in database
+            //2.create a new StockAdjustment
+            //2.1create a list of stockadjustments based on i.id and i.rcvqty
+            //3.update the quantity of stationery
+
+            StockAdjustment newSA = new StockAdjustment();
+            newSA.date = DateTime.Now;
+            newSA.EmployeeId = 15;
+            newSA.type = "stock retrieval";
+            _clkService.saveStockAdjustment(newSA);
+            Console.WriteLine("created stock adjustment");
+            foreach (fakeRequisitionDetails i in fakeRequisitions)
+            {
+                foreach (RequisitionDetail rd in result)
+                {
+                    if ((i.reqQty!=0) && (i.id == rd.Id))
+                    {
+                        var rul =await _clkService.findEmployeeByIdAsync(requisitions.Where(y => y.Id == rd.RequisitionId).FirstOrDefault().EmployeeId);
+                        StockAdjustmentDetail SAD = new StockAdjustmentDetail();
+                        SAD.stockAdjustmentId = newSA.Id;
+                        SAD.StationeryId = rd.StationeryId;
+                        SAD.discpQty = -i.rcvQty;
+                        SAD.comment = "sent to " + departments.Where(x => x.Id == rul.departmentId).FirstOrDefault().deptName;
+                        SAD.Status = null;
+                        _clkService.saveStockAdjustmentDetail(SAD);
+                        
+
+                        Console.WriteLine("id:"+ i.id + ", reqID:"+rd.RequisitionId+", qty:" + i.reqQty);
+                    }
+                }
+            }
+            Console.WriteLine("done");
+            return Ok(fakeRequisitions);
+        }
+
+
+
         //end
 
         #region Test post method 18Aug
@@ -275,6 +364,7 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Suppliers not found");
         }
+        #endregion
         #endregion
 
         #region place order 
@@ -316,17 +406,64 @@ namespace BackEndAD.Controllers
         //api to get current clerk Id [HttpGet("/clerk")]
 
         [HttpPost("generatePO")]
-        public ActionResult<PurchaseOrder> PostPurchaseOrder(
+        public int[] PostPurchaseOrder(
               [FromBody] List<PurchaseOrder> purchaseOrders)
         {
+            int[] result = new int[ purchaseOrders.Count];
+           
             for (int i = 0; i < purchaseOrders.Count; i++)
             {
                 PurchaseOrder po = purchaseOrders[i];
-                //_clkService.savePurchaseOrder(po);
+                po.dateOfOrder = DateTime.Now;
+                _clkService.savePurchaseOrder(po);
+                result[i]= po.id;
             }
-            PurchaseOrder po1 = purchaseOrders[0];
-            return Ok(po1);
+            
+            return result;
         }
+
+        [HttpGet("getPO/{id}")]
+        public async Task<ActionResult<List<PurchaseOrderDetail>>> GetPurchaseOrder(int id)
+        {
+            var result = await _clkService.findPOById(id);
+
+            if (result != null)
+                return Ok(result);
+            else return null;
+            
+        }
+
+        
+
+        [HttpGet("getEmployee/{id}")]
+        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        {
+            var result = await _clkService.findEmployeeByIdAsync(id);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else 
+                return null;
+
+        }
+
+        [HttpGet("getSupplier/{id}")]
+        public async Task<ActionResult<Supplier>> GetSupplier(int id)
+        {
+            var result = await _clkService.findSupplierByIdAsync(id);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+                return null;
+
+
+        }
+
         [HttpGet("ItemsNeedOrder")]
         public async Task<ActionResult<List<Stationery>>> GetItemsNeedOrder()
         {
@@ -354,6 +491,19 @@ namespace BackEndAD.Controllers
             
 
         }
+
+        [HttpGet("getPOD/{id}")]
+        public IList<PurchaseOrderDetail> GetPurchaseOrderDetail(int id)
+        {
+            IList<PurchaseOrderDetail> result = _clkService.findPODById(id);
+
+            if (result != null)
+                return result;
+            else return null;
+
+        }
+
+
 
         #endregion
 

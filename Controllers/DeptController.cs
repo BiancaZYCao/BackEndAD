@@ -134,6 +134,7 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
+        //requisition-details
         #region requisition details
         [HttpGet("reqDetails")]
         public async Task<ActionResult<IList<Requisition>>> GetAllRequisitionsDetails()
@@ -325,8 +326,9 @@ namespace BackEndAD.Controllers
                 //in case there is nothing to process
                 return NotFound("No pending requistions.");
         }
-        #endregion
 
+        
+        #endregion
 
     }
 }
