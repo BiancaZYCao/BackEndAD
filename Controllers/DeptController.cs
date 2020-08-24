@@ -334,17 +334,17 @@ namespace BackEndAD.Controllers
         #endregion
 
         #region Dept-Rep
-        [HttpGet("disbursementListByDept/{id}")]
-        public async Task<ActionResult<IList<DisbursementList>>> GetDisbursementListByDeptId(int id)
+        [HttpGet("latestDisbursementByDept/{id}")]
+        public async Task<ActionResult<DisbursementList>> GetLatestDisbursementByDeptId(int id)
         {
 	        var allDisbursement = await _clerkService.findAllDisbursementListAsync();
 
-	        var allDisbursementUnderDept =
-		        allDisbursement.Where(x => x.DepartmentId == id);
+	        List<DisbursementList> allDisbursementUnderDept =
+		        allDisbursement.Where(x => x.DepartmentId == id).ToList();
 
 	        if (allDisbursementUnderDept.Any())
 		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-		        return Ok(allDisbursementUnderDept);
+		        return Ok(allDisbursementUnderDept[allDisbursementUnderDept.Count-1]);
 	        else
 		        return NotFound("No disbursement list under this department.");
         }
