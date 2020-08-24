@@ -133,6 +133,19 @@ namespace BackEndAD.Controllers
                 return NotFound("Error");
         }
 
+        
+        [HttpPost("getDisburseItemDetail")]
+        public async Task<ActionResult<List<DisburseItemDetails>>> GetDisburseItemDetail([FromBody] RequesterRow row)
+        {
+            var result = await _clkService.getDisburseItemDetail(row);
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Error");
+        }
+
         //Supervisor
         [HttpGet("supervisorAdjustment")]
         public async Task<ActionResult<List<StockAdjustSumById>>> GetAllSupervisorAdustmentInfo()
@@ -294,28 +307,57 @@ namespace BackEndAD.Controllers
             //2.create a new StockAdjustment
             //2.1create a list of stockadjustments based on i.id and i.rcvqty
             //3.update the quantity of stationery
-
+            #region create new Stock Adjustment
             StockAdjustment newSA = new StockAdjustment();
             newSA.date = DateTime.Now;
             newSA.EmployeeId = 15;
             newSA.type = "stock retrieval";
             _clkService.saveStockAdjustment(newSA);
             Console.WriteLine("created stock adjustment");
+            #endregion
+
+            HashSet<int> deptlist = new HashSet<int>();
+
             foreach (fakeRequisitionDetails i in fakeRequisitions)
             {
                 foreach (RequisitionDetail rd in result)
                 {
                     if ((i.reqQty!=0) && (i.id == rd.Id))
                     {
+                        //process incoming i which are not 0 in reqQty
+                        //fetch the i.Id to match the RD in db
+                        //1.based on the RD found, add the i.rcvQty to the RD.rcvQty
+                        //1.1save the RD back in database
+                        //2.create a new StockAdjustment
+                        //2.1create a list of stockadjustments based on i.id and i.rcvqty
+                        //3.update the quantity of stationery
+
+                        #region saving stockadjustments
                         var rul =await _clkService.findEmployeeByIdAsync(requisitions.Where(y => y.Id == rd.RequisitionId).FirstOrDefault().EmployeeId);
                         StockAdjustmentDetail SAD = new StockAdjustmentDetail();
                         SAD.stockAdjustmentId = newSA.Id;
                         SAD.StationeryId = rd.StationeryId;
-                        SAD.discpQty = -i.rcvQty;
+                        SAD.discpQty = -(i.reqQty);
                         SAD.comment = "sent to " + departments.Where(x => x.Id == rul.departmentId).FirstOrDefault().deptName;
                         SAD.Status = null;
                         _clkService.saveStockAdjustmentDetail(SAD);
-                        
+                        #endregion
+
+                        #region updating stationeries item
+                        foreach (Stationery s in stationeries)
+                        {
+                            if (s.Id == rd.StationeryId)
+                            {
+                                s.inventoryQty -= i.reqQty;
+                                _clkService.updateStationery(s);
+                            }
+                        }
+                        #endregion
+
+                        #region creating disbursements
+                        //deptlist.Add(departments.Where(x => x.Id == rul.departmentId).FirstOrDefault().Id);
+                        //DisbursementList d
+                        #endregion
 
                         Console.WriteLine("id:"+ i.id + ", reqID:"+rd.RequisitionId+", qty:" + i.reqQty);
                     }

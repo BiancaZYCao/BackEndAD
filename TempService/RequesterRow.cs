@@ -13,7 +13,7 @@ namespace BackEndAD.TempService
         public String departmentName { get; set; }
         public String representativeName { get; set; }
         public int itemCount { get; set; }
-       
+        public String collectionPoint { get; set; }
         public String status { get; set; }
     }
 }
