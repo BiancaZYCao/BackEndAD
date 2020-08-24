@@ -158,6 +158,7 @@ namespace BackEndAD.ServiceImpl
             }
             return voucherResult;
         }
+
         public async Task<IList<StockAdjustSumById>> StockAdjustDetailInfo()
         {
             IList<StockAdjustSumById> stockAdjustSumByIdList = new List<StockAdjustSumById>();
@@ -176,7 +177,7 @@ namespace BackEndAD.ServiceImpl
 
                 List<StockAdjustmentDetail> stockAdjDetailList = unitOfWork
                .GetRepository<StockAdjustmentDetail>()
-               .GetAllIncludeIQueryable(filter: x => x.stockAdjustmentId == eachSAdjRecord.Id && x.Status != "Reverted" && x.Status != "Rejected" && x.Status != "Approved").ToList();
+               .GetAllIncludeIQueryable(filter: x => x.stockAdjustmentId == eachSAdjRecord.Id && x.Status != "Reverted" && x.Status != "Rejected" && x.Status != "Approved" && x.discpQty != 0).ToList();
 
                 if (stockAdjDetailList != null)
                 {
@@ -231,7 +232,7 @@ namespace BackEndAD.ServiceImpl
 
             IList<StockAdjustmentDetail> list = unitOfWork
                .GetRepository<StockAdjustmentDetail>()
-               .GetAllIncludeIQueryable(filter: x => x.stockAdjustmentId == item.stockAdustmentId && x.Status == "Pending Approval").ToList();
+               .GetAllIncludeIQueryable(filter: x => x.stockAdjustmentId == item.stockAdustmentId && x.Status != "Reverted" && x.Status != "Rejected" && x.Status != "Approved" && x.discpQty != 0).ToList();
 
             IList<AdjustmentVoucherDetail> vocList = await findAllAdjustmentVoucherDetailAsync();
 
@@ -280,14 +281,12 @@ namespace BackEndAD.ServiceImpl
 
             return voucherInfoList;
         }
-
         public async Task<StockAdjustment> findStockAdjustmentByIdAsync(int stockAdjustmentId)
         {
             StockAdjustment stkadj = await unitOfWork.GetRepository<StockAdjustment>()
                 .FindAsync(stockAdjustmentId);
             return stkadj;
         }
-
         public async Task<AdjustmentVocherInfo> getEachVoucherDetail(AdjustmentVocherInfo info)
         {
             AdjustmentVoucherDetail vocDetail = unitOfWork
@@ -314,7 +313,7 @@ namespace BackEndAD.ServiceImpl
                         stockAdustmentId = voc.StockAdjustmentId,
                         empId = voc.EmployeeId,
                         date = voc.date,
-                        reason = info.reason,
+                        reason = vocDetail.reason,
                         empName = empObj.name,
                         itemCode = info.itemCode,
                         quantity = info.quantity,
