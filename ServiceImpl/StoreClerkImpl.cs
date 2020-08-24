@@ -42,6 +42,7 @@ namespace BackEndAD.ServiceImpl
             {
                 s1.category = stationery.category;
                 s1.desc = stationery.desc;
+                s1.unit = stationery.unit;
                 s1.inventoryQty = stationery.inventoryQty;
                 unitOfWork.GetRepository<Stationery>().Update(s1);
                 unitOfWork.SaveChanges();
@@ -238,7 +239,7 @@ namespace BackEndAD.ServiceImpl
             IList<DisbursementList> disbursementlist = await findAllDisbursementListAsync();
 
             IList<RequesterRow> resultList = new List<RequesterRow>();
-            RequesterRow row1 = new RequesterRow()
+           /* RequesterRow row1 = new RequesterRow()
             {
                 date = DateTime.Today,
                 departmentId = 1,
@@ -249,7 +250,7 @@ namespace BackEndAD.ServiceImpl
                 representativeName = "Mr.John",
             };
 
-            resultList.Add(row1);
+            resultList.Add(row1);*/
 
             foreach (DisbursementList disburseList in disbursementlist)
             {
@@ -279,18 +280,23 @@ namespace BackEndAD.ServiceImpl
                     Requisition requisition = unitOfWork
                       .GetRepository<Requisition>()
                       .GetAllIncludeIQueryable(filter: x => x.Id == requestionDetail.RequisitionId).FirstOrDefault();
+                    Employee emp = unitOfWork
+                      .GetRepository<Employee>()
+                      .GetAllIncludeIQueryable(filter: x => x.departmentId == dept.Id)
+                      .Where(x => x.role == "REPRESENTATIVE").FirstOrDefault();
                     //Employee emp = findEmployeeByIdAsync(dept.repId);
                     if (requisition != null)
                     {
                         RequesterRow row = new RequesterRow()
                         {
                             date = disburseList.date,
+                            disbursementListId = disburseList.id,
                             departmentId = disburseList.DepartmentId,
                             departmentName = dept.deptName,
                             itemCount = itemCountTotal,
                             status = requisition.status,
                             collectionPoint = disburseList.deliveryPoint,
-                            //representativeName = emp.name
+                            representativeName = emp.name
                         };
                         resultList.Add(row);
                     }
@@ -303,14 +309,14 @@ namespace BackEndAD.ServiceImpl
         public async Task<IList<DisburseItemDetails>> getDisburseItemDetail(RequesterRow row)
         {
             IList<DisburseItemDetails> returnList = new List<DisburseItemDetails>();
-            DisburseItemDetails itemObj1 = new DisburseItemDetails()
+            /*DisburseItemDetails itemObj1 = new DisburseItemDetails()
             {
                 itemDescription = "Clip Double 1\"",
                 requisitionDetailId = 1,
                 requisitionId = 1,
                 revQuantity = 5,
             };
-            returnList.Add(itemObj1);
+            returnList.Add(itemObj1);*/
 
             List<DisbursementDetail> detailList = unitOfWork
                .GetRepository<DisbursementDetail>()

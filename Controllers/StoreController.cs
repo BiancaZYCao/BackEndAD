@@ -45,14 +45,7 @@ namespace BackEndAD.Controllers
         public Task<ActionResult<Stationery>> PostStationery([FromBody] Stationery stationery)
         {
             Console.WriteLine("stationaryPost");
-            Stationery s1 = new Stationery()
-            {
-                Id = stationery.Id,
-                category = stationery.category,
-                desc = stationery.desc,
-                inventoryQty = stationery.inventoryQty
-            };
-            //_clkService.saveStationery(s1);
+            _clkService.saveStationery(stationery);
             return null;
         }
 
@@ -126,8 +119,11 @@ namespace BackEndAD.Controllers
 
             var result = await _clkService.GetAllRequesterRow();
             if (result != null)
+            {
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                Console.WriteLine(result[0].representativeName);
                 return Ok(result);
+            }
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");
