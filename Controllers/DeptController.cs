@@ -272,6 +272,16 @@ namespace BackEndAD.Controllers
 	        else
 	            return NotFound("Employees not found.");
         }
+
+        [HttpPost("deptCollection/{id}")]
+        public Task<ActionResult<Department>> DeptCollection(
+	        [FromBody] List<Department> department, int id)
+        {
+	        Console.WriteLine("post");
+	        Console.WriteLine(id);
+	        Console.WriteLine(department[0]);
+	        return null;
+        }
         #endregion
 
 
