@@ -52,7 +52,7 @@ namespace BackEndAD.Controllers
                 desc = stationery.desc,
                 inventoryQty = stationery.inventoryQty
             };
-            //_clkService.saveStationery(s1);
+            _clkService.saveStationery(s1);
             return null;
         }
 
