@@ -32,7 +32,7 @@ namespace BackEndAD.Controllers
             _deptService = deptService;
         }*/
 
-        [HttpGet]
+        [HttpGet("reqByMonth")]
         public ActionResult<IList<RequisitionTrend>> GenerateReqGrouped()
         {
             #region  sql conn then sqlcommand
@@ -56,11 +56,51 @@ namespace BackEndAD.Controllers
                 {
                     Category = dr["category"].ToString(),
                     DepartmentName = dr["deptName"].ToString(),
-                    DateOfAuthorizing = int.Parse(dr["monthBefore"].ToString()),
+                    DateOfAuthorizing = dr["monthBefore"].ToString(),
                     ReqQty = int.Parse(dr["totalQty"].ToString())
                 };
                 result.Add(reqT);
                 
+            }
+            dr.Close();
+            cn.Close();
+            #endregion
+
+            if (result != null)
+                return Ok(result);
+            else
+                return NotFound("QUERY FAILED.");
+        }
+
+        [HttpGet("reqByDay")]
+        public ActionResult<IList<RequisitionTrend>> GenerateReqGroupedByDay()
+        {
+            #region  sql conn then sqlcommand
+            string cnstr = "Server=tcp:team8-sa50.database.windows.net,1433;Initial Catalog=ADProj;Persist Security Info=False;User ID=Bianca;Password=!Str0ngPsword;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=600;";
+            SqlConnection cn = new SqlConnection(cnstr);
+            cn.Open();
+            string sqlstr = "SELECT detCat.category,ed.deptName,min(req.dateOfAuthorizing) as reqDate,SUM(detCat.reqQty) AS totalQty "
+                    + "FROM(SELECT reqDet.StationeryId, reqDet.reqQty, sta.category, reqDet.RequisitionId FROM[dbo].[Stationery_Table] AS sta "
++ "JOIN [dbo].[RequisitionDetail_Table] AS reqDet ON reqDet.StationeryId = sta.Id) AS detCat "
++ "JOIN[dbo].[Requisition_Table] AS req ON detCat.RequisitionId = req.Id " +
+"JOIN(SELECT dept.Id, dept.deptName, emp.Id AS empId FROM[dbo].[Department_Table] AS dept JOIN[dbo].[Employee_Table] AS emp ON dept.Id = emp.departmentId) AS ed " +
+"ON req.EmployeeId = ed.empId Where req.[status] NOT IN('Applied','Declined') " +
+"GROUP BY category,deptName, datediff(dd, req.dateOfAuthorizing, getdate())";
+            SqlCommand cmd = new SqlCommand(sqlstr, cn);
+
+            SqlDataReader dr = cmd.ExecuteReader();
+            IList<RequisitionTrend> result = new List<RequisitionTrend>();
+            while (dr.Read())
+            {
+                RequisitionTrend reqT = new RequisitionTrend()
+                {
+                    Category = dr["category"].ToString(),
+                    DepartmentName = dr["deptName"].ToString(),
+                    DateOfAuthorizing = dr["reqDate"].ToString(),
+                    ReqQty = int.Parse(dr["totalQty"].ToString())
+                };
+                result.Add(reqT);
+
             }
             dr.Close();
             cn.Close();
@@ -95,7 +135,49 @@ namespace BackEndAD.Controllers
                 RequisitionTrend reqT = new RequisitionTrend()
                 {
                     Category = dr["category"].ToString(),
-                    DateOfAuthorizing = int.Parse(dr["monthBefore"].ToString()),
+                    DateOfAuthorizing = dr["monthBefore"].ToString(),
+                    ReqQty = int.Parse(dr["totalQty"].ToString())
+                };
+                result.Add(reqT);
+
+            }
+            dr.Close();
+            cn.Close();
+            #endregion
+            foreach (RequisitionTrend rt in result)
+            {
+                Console.WriteLine(rt.ToString());//output testing
+            }
+
+            if (result != null)
+                return Ok(result);
+            else
+                return NotFound("QUERY FAILED.");
+        }
+
+        [HttpGet("ReOrderByDay")]
+        public ActionResult<IList<RequisitionTrend>> GenerateReOrderGroupedDay()
+        {
+            #region  sql conn then sqlcommand
+            string cnstr = "Server=tcp:team8-sa50.database.windows.net,1433;Initial Catalog=ADProj;Persist Security Info=False;User ID=Bianca;Password=!Str0ngPsword;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=600;";
+            SqlConnection cn = new SqlConnection(cnstr);
+            cn.Open();
+            string sqlstr = "SELECT category,min(ord.dateOfOrder) as orderDate,SUM(qty) as totalQty " +
+                "FROM (SELECT StationeryId, qty, sta.category, PurchaseOrderId FROM[dbo].[Stationery_Table] as sta " +
+                "JOIN[dbo].[PurchaseOrderDetail_Table] as ordDet ON  ordDet.StationeryId = sta.Id) as ordCat " +
+                "JOIN[dbo].[PurchaseOrder_Table] as ord ON ordCat.PurchaseOrderId = ord.Id " +
+                "GROUP BY category,datediff(dd, ord.dateOfOrder, getdate())";
+
+            SqlCommand cmd = new SqlCommand(sqlstr, cn);
+
+            SqlDataReader dr = cmd.ExecuteReader();
+            IList<RequisitionTrend> result = new List<RequisitionTrend>();
+            while (dr.Read())
+            {
+                RequisitionTrend reqT = new RequisitionTrend()
+                {
+                    Category = dr["category"].ToString(),
+                    DateOfAuthorizing = dr["orderDate"].ToString(),
                     ReqQty = int.Parse(dr["totalQty"].ToString())
                 };
                 result.Add(reqT);
