@@ -237,7 +237,7 @@ namespace BackEndAD.ServiceImpl
             IList<DisbursementList> disbursementlist = await findAllDisbursementListAsync();
 
             IList<RequesterRow> resultList = new List<RequesterRow>();
-            RequesterRow row1 = new RequesterRow()
+           /* RequesterRow row1 = new RequesterRow()
             {
                 date = DateTime.Today,
                 departmentId = 1,
@@ -248,7 +248,7 @@ namespace BackEndAD.ServiceImpl
                 representativeName = "Mr.John",
             };
 
-            resultList.Add(row1);
+            resultList.Add(row1);*/
 
             foreach (DisbursementList disburseList in disbursementlist)
             {
@@ -284,6 +284,7 @@ namespace BackEndAD.ServiceImpl
                         RequesterRow row = new RequesterRow()
                         {
                             date = disburseList.date,
+                            disbursementListId = disburseList.id,
                             departmentId = disburseList.DepartmentId,
                             departmentName = dept.deptName,
                             itemCount = itemCountTotal,
@@ -302,14 +303,14 @@ namespace BackEndAD.ServiceImpl
         public async Task<IList<DisburseItemDetails>> getDisburseItemDetail(RequesterRow row)
         {
             IList<DisburseItemDetails> returnList = new List<DisburseItemDetails>();
-            DisburseItemDetails itemObj1 = new DisburseItemDetails()
+            /*DisburseItemDetails itemObj1 = new DisburseItemDetails()
             {
                 itemDescription = "Clip Double 1\"",
                 requisitionDetailId = 1,
                 requisitionId = 1,
                 revQuantity = 5,
             };
-            returnList.Add(itemObj1);
+            returnList.Add(itemObj1);*/
 
             List<DisbursementDetail> detailList = unitOfWork
                .GetRepository<DisbursementDetail>()
