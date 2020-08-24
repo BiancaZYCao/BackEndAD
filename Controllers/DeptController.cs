@@ -134,7 +134,6 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
-        //requisition-details
         #region requisition details
         [HttpGet("reqDetails")]
         public async Task<ActionResult<IList<Requisition>>> GetAllRequisitionsDetails()
@@ -153,7 +152,7 @@ namespace BackEndAD.Controllers
         }
 
         [HttpPost("getAllItemList")]
-        public async Task<ActionResult<List<RequisitionDetailsList>>> getAllItemList([FromBody] Requisition req)
+        public async Task<ActionResult<List<Requisition>>> getAllItemList([FromBody] Requisition req)
         {
             var result = await _deptService.findAllRequisitionDetailsItemListById(req);
             if (result != null)
@@ -163,6 +162,54 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");
         }
+        #endregion
+
+        #region requisition apply
+        [HttpPost("ApplyRequisition")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] List<RequisitionDetailsApply>requisition)
+        {
+            var result = await _deptService.applyRequisition(requisition);
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition Details not found");
+        }
+
+        [HttpGet("viewRequisitionApply")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> viewRequisitionApply()
+        {
+            var result = await _deptService.viewRequisitionApplyRow();
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition Details not found");
+        }
+
+        [HttpGet("viewRequisition")]
+        public async Task<ActionResult<IList<RequisitionDetailsApply>>> viewRequisition([FromBody] Requisition requisition)
+        {
+            var result = await _deptService.viewRequisitionApply(requisition);
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition Details not found");
+        }
+
         #endregion
 
         #region Basic info-Stationery

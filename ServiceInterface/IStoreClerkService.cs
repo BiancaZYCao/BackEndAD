@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BackEndAD.TempService;
+using System.Collections.ObjectModel;
+using Microsoft.VisualBasic;
 
 namespace BackEndAD.ServiceInterface
 {
@@ -46,6 +48,10 @@ namespace BackEndAD.ServiceInterface
         public Task<IList<DisburseItemDetails>> getDisburseItemDetail(RequesterRow row);
         
         void updateStationery(Stationery s);
+        public Task<IList<CollectionInfo>> findAllCollectionPointAsync();
+        void saveDisbursementList(DisbursementList newDL);
+        void saveDisbursementDetail(DisbursementDetail currDB);
+        void udpateRequisitionDetail(RequisitionDetail rd);
     }
 
 }

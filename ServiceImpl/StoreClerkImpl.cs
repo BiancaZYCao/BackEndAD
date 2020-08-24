@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.VisualBasic;
 
 namespace BackEndAD.ServiceImpl
 {
@@ -279,6 +280,10 @@ namespace BackEndAD.ServiceImpl
                     Requisition requisition = unitOfWork
                       .GetRepository<Requisition>()
                       .GetAllIncludeIQueryable(filter: x => x.Id == requestionDetail.RequisitionId).FirstOrDefault();
+                    Employee emp = unitOfWork
+                      .GetRepository<Employee>()
+                      .GetAllIncludeIQueryable(filter: x => x.departmentId == dept.Id)
+                      .Where(x => x.role == "REPRESENTATIVE").FirstOrDefault();
                     //Employee emp = findEmployeeByIdAsync(dept.repId);
                     if (requisition != null)
                     {
@@ -291,7 +296,7 @@ namespace BackEndAD.ServiceImpl
                             itemCount = itemCountTotal,
                             status = requisition.status,
                             collectionPoint = disburseList.deliveryPoint,
-                            //representativeName = emp.name
+                            representativeName = emp.name
                         };
                         resultList.Add(row);
                     }
@@ -398,6 +403,30 @@ namespace BackEndAD.ServiceImpl
         public void updateStationery(Stationery s)
         {
             unitOfWork.GetRepository<Stationery>().Update(s);
+            unitOfWork.SaveChanges();
+        }
+
+        public Task<IList<CollectionInfo>> findAllCollectionPointAsync()
+        {
+            return unitOfWork.GetRepository<CollectionInfo>().GetAllAsync() ;
+        }
+
+        public void saveDisbursementList(DisbursementList newDL)
+        {
+            unitOfWork.GetRepository<DisbursementList>().Insert(newDL);
+            unitOfWork.SaveChanges();
+        }
+
+        public void saveDisbursementDetail(DisbursementDetail currDB)
+        {
+            unitOfWork.GetRepository<DisbursementDetail>().Insert(currDB);
+            unitOfWork.SaveChanges();
+        }
+
+        public void udpateRequisitionDetail(RequisitionDetail rd)
+        {
+            unitOfWork.GetRepository<RequisitionDetail>().Update(rd);
+            unitOfWork.SaveChanges();
         }
     }
 }
