@@ -43,6 +43,8 @@ namespace BackEndAD.ServiceInterface
         public void saveStockAdjustment(StockAdjustment newSA);
         public void saveStockAdjustmentDetail(StockAdjustmentDetail sAD);
         public Task<IList<Department>> findAllDepartmentAsync();
+        public Task<IList<DisburseItemDetails>> getDisburseItemDetail(RequesterRow row);
+        
         void updateStationery(Stationery s);
     }
 
