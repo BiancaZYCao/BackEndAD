@@ -56,8 +56,7 @@ namespace BackEndAD
             services.AddScoped<ILoginService, LoginServiceImpl>();
 
             services.AddControllers().AddNewtonsoftJson(
-                options => options.SerializerSettings.ReferenceLoopHandling
-                = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 );
 
             services.AddCors(options =>
