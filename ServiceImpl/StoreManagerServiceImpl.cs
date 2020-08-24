@@ -124,15 +124,6 @@ namespace BackEndAD.ServiceImpl
                     unitOfWork.SaveChanges();
                 }
 
-                AdjustmentVoucherDetail vocDetail = new AdjustmentVoucherDetail()
-                {
-                    adjustmentVoucherId = eachInfo.stockAdustmentId,
-                    StockAdjustmentDetailId = eachInfo.stockAdustmentDetailId,
-                    price = eachInfo.amount,
-                };
-                unitOfWork.GetRepository<AdjustmentVoucherDetail>().Insert(vocDetail);
-                unitOfWork.SaveChanges();
-
                 AdjustmentVoucher adjVoc = new AdjustmentVoucher()
                 {
                     StockAdjustmentId = eachInfo.stockAdustmentId,
@@ -141,6 +132,15 @@ namespace BackEndAD.ServiceImpl
                     date = DateTime.Now
                 };
                 unitOfWork.GetRepository<AdjustmentVoucher>().Insert(adjVoc);
+                unitOfWork.SaveChanges();
+
+                AdjustmentVoucherDetail vocDetail = new AdjustmentVoucherDetail()
+                {
+                    adjustmentVoucherId = adjVoc.Id,
+                    StockAdjustmentDetailId = eachInfo.stockAdustmentDetailId,
+                    price = eachInfo.amount,
+                };
+                unitOfWork.GetRepository<AdjustmentVoucherDetail>().Insert(vocDetail);
                 unitOfWork.SaveChanges();
 
                 AdjustmentVocherInfo obj = await getEachVoucherDetail(eachInfo);
@@ -152,7 +152,6 @@ namespace BackEndAD.ServiceImpl
             }
             return voucherResult;
         }
-
 
         public async Task<IList<StockAdjustSumById>> StockAdjustDetailInfo()
         {
@@ -283,6 +282,7 @@ namespace BackEndAD.ServiceImpl
                 .FindAsync(stockAdjustmentId);
             return stkadj;
         }
+
         public async Task<AdjustmentVocherInfo> getEachVoucherDetail(AdjustmentVocherInfo info)
         {
             AdjustmentVoucherDetail vocDetail = unitOfWork
@@ -291,11 +291,16 @@ namespace BackEndAD.ServiceImpl
 
             if (vocDetail != null)
             {
+                Employee empObj = unitOfWork
+                .GetRepository<Employee>()
+                .GetAllIncludeIQueryable(filter: x => x.Id == info.empId).FirstOrDefault();
+
+
                 AdjustmentVoucher voc = unitOfWork
                 .GetRepository<AdjustmentVoucher>()
                 .GetAllIncludeIQueryable(filter: x => x.Id == vocDetail.adjustmentVoucherId).FirstOrDefault();
 
-                if (voc != null)
+                if (voc != null && empObj != null)
                 {
                     AdjustmentVocherInfo obj = new AdjustmentVocherInfo()
                     {
@@ -304,8 +309,8 @@ namespace BackEndAD.ServiceImpl
                         stockAdustmentId = voc.StockAdjustmentId,
                         empId = voc.EmployeeId,
                         date = voc.date,
-                        reason = "Missing",
-                        empName = "Mary1",
+                        reason = info.reason,
+                        empName = empObj.name,
                         itemCode = info.itemCode,
                         quantity = info.quantity,
                         amount = vocDetail.price
@@ -317,7 +322,6 @@ namespace BackEndAD.ServiceImpl
 
             return null;
         }
-
 
     }
 }
