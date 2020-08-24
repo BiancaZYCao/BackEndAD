@@ -126,8 +126,11 @@ namespace BackEndAD.Controllers
 
             var result = await _clkService.GetAllRequesterRow();
             if (result != null)
+            {
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                Console.WriteLine(result[0].representativeName);
                 return Ok(result);
+            }
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");

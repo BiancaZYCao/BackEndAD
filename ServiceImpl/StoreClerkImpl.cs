@@ -278,6 +278,10 @@ namespace BackEndAD.ServiceImpl
                     Requisition requisition = unitOfWork
                       .GetRepository<Requisition>()
                       .GetAllIncludeIQueryable(filter: x => x.Id == requestionDetail.RequisitionId).FirstOrDefault();
+                    Employee emp = unitOfWork
+                      .GetRepository<Employee>()
+                      .GetAllIncludeIQueryable(filter: x => x.departmentId == dept.Id)
+                      .Where(x => x.role == "REPRESENTATIVE").FirstOrDefault();
                     //Employee emp = findEmployeeByIdAsync(dept.repId);
                     if (requisition != null)
                     {
@@ -290,7 +294,7 @@ namespace BackEndAD.ServiceImpl
                             itemCount = itemCountTotal,
                             status = requisition.status,
                             collectionPoint = disburseList.deliveryPoint,
-                            //representativeName = emp.name
+                            representativeName = emp.name
                         };
                         resultList.Add(row);
                     }
