@@ -23,11 +23,13 @@ namespace BackEndAD.Controllers
         //Here we should call fewer service to make code reusable and clean 
         //private IEmployeeService _empService; not used so far 
         private IDepartmentService _deptService;
+        private IStoreClerkService _clerkService;
 
         //CONSTRUCTOR: make sure u build ur service interface in.
-        public DeptController(IDepartmentService deptService)
+        public DeptController(IDepartmentService deptService, IStoreClerkService clerkService)
         {
             _deptService = deptService;
+            _clerkService = clerkService;
         }
 
         // CONTROLLER METHODS handling each HTTP get/put/post/request
@@ -331,6 +333,51 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
+        #region Dept-Rep
+        [HttpGet("disbursementListByDept/{id}")]
+        public async Task<ActionResult<IList<DisbursementList>>> GetDisbursementListByDeptId(int id)
+        {
+	        var allDisbursement = await _clerkService.findAllDisbursementListAsync();
+
+	        var allDisbursementUnderDept =
+		        allDisbursement.Where(x => x.DepartmentId == id);
+
+	        if (allDisbursementUnderDept.Any())
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(allDisbursementUnderDept);
+	        else
+		        return NotFound("No disbursement list under this department.");
+        }
+
+        [HttpGet("disbursementDetailByDept/{id}")]
+        public async Task<ActionResult<IList<DisbursementDetail>>> GetDisbursementDetailByDeptId(int id)
+        {
+	        var allDisbursementList = await _clerkService.findAllDisbursementListAsync();
+            var allDisbursementDetail = await _clerkService.findAllDisbursementDetailAsync();
+
+	        var allDisbursementListUnderDept =
+		        allDisbursementList.Where(x => x.DepartmentId == id);
+
+	        List<DisbursementDetail> allDisbursementDetailUnderDept = new List<DisbursementDetail>();
+
+	        foreach (DisbursementDetail disbursementDetail in allDisbursementDetail)
+	        {
+		        foreach (DisbursementList disbursementList in allDisbursementListUnderDept)
+		        {
+			        if (disbursementDetail.DisbursementListId == disbursementList.id)
+			        {
+				        allDisbursementDetailUnderDept.Add(disbursementDetail);
+			        }
+		        }
+	        }
+
+            if (allDisbursementDetailUnderDept.Any())
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(allDisbursementDetailUnderDept);
+	        else
+		        return NotFound("No disbursement detail under this department.");
+        }
+        #endregion
 
         #region read this before starting
         //this not work Sry Idk details, it is weird. -Bianca

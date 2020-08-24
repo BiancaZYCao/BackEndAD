@@ -35,6 +35,7 @@ namespace BackEndAD.ServiceInterface
         public IList<SupplierItem> findSuppliersByStationeryId(int id);
         public Task<IList<RequesterRow>> GetAllRequesterRow();
         public Task<IList<DisbursementList>> findAllDisbursementListAsync();
+        public Task<IList<DisbursementDetail>> findAllDisbursementDetailAsync();
         public Task<Employee> findEmployeeByIdAsync(int eId);
         public Task<IList<StockAdjustSumById>> StockAdjustDetailInfo();
         public Task<IList<AdjustmentVocherInfo>> getAllAdjustDetailLineByAdjustId(StockAdjustSumById item);

@@ -234,6 +234,13 @@ namespace BackEndAD.ServiceImpl
             IList<DisbursementList> list = await unitOfWork.GetRepository<DisbursementList>().GetAllAsync();
             return list;
         }
+
+        public async Task<IList<DisbursementDetail>> findAllDisbursementDetailAsync()
+        {
+	        IList<DisbursementDetail> list = await unitOfWork.GetRepository<DisbursementDetail>().GetAllAsync();
+	        return list;
+        }
+
         public async Task<IList<RequesterRow>> GetAllRequesterRow()
         {
             IList<DisbursementList> disbursementlist = await findAllDisbursementListAsync();
