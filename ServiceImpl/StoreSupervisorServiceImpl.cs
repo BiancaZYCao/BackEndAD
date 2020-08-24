@@ -135,7 +135,6 @@ namespace BackEndAD.ServiceImpl
                     StockAdjustmentId = eachInfo.stockAdustmentId,
                     EmployeeId = eachInfo.empId,
                     Employee = empObj,
-                    reason = eachInfo.reason,
                     date = DateTime.Now
                 };
                 unitOfWork.GetRepository<AdjustmentVoucher>().Insert(adjVoc);
@@ -146,6 +145,7 @@ namespace BackEndAD.ServiceImpl
                     adjustmentVoucherId = adjVoc.Id,
                     StockAdjustmentDetailId = eachInfo.stockAdustmentDetailId,
                     price = eachInfo.amount,
+                    reason = eachInfo.reason,
                 };
                 unitOfWork.GetRepository<AdjustmentVoucherDetail>().Insert(vocDetail);
                 unitOfWork.SaveChanges();

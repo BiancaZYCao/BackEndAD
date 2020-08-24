@@ -124,11 +124,16 @@ namespace BackEndAD.ServiceImpl
                     unitOfWork.SaveChanges();
                 }
 
+                Employee empObj = unitOfWork
+                .GetRepository<Employee>()
+                .GetAllIncludeIQueryable(filter: x => x.Id == eachInfo.empId).FirstOrDefault();
+
+
                 AdjustmentVoucher adjVoc = new AdjustmentVoucher()
                 {
                     StockAdjustmentId = eachInfo.stockAdustmentId,
                     EmployeeId = eachInfo.empId,
-                    
+                    Employee = empObj,
                     date = DateTime.Now
                 };
                 unitOfWork.GetRepository<AdjustmentVoucher>().Insert(adjVoc);
@@ -139,6 +144,7 @@ namespace BackEndAD.ServiceImpl
                     adjustmentVoucherId = adjVoc.Id,
                     StockAdjustmentDetailId = eachInfo.stockAdustmentDetailId,
                     price = eachInfo.amount,
+                    reason = eachInfo.reason,
                 };
                 unitOfWork.GetRepository<AdjustmentVoucherDetail>().Insert(vocDetail);
                 unitOfWork.SaveChanges();
@@ -152,7 +158,6 @@ namespace BackEndAD.ServiceImpl
             }
             return voucherResult;
         }
-
         public async Task<IList<StockAdjustSumById>> StockAdjustDetailInfo()
         {
             IList<StockAdjustSumById> stockAdjustSumByIdList = new List<StockAdjustSumById>();
