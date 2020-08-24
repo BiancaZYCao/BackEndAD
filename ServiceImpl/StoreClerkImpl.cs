@@ -41,6 +41,7 @@ namespace BackEndAD.ServiceImpl
             {
                 s1.category = stationery.category;
                 s1.desc = stationery.desc;
+                s1.unit = stationery.unit;
                 s1.inventoryQty = stationery.inventoryQty;
                 unitOfWork.GetRepository<Stationery>().Update(s1);
                 unitOfWork.SaveChanges();
