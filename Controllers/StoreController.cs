@@ -45,14 +45,7 @@ namespace BackEndAD.Controllers
         public Task<ActionResult<Stationery>> PostStationery([FromBody] Stationery stationery)
         {
             Console.WriteLine("stationaryPost");
-            Stationery s1 = new Stationery()
-            {
-                Id = stationery.Id,
-                category = stationery.category,
-                desc = stationery.desc,
-                inventoryQty = stationery.inventoryQty
-            };
-            _clkService.saveStationery(s1);
+            _clkService.saveStationery(stationery);
             return null;
         }
 
