@@ -355,8 +355,8 @@ namespace BackEndAD.Controllers
                         #endregion
 
                         #region creating disbursements
-                        deptlist.Add(departments.Where(x => x.Id == rul.departmentId).FirstOrDefault().Id);
-                        DisbursementList d
+                        //deptlist.Add(departments.Where(x => x.Id == rul.departmentId).FirstOrDefault().Id);
+                        //DisbursementList d
                         #endregion
 
                         Console.WriteLine("id:"+ i.id + ", reqID:"+rd.RequisitionId+", qty:" + i.reqQty);
