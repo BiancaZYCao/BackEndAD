@@ -45,6 +45,7 @@ namespace BackEndAD.ServiceInterface
         public Task<IList<Department>> findAllDepartmentAsync();
         public Task<IList<DisburseItemDetails>> getDisburseItemDetail(RequesterRow row);
         
+        void updateStationery(Stationery s);
     }
 
 }

@@ -393,5 +393,10 @@ namespace BackEndAD.ServiceImpl
         {
             return unitOfWork.GetRepository<Department>().GetAllAsync();
         }
+
+        public void updateStationery(Stationery s)
+        {
+            unitOfWork.GetRepository<Stationery>().Update(s);
+        }
     }
 }
