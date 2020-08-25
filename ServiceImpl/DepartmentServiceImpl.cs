@@ -107,16 +107,16 @@ namespace BackEndAD.ServiceImpl
 
         public async Task<IList<Requisition>> applyRequisition(List<RequisitionDetailsApply> reqList)
         {
-                Requisition requisition = new Requisition()
-                {
-                    EmployeeId = 1,
-                    dateOfRequest = DateTime.Now,
-                    dateOfAuthorizing = DateTime.Now,
-                    AuthorizerId = 1,
-                    status = "Applied",
-                };
-                unitOfWork.GetRepository<Requisition>().Insert(requisition);
-                unitOfWork.SaveChanges();
+            Requisition requisition = new Requisition()
+            {
+                EmployeeId = 1,
+                dateOfRequest = DateTime.Now,
+                dateOfAuthorizing = DateTime.Now,
+                AuthorizerId = 1,
+                status = "Applied",
+            };
+            unitOfWork.GetRepository<Requisition>().Insert(requisition);
+            unitOfWork.SaveChanges();
 
             foreach (RequisitionDetailsApply reqDetails in reqList)
             {
@@ -135,7 +135,7 @@ namespace BackEndAD.ServiceImpl
                 unitOfWork.GetRepository<RequisitionDetail>().Insert(reqDetail1);
                 unitOfWork.SaveChanges();
             }
-            
+
             return await findAllRequsitionsAsync();
         }
 
