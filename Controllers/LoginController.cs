@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BackEndAD.Models;
 using BackEndAD.ServiceInterface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEndAD.Controllers
@@ -26,6 +27,7 @@ namespace BackEndAD.Controllers
             var result = await _loginService.findEmployee(employee.email);
             if (result != null && result.password == employee.password)
             {
+                //HttpContext.Session.SetInt32("userId", employee.Id);
                 return Ok(result);
             }
             else

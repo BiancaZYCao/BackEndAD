@@ -24,12 +24,14 @@ namespace BackEndAD.Controllers
         //private IEmployeeService _empService; not used so far 
         private IDepartmentService _deptService;
         private IStoreClerkService _clerkService;
-
+        private IEmailService _emailService;
+        
         //CONSTRUCTOR: make sure u build ur service interface in.
-        public DeptController(IDepartmentService deptService, IStoreClerkService clerkService)
+        public DeptController(IEmailService emailService,IDepartmentService deptService, IStoreClerkService clerkService)
         {
             _deptService = deptService;
             _clerkService = clerkService;
+            _emailService = emailService;
         }
 
         // CONTROLLER METHODS handling each HTTP get/put/post/request
@@ -168,9 +170,13 @@ namespace BackEndAD.Controllers
 
         #region requisition apply
         [HttpPost("ApplyRequisition")]
-        public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] List<RequisitionDetailsApply>requisition)
+        //public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] List<RequisitionDetailsApply>requisition,Employee employee)
+        public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] RequisitionApplySession test)
+
         {
-            var result = await _deptService.applyRequisition(requisition);
+            var result = await _deptService.applyRequisition(test.requisition);
+            Employee employee = await _deptService.findEmployeeByIdAsync(test.session);
+            String str =await _emailService.SendMail(employee.email, "Apply Requisition", "Your requisition form has been successfully sumitted");
             // if find data then return result else will return a String says Department not found
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
