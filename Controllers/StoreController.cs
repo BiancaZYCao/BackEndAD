@@ -327,11 +327,14 @@ namespace BackEndAD.Controllers
         public async Task<ActionResult<Requisition>> processRetrieval(
               [FromBody] List<fakeRequisitionDetails> fakeRequisitions)
         {
+            Console.WriteLine(fakeRequisitions.First().requisitionId);
+
             #region data fetching for processing
             Console.WriteLine("post");
             var allRD = await _clkService.findAllRequsitionDetailsAsync();
             var nonDeliveredRD = allRD.Where(x => x.status != "Delivered");
-            var requisitiondetails = nonDeliveredRD.Where(x => x.status != "Declined");
+            var nonAppliedRD = nonDeliveredRD.Where(x => x.status != "Applied");
+            var requisitiondetails = nonAppliedRD.Where(x => x.status != "Declined");
             var requisitions = await _clkService.findAllRequsitionAsync();
             var stationeries = await _clkService.findAllStationeriesAsync();
             var departments = await _clkService.findAllDepartmentAsync();
@@ -342,6 +345,7 @@ namespace BackEndAD.Controllers
             #region create new Stock Adjustment
             StockAdjustment newSA = new StockAdjustment();
             newSA.date = DateTime.Now;
+            Console.WriteLine(fakeRequisitions.First().requisitionId);
             newSA.EmployeeId = fakeRequisitions.First().requisitionId;
             newSA.type = "stock retrieval";
             _clkService.saveStockAdjustment(newSA);
