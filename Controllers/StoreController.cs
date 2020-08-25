@@ -144,9 +144,7 @@ namespace BackEndAD.Controllers
             var result = await _clkService.getDisburseItemDetail(row);
             if (result != null)
             {
-                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-                String str = await _emailService.SendMail("theingi@gmail.com", "Email Testing", "This is to test email service...");
-                Console.WriteLine(str);
+                //String str = await _emailService.SendMail("theingi@gmail.com", "Email Testing", "This is to test email service...");
                 return Ok(result);
             }  
             else
@@ -213,10 +211,31 @@ namespace BackEndAD.Controllers
         public async Task<ActionResult<List<StockAdjustSumById>>> RejectRequest([FromBody] StockAdjustSumById voc)
         {
 
-            var result = await _supervisorService.rejectRequest(voc); 
+            var result = await _supervisorService.rejectRequest(voc);
+            Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
             if (result != null)
-                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+            {
+                String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " is rejected. Could you please check again.";
+                String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
                 return Ok(result);
+            }
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                return NotFound("Empty");
+        }
+        
+        [HttpPost("managerRejectRequest")]
+        public async Task<ActionResult<List<StockAdjustSumById>>> ManagerRejectRequest([FromBody] StockAdjustSumById voc)
+        {
+
+            var result = await _mgrService.rejectRequest(voc);
+            Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
+            if (result != null)
+            {
+                String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " is rejected. Could you please check again.";
+                String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
+                return Ok(result);
+            }
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Empty");
@@ -226,9 +245,13 @@ namespace BackEndAD.Controllers
         public async Task<ActionResult<List<AdjustmentVocherInfo>>> CreateVoucher([FromBody] StockAdjustSumById voc)
         {
             var result = await _mgrService.issueVoucher(voc);
+            Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
             if (result != null)
-                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+            {
+                String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
+                String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
                 return Ok(result);
+            }
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");
@@ -240,9 +263,13 @@ namespace BackEndAD.Controllers
         public async Task<ActionResult<List<AdjustmentVocherInfo>>> SupervisorissueVoucher([FromBody] StockAdjustSumById voc)
         {
             var result = await _supervisorService.issueVoucher(voc);
+            Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
             if (result != null)
-                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+            {
+                String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
+                String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
                 return Ok(result);
+            }
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");

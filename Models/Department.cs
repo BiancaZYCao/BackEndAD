@@ -22,7 +22,7 @@ namespace BackEndAD.Models
         public DateTime delgtEndDate { get; set; }
 
         //[ForeignKey("CollectionId")]
-        //public int CollectionId { get; set; }
+        public int CollectionId { get; set; }
 
         /*[ForeignKey("headId")]
         public Employee head { get; set; }
