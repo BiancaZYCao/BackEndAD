@@ -328,14 +328,64 @@ namespace BackEndAD.Controllers
 	            return NotFound("Employees not found.");
         }
 
-        [HttpPost("deptCollection/{id}")]
-        public Task<ActionResult<Department>> DeptCollection(
-	        [FromBody] Department department, int id)
+        [HttpPost("deptDelegate")]
+        public Task<ActionResult<Employee>> DeptDelegate(
+	        [FromBody] Employee employee)
         {
 	        Console.WriteLine("post");
-	        Console.WriteLine(id);
-	        Console.WriteLine(department);
+            Console.WriteLine("\nFor Department");
+	        Console.WriteLine("Id: " + employee.Id);
+	        Console.WriteLine("delgtStartDate: " + employee.name);
+	        Console.WriteLine("delgtEndDate: " + employee.password);
+
+	        Console.WriteLine("\nFor Old Delegate");
+            Console.WriteLine("Id: " + employee.email);
+	        Console.WriteLine("role: " + employee.role);
+
+	        Console.WriteLine("\nFor New Delegate");
+	        Console.WriteLine("Id: " + employee.departmentId);
+	        Console.WriteLine("role: " + employee.phoneNum);
+            return null;
+        }
+
+        [HttpPost("deptRepresentative")]
+        public Task<ActionResult<Employee>> DeptRepresentative(
+	        [FromBody] Employee employee)
+        {
+	        Console.WriteLine("post");
+	        Console.WriteLine("\nFor Department");
+	        Console.WriteLine("Id: " + employee.Id);
+
+	        Console.WriteLine("\nFor Old Representative");
+	        Console.WriteLine("Id: " + employee.email);
+	        Console.WriteLine("role: " + employee.role);
+
+	        Console.WriteLine("\nFor New Representative");
+	        Console.WriteLine("Id: " + employee.departmentId);
+	        Console.WriteLine("role: " + employee.phoneNum);
 	        return null;
+        }
+
+        [HttpPost("deptCollection")]
+        public Task<ActionResult<Department>> DeptCollection(
+	        [FromBody] Department department)
+        {
+	        Console.WriteLine("post");
+	        Console.WriteLine(department.Id);
+	        Console.WriteLine(department.CollectionId);
+            return null;
+        }
+
+        [HttpPost("deptRequisition")]
+        public Task<ActionResult<Requisition>> DeptRequisition(
+	        [FromBody] Requisition requisition)
+        {
+	        Console.WriteLine("post");
+	        Console.WriteLine(requisition.Id);
+	        Console.WriteLine(requisition.dateOfAuthorizing);
+	        Console.WriteLine(requisition.status);
+	        Console.WriteLine(requisition.comment);
+            return null;
         }
         #endregion
 
