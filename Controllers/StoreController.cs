@@ -255,9 +255,9 @@ namespace BackEndAD.Controllers
             var allRD = await _clkService.findAllRequsitionDetailsAsync();
 
             var nonDeliveredRD = allRD.Where(x => x.status != "Delivered");
-            
             var nonDeclinedRD = nonDeliveredRD.Where(x => x.status != "Declined");
-            var result = nonDeclinedRD.Where(x => x.reqQty != x.rcvQty);
+            var nonApprovedRD = nonDeclinedRD.Where(x => x.status != "Applied");
+            var result = nonApprovedRD.Where(x => x.reqQty != x.rcvQty);
 
 
             if (result != null)
@@ -302,7 +302,7 @@ namespace BackEndAD.Controllers
             #region create new Stock Adjustment
             StockAdjustment newSA = new StockAdjustment();
             newSA.date = DateTime.Now;
-            newSA.EmployeeId = 15;
+            newSA.EmployeeId = fakeRequisitions.First().requisitionId;
             newSA.type = "stock retrieval";
             _clkService.saveStockAdjustment(newSA);
             Console.WriteLine("created stock adjustment");
@@ -346,22 +346,14 @@ namespace BackEndAD.Controllers
                             var currEmp = await _clkService.findEmployeeByIdAsync(requisitions.Where(y => y.Id == rd.RequisitionId).FirstOrDefault().EmployeeId);
 
                             if (currEmp.departmentId == dl.DepartmentId)
-                            {
-                                //process incoming i which are not 0 in reqQty
-                                //fetch the i.Id to match the RD in db
-                                //1.based on the RD found, add the i.rcvQty to the RD.rcvQty
-                                //1.1save the RD back in database
-                                //2.create a new StockAdjustment
-                                //2.1create a list of stockadjustments based on i.id and i.rcvqty
-                                //3.update the quantity of stationery
-
+                            {                            
                                 #region saving stockadjustments                               
                                 StockAdjustmentDetail SAD = new StockAdjustmentDetail();
                                 SAD.stockAdjustmentId = newSA.Id;
                                 SAD.StationeryId = rd.StationeryId;
                                 SAD.discpQty = -(i.reqQty);
                                 SAD.comment = "sent to " + departments.Where(x => x.Id == currEmp.departmentId).FirstOrDefault().deptName;
-                                SAD.Status = null;
+                                SAD.Status = "Approved";
                                 _clkService.saveStockAdjustmentDetail(SAD);
                                 #endregion
 
@@ -390,9 +382,7 @@ namespace BackEndAD.Controllers
                                 currDB.RequisitionDetailId = rd.Id;
                                 _clkService.saveDisbursementDetail(currDB);
                                 #endregion
-                                
-                              
-
+                                                           
                                 Console.WriteLine("id:" + i.id + ", reqID:" + rd.RequisitionId + ", qty:" + i.reqQty);
                             }
                         }

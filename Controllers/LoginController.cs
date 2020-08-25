@@ -24,12 +24,15 @@ namespace BackEndAD.Controllers
         {
             Console.WriteLine("login");
             var result = await _loginService.findEmployee(employee.email);
-            if (result != null && result.password == employee.password)
+            
+            if (result != null && result.password.Equals(employee.password))
             {
                 return Ok(result);
             }
             else
+            {
                 return NotFound("invalid");
+            }
             }
     }
 }
