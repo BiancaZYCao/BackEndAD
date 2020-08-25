@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 namespace BackEndAD.TempService
 {
     public class RequisitionDetailsList
-    {
+    { 
+        public string authorizer { get; set; }
+        public DateTime? authorizedDate { get; set; }
         public int requisitionDetailsId { get; set; }
         public int requisitionId { get; set; }
         public String description { get; set; }
