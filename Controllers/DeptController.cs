@@ -381,6 +381,9 @@ namespace BackEndAD.Controllers
             var allToDeliverRequisitionsList =
 	            allRequisitionsList.Where(x => x.status == "Approved" || x.status == "Partially_Delivered");
 
+            var allToDeliverRequisitionsDetailList =
+	            allRequisitionsDetailList.Where(x => x.status == "Approved" || x.status == "Partially_Delivered");
+
             var allEmployeesUnderDeptList = allEmployeesList.Where(x => x.departmentId == id);
 
             List<Requisition> allToDeliverRequisitionsUnderDeptList = new List<Requisition>();
@@ -398,7 +401,7 @@ namespace BackEndAD.Controllers
 
             List<RequisitionDetail> allToDeliverRequisitionsDetailUnderDeptList = new List<RequisitionDetail>();
 
-            foreach (RequisitionDetail requisitionDetail in allRequisitionsDetailList)
+            foreach (RequisitionDetail requisitionDetail in allToDeliverRequisitionsDetailList)
             {
                 foreach (Requisition requisition in allToDeliverRequisitionsUnderDeptList)
                 {
