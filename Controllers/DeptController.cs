@@ -169,44 +169,33 @@ namespace BackEndAD.Controllers
         #endregion
 
         #region requisition apply
+        
+        [HttpPost("getItemByDesc")]
+        public async Task<ActionResult<Stationery>> getItemByDesc([FromBody] String desc)
+
+        {
+            var result = await _deptService.getItemByDesc(desc);
+            //Employee employee = await _deptService.findEmployeeByIdAsync(test.session);
+            //String str =await _emailService.SendMail(employee.email, "Apply Requisition", "Your requisition form has been successfully sumitted");
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition Details not found");
+        }
+
         [HttpPost("ApplyRequisition")]
         //public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] List<RequisitionDetailsApply>requisition,Employee employee)
-        public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] RequisitionApplySession test)
+        public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] List<RequisitionDetailsApply> requisition)
 
         {
-            var result = await _deptService.applyRequisition(test.requisition);
-            Employee employee = await _deptService.findEmployeeByIdAsync(test.session);
-            String str =await _emailService.SendMail(employee.email, "Apply Requisition", "Your requisition form has been successfully sumitted");
-            // if find data then return result else will return a String says Department not found
-            if (result != null)
-                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-                return Ok(result);
-            else
-                //this help to return a NOTfOUND result, u can customerize the string.
-                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
-                //I put here Just for u to understand the style. :) -Bianca  
-                return NotFound("Requisition Details not found");
-        }
-
-        [HttpGet("viewRequisitionApply")]
-        public async Task<ActionResult<IList<RequisitionDetail>>> viewRequisitionApply()
-        {
-            var result = await _deptService.viewRequisitionApplyRow();
-            // if find data then return result else will return a String says Department not found
-            if (result != null)
-                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-                return Ok(result);
-            else
-                //this help to return a NOTfOUND result, u can customerize the string.
-                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
-                //I put here Just for u to understand the style. :) -Bianca  
-                return NotFound("Requisition Details not found");
-        }
-
-        [HttpGet("viewRequisition")]
-        public async Task<ActionResult<IList<RequisitionDetailsApply>>> viewRequisition([FromBody] Requisition requisition)
-        {
-            var result = await _deptService.viewRequisitionApply(requisition);
+            var result = await _deptService.applyRequisition(requisition);
+            //Employee employee = await _deptService.findEmployeeByIdAsync(test.session);
+            //String str =await _emailService.SendMail(employee.email, "Apply Requisition", "Your requisition form has been successfully sumitted");
             // if find data then return result else will return a String says Department not found
             if (result != null)
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type

@@ -75,14 +75,33 @@ namespace BackEndAD.ServiceImpl
                 .GetRepository<RequisitionDetail>()
                 .GetAllIncludeIQueryable(filter: x => x.RequisitionId == req.Id).ToList();
 
+            Employee employee = unitOfWork
+                .GetRepository<Employee>()
+                .GetAllIncludeIQueryable(filter: x => x.Id == req.EmployeeId).FirstOrDefault();
+
             foreach (RequisitionDetail reqDetailRecord in rList)
             {
                 foreach (Stationery sItem in stationery)
                 {
-                    if (reqDetailRecord.StationeryId == sItem.Id)
+                    if(reqDetailRecord.StationeryId == sItem.Id && req.status == "Applied")
                     {
                         RequisitionDetailsList requisition = new RequisitionDetailsList()
                         {
+                            requisitionDetailsId = reqDetailRecord.Id,
+                            requisitionId = reqDetailRecord.RequisitionId,
+                            description = sItem.desc,
+                            quantity = reqDetailRecord.reqQty,
+                            unit = sItem.unit,
+                            status = reqDetailRecord.status
+                        };
+                        reqDList.Add(requisition);
+                    }
+                    else if (reqDetailRecord.StationeryId == sItem.Id)
+                    {
+                        RequisitionDetailsList requisition = new RequisitionDetailsList()
+                        {
+                            authorizer = employee.name,
+                            authorizedDate = req.dateOfAuthorizing,
                             requisitionDetailsId = reqDetailRecord.Id,
                             requisitionId = reqDetailRecord.RequisitionId,
                             description = sItem.desc,
@@ -99,12 +118,6 @@ namespace BackEndAD.ServiceImpl
         #endregion
 
         #region requisition apply
-        public async Task<IList<RequisitionDetailsApply>> findRequisitiondetailsApply(RequisitionDetailsApply req)
-        {
-            IList<RequisitionDetailsApply> reqLists = await unitOfWork.GetRepository<RequisitionDetailsApply>().GetAllAsync();
-            return reqLists;
-        }
-
         public async Task<IList<Requisition>> applyRequisition(List<RequisitionDetailsApply> reqList)
         {
             Requisition requisition = new Requisition()
@@ -139,76 +152,13 @@ namespace BackEndAD.ServiceImpl
             return await findAllRequsitionsAsync();
         }
 
-        public async Task<IList<RequisitionDetailsApply>> viewRequisitionApplyRow()
+        public async Task<Stationery> getItemByDesc(String desc)
         {
-            List<RequisitionDetailsApply> reqApply = new List<RequisitionDetailsApply>();
+            Stationery sta = unitOfWork
+             .GetRepository<Stationery>()
+             .GetAllIncludeIQueryable(filter: x => x.desc == desc).FirstOrDefault();
 
-            IList<RequisitionDetail> reqDetail = unitOfWork
-              .GetRepository<RequisitionDetail>()
-              .GetAllIncludeIQueryable(filter: x => x.status == "Applied" && x.Requisition.status == "Applied").ToList();
-
-            foreach (var detail in reqDetail)
-            {
-                if (detail != null)
-                {
-                    Stationery stationery = unitOfWork
-                          .GetRepository<Stationery>()
-                          .GetAllIncludeIQueryable(filter: x => x.Id == detail.StationeryId).FirstOrDefault();
-                    RequisitionDetailsApply apply = new RequisitionDetailsApply()
-                    {
-                        requisitionDetailId = detail.Id,
-                        category = stationery.category,
-                        desc = stationery.desc,
-                        reqQty = detail.reqQty,
-                        unit = stationery.unit,
-                    };
-
-                    reqApply.Add(apply);
-
-                }
-
-            }
-            return reqApply;
-        }
-
-        public async Task<IList<RequisitionDetailsApply>> viewRequisitionApply(Requisition requisition)
-        {
-            List<RequisitionDetailsApply> reqApply = new List<RequisitionDetailsApply>();
-
-            IList<RequisitionDetail> reqDetail = unitOfWork
-              .GetRepository<RequisitionDetail>()
-              .GetAllIncludeIQueryable(filter: x => x.RequisitionId == requisition.Id && x.status == "Applied" && requisition.status == "Applied").ToList();
-
-            foreach (var detail in reqDetail)
-            {
-                if (detail != null)
-                {
-                    Stationery stationery = unitOfWork
-                          .GetRepository<Stationery>()
-                          .GetAllIncludeIQueryable(filter: x => x.Id == detail.StationeryId).FirstOrDefault();
-                    RequisitionDetailsApply apply = new RequisitionDetailsApply()
-                    {
-                        requisitionDetailId = detail.Id,
-                        category = stationery.category,
-                        desc = stationery.desc,
-                        reqQty = detail.reqQty,
-                        unit = stationery.unit,
-                    };
-
-                    reqApply.Add(apply);
-
-                }
-            }
-
-            return reqApply;
-        }
-
-
-
-        public void deleteRequisitionDetail(int id)
-        {
-            unitOfWork.GetRepository<RequisitionDetail>().Delete(id);
-            unitOfWork.SaveChanges();
+            return sta;
         }
         #endregion
 
