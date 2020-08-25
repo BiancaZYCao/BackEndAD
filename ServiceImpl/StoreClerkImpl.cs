@@ -195,6 +195,12 @@ namespace BackEndAD.ServiceImpl
             return orderedList;
         }
 
+        public void updatePO(PurchaseOrder po)
+        {
+            unitOfWork.GetRepository<PurchaseOrder>().Update(po);
+            unitOfWork.SaveChanges();
+        }
+
         public void savePurchaseOrder(PurchaseOrder po)
         {
             unitOfWork.GetRepository<PurchaseOrder>().Insert(po);
@@ -210,6 +216,12 @@ namespace BackEndAD.ServiceImpl
         {
             unitOfWork.GetRepository<PurchaseOrderDetail>().Insert(pod);
             unitOfWork.SaveChanges();
+        }
+
+        public async Task<IList<PurchaseOrder>> findAllPOAsync(){
+            IList<PurchaseOrder> list = await unitOfWork.GetRepository<PurchaseOrder>().GetAllAsync();
+            IList<PurchaseOrder> sorted_list = list.OrderByDescending(x=>x.dateOfOrder).ToList();
+            return sorted_list;
         }
 
 

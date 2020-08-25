@@ -558,6 +558,15 @@ namespace BackEndAD.Controllers
 
         }
 
+        [HttpPost("updatePO")]
+        public PurchaseOrder UpdatePO([FromBody] PurchaseOrder po)
+        {
+
+            _clkService.updatePO(po);
+            return po;
+
+        }
+
         [HttpGet("ItemsNeedOrder")]
         public async Task<ActionResult<List<Stationery>>> GetItemsNeedOrder()
         {
@@ -594,6 +603,18 @@ namespace BackEndAD.Controllers
             if (result != null)
                 return result;
             else return null;
+
+        }
+
+         [HttpGet("getAllPOs")]
+        public async Task<ActionResult<IList<PurchaseOrder>>> GetAllPos()
+        {
+            IList<PurchaseOrder> result = await _clkService.findAllPOAsync();
+           
+            if(result!=null)
+                return Ok(result);
+            else return null;
+
 
         }
 
