@@ -18,13 +18,15 @@ namespace BackEndAD.Controllers
     {
 
         private IStoreClerkService _clkService;
+        private IEmailService _emailService;
         private IStoreManagerService _mgrService;
         private IStoreSupervisorService _supervisorService;
-        public StoreController(IStoreClerkService clkService, IStoreManagerService mgrService, IStoreSupervisorService supervisorService)
+        public StoreController(IEmailService emailService,IStoreClerkService clkService, IStoreManagerService mgrService, IStoreSupervisorService supervisorService)
         {
             _clkService = clkService;
             _mgrService = mgrService;
             _supervisorService = supervisorService;
+            _emailService = emailService;
         }
 
         #region Stationery List (Inventory)
@@ -141,8 +143,12 @@ namespace BackEndAD.Controllers
         {
             var result = await _clkService.getDisburseItemDetail(row);
             if (result != null)
+            {
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                String str = await _emailService.SendMail("theingi@gmail.com", "Email Testing", "This is to test email service...");
+                Console.WriteLine(str);
                 return Ok(result);
+            }  
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");
