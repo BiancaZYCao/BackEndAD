@@ -57,7 +57,9 @@ namespace BackEndAD
             services.AddScoped<IEmailService, EmailServiceImpl>();
             
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
 
             services.AddCors(options =>
             {

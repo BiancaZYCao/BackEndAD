@@ -23,11 +23,13 @@ namespace BackEndAD.Controllers
         //Here we should call fewer service to make code reusable and clean 
         //private IEmployeeService _empService; not used so far 
         private IDepartmentService _deptService;
+        private IStoreClerkService _clerkService;
 
         //CONSTRUCTOR: make sure u build ur service interface in.
-        public DeptController(IDepartmentService deptService)
+        public DeptController(IDepartmentService deptService, IStoreClerkService clerkService)
         {
             _deptService = deptService;
+            _clerkService = clerkService;
         }
 
         // CONTROLLER METHODS handling each HTTP get/put/post/request
@@ -134,7 +136,6 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
-        //requisition-details
         #region requisition details
         [HttpGet("reqDetails")]
         public async Task<ActionResult<IList<Requisition>>> GetAllRequisitionsDetails()
@@ -153,7 +154,7 @@ namespace BackEndAD.Controllers
         }
 
         [HttpPost("getAllItemList")]
-        public async Task<ActionResult<List<RequisitionDetailsList>>> getAllItemList([FromBody] Requisition req)
+        public async Task<ActionResult<List<Requisition>>> getAllItemList([FromBody] Requisition req)
         {
             var result = await _deptService.findAllRequisitionDetailsItemListById(req);
             if (result != null)
@@ -163,6 +164,54 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");
         }
+        #endregion
+
+        #region requisition apply
+        [HttpPost("ApplyRequisition")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] List<RequisitionDetailsApply>requisition)
+        {
+            var result = await _deptService.applyRequisition(requisition);
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition Details not found");
+        }
+
+        [HttpGet("viewRequisitionApply")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> viewRequisitionApply()
+        {
+            var result = await _deptService.viewRequisitionApplyRow();
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition Details not found");
+        }
+
+        [HttpGet("viewRequisition")]
+        public async Task<ActionResult<IList<RequisitionDetailsApply>>> viewRequisition([FromBody] Requisition requisition)
+        {
+            var result = await _deptService.viewRequisitionApply(requisition);
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition Details not found");
+        }
+
         #endregion
 
         #region Basic info-Stationery
@@ -272,8 +321,63 @@ namespace BackEndAD.Controllers
 	        else
 	            return NotFound("Employees not found.");
         }
+
+        [HttpPost("deptCollection/{id}")]
+        public Task<ActionResult<Department>> DeptCollection(
+	        [FromBody] List<Department> department, int id)
+        {
+	        Console.WriteLine("post");
+	        Console.WriteLine(id);
+	        Console.WriteLine(department[0]);
+	        return null;
+        }
         #endregion
 
+        #region Dept-Rep
+        [HttpGet("latestDisbursementByDept/{id}")]
+        public async Task<ActionResult<DisbursementList>> GetLatestDisbursementByDeptId(int id)
+        {
+	        var allDisbursement = await _clerkService.findAllDisbursementListAsync();
+
+	        List<DisbursementList> allDisbursementUnderDept =
+		        allDisbursement.Where(x => x.DepartmentId == id).ToList();
+
+	        if (allDisbursementUnderDept.Any())
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(allDisbursementUnderDept[allDisbursementUnderDept.Count-1]);
+	        else
+		        return NotFound("No disbursement list under this department.");
+        }
+
+        [HttpGet("disbursementDetailByDept/{id}")]
+        public async Task<ActionResult<IList<DisbursementDetail>>> GetDisbursementDetailByDeptId(int id)
+        {
+	        var allDisbursementList = await _clerkService.findAllDisbursementListAsync();
+            var allDisbursementDetail = await _clerkService.findAllDisbursementDetailAsync();
+
+	        var allDisbursementListUnderDept =
+		        allDisbursementList.Where(x => x.DepartmentId == id);
+
+	        List<DisbursementDetail> allDisbursementDetailUnderDept = new List<DisbursementDetail>();
+
+	        foreach (DisbursementDetail disbursementDetail in allDisbursementDetail)
+	        {
+		        foreach (DisbursementList disbursementList in allDisbursementListUnderDept)
+		        {
+			        if (disbursementDetail.DisbursementListId == disbursementList.id)
+			        {
+				        allDisbursementDetailUnderDept.Add(disbursementDetail);
+			        }
+		        }
+	        }
+
+            if (allDisbursementDetailUnderDept.Any())
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(allDisbursementDetailUnderDept);
+	        else
+		        return NotFound("No disbursement detail under this department.");
+        }
+        #endregion
 
         #region read this before starting
         //this not work Sry Idk details, it is weird. -Bianca
