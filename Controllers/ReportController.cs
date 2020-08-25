@@ -197,53 +197,6 @@ namespace BackEndAD.Controllers
                 return NotFound("QUERY FAILED.");
         }
 
-        [HttpGet("ItemNeedtobeOrdered")]
-        public ActionResult<IList<ItemsNeedtobeOrdered>> GenerateItemNeedtobeOrdered()
-        {
-            #region  sql conn then sqlcommand
-        string cnstr = "Server=tcp:team8-sa50.database.windows.net,1433;Initial Catalog=ADProj;Persist Security Info=False;User ID=Bianca;Password=!Str0ngPsword;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=600;";
-            SqlConnection cn = new SqlConnection(cnstr);
-            cn.Open();
-
-            string sqlstr = "select ((((sum(reqDetail.reqQty) - sum(rcvQty))-sum(Stationery.inventoryQty))-sum(PoDetail.qty)) + sum(Stationery.reOrderLevel)) as difQty,Stationery.Id,Stationery.category,Stationery.[desc],Stationery.unit,Stationery.reOrderQty,Stationery.reOrderLevel,Stationery.inventoryQty " +
-                "from RequisitionDetail_Table as reqDetail, Stationery_Table as Stationery, PurchaseOrderDetail_Table as PODetail, PurchaseOrder_Table as PO " +
-                "where reqDetail.status != 'Delivered' and Stationery.Id = reqDetail.StationeryId and PO.status = 'ordered' and PODetail.PurchaseOrderId = PO.id and PODetail.StationeryId = Stationery.Id " +
-                "group by Stationery.Id,Stationery.category,Stationery.[desc],Stationery.unit,Stationery.reOrderQty,Stationery.reOrderLevel,Stationery.inventoryQty";
-
-            SqlCommand cmd = new SqlCommand(sqlstr, cn);
-
-            SqlDataReader dr = cmd.ExecuteReader();
-            IList<ItemsNeedtobeOrdered> result = new List<ItemsNeedtobeOrdered>();
-            while (dr.Read())
-            {
-                if (int.Parse(dr["difQty"].ToString()) > 0)
-                {
-                    ItemsNeedtobeOrdered items = new ItemsNeedtobeOrdered()
-                    {
-                        stationeryId = int.Parse(dr["Id"].ToString()),
-                        actualreOrderQty = int.Parse(dr["difQty"].ToString()),
-                        category = dr["category"].ToString(),
-                        desc = dr["desc"].ToString(),
-                        unit = dr["unit"].ToString(),
-                        reOrderQty = int.Parse(dr["reOrderQty"].ToString()),
-                        reOrderLevel = int.Parse(dr["reOrderLevel"].ToString()),
-                        inventoryQty = int.Parse(dr["inventoryQty"].ToString()),  
-                    };
-                    result.Add(items);
-                }
-            }
-            dr.Close();
-            cn.Close();
-            #endregion
-            foreach (ItemsNeedtobeOrdered rt in result)
-            {
-                Console.WriteLine(rt.ToString());//output testing
-            }
-
-            if (result != null)
-                return Ok(result);
-            else
-                return NotFound("QUERY FAILED.");
-        }
+        
     }
 }
