@@ -5,7 +5,7 @@ namespace BackEndAD.TempService
     {
         public String Category { get; set; }
         public String DepartmentName { get; set; }
-        public int DateOfAuthorizing { get; set; }
+        public String DateOfAuthorizing { get; set; }
         public int ReqQty { get; set; }
 
         public RequisitionTrend()

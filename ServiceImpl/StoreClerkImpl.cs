@@ -53,6 +53,11 @@ namespace BackEndAD.ServiceImpl
                 unitOfWork.SaveChanges();
             }
         }
+        public void deleteStationery(int id)
+        {
+            unitOfWork.GetRepository<Stationery>().Delete(id);
+            unitOfWork.SaveChanges();
+        }
         #endregion
 
         #region supplier
@@ -135,11 +140,24 @@ namespace BackEndAD.ServiceImpl
 
         }
 
-        public async Task<StockAdjustment> findStockAdjustmentByIdAsync(int stockAdjustmentId)
+        public async Task<IEnumerable<StockAdjustmentDetail>> findStockAdjustmentByIdAsync(int stockAdjustmentId)
         {
-            StockAdjustment stkadj = await unitOfWork.GetRepository<StockAdjustment>()
-                .FindAsync(stockAdjustmentId);
-            return stkadj;
+            var stkadj = await unitOfWork.GetRepository<StockAdjustmentDetail>().GetAllAsync();
+            var stkadjList = stkadj.Where(item => item.stockAdjustmentId == stockAdjustmentId && item.discpQty != 0 && item.comment == "");
+            return stkadjList;
+        }
+        public void updateStockAdjustment(List<StockAdjustmentDetail> stockAdjustmentDetails)
+        {
+            foreach(StockAdjustmentDetail s in stockAdjustmentDetails)
+            {
+                var s1 = unitOfWork.GetRepository<StockAdjustmentDetail>().GetById(s.Id);
+                if (s1 != null)
+                {
+                    s1.comment = s.comment;
+                    unitOfWork.GetRepository<StockAdjustmentDetail>().Update(s1);
+                    unitOfWork.SaveChanges();
+                }
+            }
         }
         #endregion
 
@@ -177,6 +195,12 @@ namespace BackEndAD.ServiceImpl
             return orderedList;
         }
 
+        public void updatePO(PurchaseOrder po)
+        {
+            unitOfWork.GetRepository<PurchaseOrder>().Update(po);
+            unitOfWork.SaveChanges();
+        }
+
         public void savePurchaseOrder(PurchaseOrder po)
         {
             unitOfWork.GetRepository<PurchaseOrder>().Insert(po);
@@ -192,6 +216,12 @@ namespace BackEndAD.ServiceImpl
         {
             unitOfWork.GetRepository<PurchaseOrderDetail>().Insert(pod);
             unitOfWork.SaveChanges();
+        }
+
+        public async Task<IList<PurchaseOrder>> findAllPOAsync(){
+            IList<PurchaseOrder> list = await unitOfWork.GetRepository<PurchaseOrder>().GetAllAsync();
+            IList<PurchaseOrder> sorted_list = list.OrderByDescending(x=>x.dateOfOrder).ToList();
+            return sorted_list;
         }
 
 
@@ -234,6 +264,13 @@ namespace BackEndAD.ServiceImpl
             IList<DisbursementList> list = await unitOfWork.GetRepository<DisbursementList>().GetAllAsync();
             return list;
         }
+
+        public async Task<IList<DisbursementDetail>> findAllDisbursementDetailAsync()
+        {
+	        IList<DisbursementDetail> list = await unitOfWork.GetRepository<DisbursementDetail>().GetAllAsync();
+	        return list;
+        }
+
         public async Task<IList<RequesterRow>> GetAllRequesterRow()
         {
             IList<DisbursementList> disbursementlist = await findAllDisbursementListAsync();

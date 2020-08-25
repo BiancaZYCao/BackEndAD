@@ -23,11 +23,15 @@ namespace BackEndAD.Controllers
         //Here we should call fewer service to make code reusable and clean 
         //private IEmployeeService _empService; not used so far 
         private IDepartmentService _deptService;
-
+        private IStoreClerkService _clerkService;
+        private IEmailService _emailService;
+        
         //CONSTRUCTOR: make sure u build ur service interface in.
-        public DeptController(IDepartmentService deptService)
+        public DeptController(IEmailService emailService,IDepartmentService deptService, IStoreClerkService clerkService)
         {
             _deptService = deptService;
+            _clerkService = clerkService;
+            _emailService = emailService;
         }
 
         // CONTROLLER METHODS handling each HTTP get/put/post/request
@@ -134,7 +138,6 @@ namespace BackEndAD.Controllers
         }
         #endregion
 
-        //requisition-details
         #region requisition details
         [HttpGet("reqDetails")]
         public async Task<ActionResult<IList<Requisition>>> GetAllRequisitionsDetails()
@@ -153,7 +156,7 @@ namespace BackEndAD.Controllers
         }
 
         [HttpPost("getAllItemList")]
-        public async Task<ActionResult<List<RequisitionDetailsList>>> getAllItemList([FromBody] Requisition req)
+        public async Task<ActionResult<List<Requisition>>> getAllItemList([FromBody] Requisition req)
         {
             var result = await _deptService.findAllRequisitionDetailsItemListById(req);
             if (result != null)
@@ -163,6 +166,47 @@ namespace BackEndAD.Controllers
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");
         }
+        #endregion
+
+        #region requisition apply
+        
+        [HttpPost("getItemByDesc")]
+        public async Task<ActionResult<Stationery>> getItemByDesc([FromBody] String desc)
+
+        {
+            var result = await _deptService.getItemByDesc(desc);
+            //Employee employee = await _deptService.findEmployeeByIdAsync(test.session);
+            //String str =await _emailService.SendMail(employee.email, "Apply Requisition", "Your requisition form has been successfully sumitted");
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition Details not found");
+        }
+
+        [HttpPost("ApplyRequisition")]
+        //public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] List<RequisitionDetailsApply>requisition,Employee employee)
+        public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] List<RequisitionDetailsApply> requisition)
+
+        {
+            var result = await _deptService.applyRequisition(requisition);
+            //Employee employee = await _deptService.findEmployeeByIdAsync(test.session);
+            //String str =await _emailService.SendMail(employee.email, "Apply Requisition", "Your requisition form has been successfully sumitted");
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition Details not found");
+        }
+
         #endregion
 
         #region Basic info-Stationery
@@ -272,8 +316,193 @@ namespace BackEndAD.Controllers
 	        else
 	            return NotFound("Employees not found.");
         }
+
+        [HttpPost("deptDelegate")]
+        public Task<ActionResult<Employee>> DeptDelegate(
+	        [FromBody] Employee employee)
+        {
+	        Console.WriteLine("post");
+            Console.WriteLine("\nFor Department");
+	        Console.WriteLine("Id: " + employee.Id);
+	        Console.WriteLine("delgtStartDate: " + employee.name);
+	        Console.WriteLine("delgtEndDate: " + employee.password);
+
+	        Console.WriteLine("\nFor Old Delegate");
+            Console.WriteLine("Id: " + employee.email);
+	        Console.WriteLine("role: " + employee.role);
+
+	        Console.WriteLine("\nFor New Delegate");
+	        Console.WriteLine("Id: " + employee.departmentId);
+	        Console.WriteLine("role: " + employee.phoneNum);
+            return null;
+        }
+
+        [HttpPost("deptRepresentative")]
+        public Task<ActionResult<Employee>> DeptRepresentative(
+	        [FromBody] Employee employee)
+        {
+	        Console.WriteLine("post");
+	        Console.WriteLine("\nFor Department");
+	        Console.WriteLine("Id: " + employee.Id);
+
+	        Console.WriteLine("\nFor Old Representative");
+	        Console.WriteLine("Id: " + employee.email);
+	        Console.WriteLine("role: " + employee.role);
+
+	        Console.WriteLine("\nFor New Representative");
+	        Console.WriteLine("Id: " + employee.departmentId);
+	        Console.WriteLine("role: " + employee.phoneNum);
+	        return null;
+        }
+
+        [HttpPost("deptCollection")]
+        public Task<ActionResult<Department>> DeptCollection(
+	        [FromBody] Department department)
+        {
+	        Console.WriteLine("post");
+	        Console.WriteLine(department.Id);
+	        Console.WriteLine(department.CollectionId);
+            return null;
+        }
+
+        [HttpPost("deptRequisition")]
+        public Task<ActionResult<Requisition>> DeptRequisition(
+	        [FromBody] Requisition requisition)
+        {
+	        Console.WriteLine("post");
+	        Console.WriteLine(requisition.Id);
+	        Console.WriteLine(requisition.dateOfAuthorizing);
+	        Console.WriteLine(requisition.status);
+	        Console.WriteLine(requisition.comment);
+            return null;
+        }
         #endregion
 
+        #region Dept-Rep
+        [HttpGet("deptToDeliverReq/{id}")]
+        public async Task<ActionResult<IList<Requisition>>> GetToDeliverRequisitionsByDeptId(int id)
+        {
+            var allRequisitionsList = await _deptService.findAllRequsitionsAsync();
+            var allEmployeesList = await _deptService.findAllEmployeesAsync();
+
+            var allToDeliverRequisitionsList =
+                allRequisitionsList.Where(x => x.status == "Approved" || x.status == "Partially_Delivered");
+
+            var allEmployeesUnderDeptList = allEmployeesList.Where(x => x.departmentId == id);
+
+            List<Requisition> allToDeliverRequisitionsUnderDeptList = new List<Requisition>();
+
+            foreach (Requisition requisition in allToDeliverRequisitionsList)
+            {
+                foreach (Employee employee in allEmployeesUnderDeptList)
+                {
+                    if (requisition.EmployeeId == employee.Id)
+                    {
+	                    allToDeliverRequisitionsUnderDeptList.Add(requisition);
+                    }
+                }
+            }
+
+            if (allToDeliverRequisitionsUnderDeptList.Any())
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(allToDeliverRequisitionsUnderDeptList);
+            else
+                return NotFound("No requisition to deliver under this department.");
+        }
+
+        [HttpGet("deptToDeliverReqDetail/{id}")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> GetToDeliverRequisitionsDetailByDeptId(int id)
+        {
+            var allRequisitionsList = await _deptService.findAllRequsitionsAsync();
+            var allRequisitionsDetailList = await _deptService.findAllRequsitionDetailAsync();
+            var allEmployeesList = await _deptService.findAllEmployeesAsync();
+
+            var allToDeliverRequisitionsList =
+	            allRequisitionsList.Where(x => x.status == "Approved" || x.status == "Partially_Delivered");
+
+            var allToDeliverRequisitionsDetailList =
+	            allRequisitionsDetailList.Where(x => x.status == "Approved" || x.status == "Partially_Delivered");
+
+            var allEmployeesUnderDeptList = allEmployeesList.Where(x => x.departmentId == id);
+
+            List<Requisition> allToDeliverRequisitionsUnderDeptList = new List<Requisition>();
+
+            foreach (Requisition requisition in allToDeliverRequisitionsList)
+            {
+                foreach (Employee employee in allEmployeesUnderDeptList)
+                {
+                    if (requisition.EmployeeId == employee.Id)
+                    {
+	                    allToDeliverRequisitionsUnderDeptList.Add(requisition);
+                    }
+                }
+            }
+
+            List<RequisitionDetail> allToDeliverRequisitionsDetailUnderDeptList = new List<RequisitionDetail>();
+
+            foreach (RequisitionDetail requisitionDetail in allToDeliverRequisitionsDetailList)
+            {
+                foreach (Requisition requisition in allToDeliverRequisitionsUnderDeptList)
+                {
+                    if (requisitionDetail.RequisitionId == requisition.Id)
+
+                    {
+	                    allToDeliverRequisitionsDetailUnderDeptList.Add(requisitionDetail);
+                    }
+                }
+            }
+
+            if (allToDeliverRequisitionsDetailUnderDeptList.Any())
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(allToDeliverRequisitionsDetailUnderDeptList);
+            else
+                return NotFound("No requisition detail to deliver under this department.");
+        }
+
+        [HttpGet("latestDisbursementByDept/{id}")]
+        public async Task<ActionResult<DisbursementList>> GetLatestDisbursementByDeptId(int id)
+        {
+	        var allDisbursement = await _clerkService.findAllDisbursementListAsync();
+
+	        List<DisbursementList> allDisbursementUnderDept =
+		        allDisbursement.Where(x => x.DepartmentId == id).ToList();
+
+	        if (allDisbursementUnderDept.Any())
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(allDisbursementUnderDept[allDisbursementUnderDept.Count-1]);
+	        else
+		        return NotFound("No disbursement list under this department.");
+        }
+
+        [HttpGet("disbursementDetailByDept/{id}")]
+        public async Task<ActionResult<IList<DisbursementDetail>>> GetDisbursementDetailByDeptId(int id)
+        {
+	        var allDisbursementList = await _clerkService.findAllDisbursementListAsync();
+            var allDisbursementDetail = await _clerkService.findAllDisbursementDetailAsync();
+
+	        var allDisbursementListUnderDept =
+		        allDisbursementList.Where(x => x.DepartmentId == id);
+
+	        List<DisbursementDetail> allDisbursementDetailUnderDept = new List<DisbursementDetail>();
+
+	        foreach (DisbursementDetail disbursementDetail in allDisbursementDetail)
+	        {
+		        foreach (DisbursementList disbursementList in allDisbursementListUnderDept)
+		        {
+			        if (disbursementDetail.DisbursementListId == disbursementList.id)
+			        {
+				        allDisbursementDetailUnderDept.Add(disbursementDetail);
+			        }
+		        }
+	        }
+
+            if (allDisbursementDetailUnderDept.Any())
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(allDisbursementDetailUnderDept);
+	        else
+		        return NotFound("No disbursement detail under this department.");
+        }
+        #endregion
 
         #region read this before starting
         //this not work Sry Idk details, it is weird. -Bianca

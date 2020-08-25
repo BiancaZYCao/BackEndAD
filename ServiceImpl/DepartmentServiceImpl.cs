@@ -67,7 +67,7 @@ namespace BackEndAD.ServiceImpl
         public async Task<IList<RequisitionDetailsList>> findAllRequisitionDetailsItemListById(Requisition req)
         {
             IList<RequisitionDetailsList> reqDList = new List<RequisitionDetailsList>();
-           // IList<RequisitionDetail> reqDetail = await findAllRequsitionDetailAsync();
+            // IList<RequisitionDetail> reqDetail = await findAllRequsitionDetailAsync();
             IList<Stationery> stationery = await findAllStationeryAsync();
 
             //retrieve list of req detail with equal id
@@ -75,11 +75,15 @@ namespace BackEndAD.ServiceImpl
                 .GetRepository<RequisitionDetail>()
                 .GetAllIncludeIQueryable(filter: x => x.RequisitionId == req.Id).ToList();
 
-            foreach(RequisitionDetail reqDetailRecord in rList)
+            Employee employee = unitOfWork
+                .GetRepository<Employee>()
+                .GetAllIncludeIQueryable(filter: x => x.Id == req.EmployeeId).FirstOrDefault();
+
+            foreach (RequisitionDetail reqDetailRecord in rList)
             {
-                foreach(Stationery sItem in stationery)
+                foreach (Stationery sItem in stationery)
                 {
-                    if(reqDetailRecord.StationeryId == sItem.Id)
+                    if(reqDetailRecord.StationeryId == sItem.Id && req.status == "Applied")
                     {
                         RequisitionDetailsList requisition = new RequisitionDetailsList()
                         {
@@ -92,9 +96,69 @@ namespace BackEndAD.ServiceImpl
                         };
                         reqDList.Add(requisition);
                     }
+                    else if (reqDetailRecord.StationeryId == sItem.Id)
+                    {
+                        RequisitionDetailsList requisition = new RequisitionDetailsList()
+                        {
+                            authorizer = employee.name,
+                            authorizedDate = req.dateOfAuthorizing,
+                            requisitionDetailsId = reqDetailRecord.Id,
+                            requisitionId = reqDetailRecord.RequisitionId,
+                            description = sItem.desc,
+                            quantity = reqDetailRecord.reqQty,
+                            unit = sItem.unit,
+                            status = reqDetailRecord.status
+                        };
+                        reqDList.Add(requisition);
+                    }
                 }
             }
             return reqDList;
+        }
+        #endregion
+
+        #region requisition apply
+        public async Task<IList<Requisition>> applyRequisition(List<RequisitionDetailsApply> reqList)
+        {
+            Requisition requisition = new Requisition()
+            {
+                EmployeeId = 1,
+                dateOfRequest = DateTime.Now,
+                dateOfAuthorizing = DateTime.Now,
+                AuthorizerId = 1,
+                status = "Applied",
+            };
+            unitOfWork.GetRepository<Requisition>().Insert(requisition);
+            unitOfWork.SaveChanges();
+
+            foreach (RequisitionDetailsApply reqDetails in reqList)
+            {
+
+                Stationery stationeries = unitOfWork
+                    .GetRepository<Stationery>()
+                    .GetAllIncludeIQueryable(filter: x => x.desc == reqDetails.desc).FirstOrDefault();
+
+                RequisitionDetail reqDetail1 = new RequisitionDetail()
+                {
+                    RequisitionId = requisition.Id,
+                    StationeryId = stationeries.Id,
+                    reqQty = reqDetails.reqQty,
+                    status = "Applied",
+                };
+                unitOfWork.GetRepository<RequisitionDetail>().Insert(reqDetail1);
+                unitOfWork.SaveChanges();
+            }
+
+            return await findAllRequsitionsAsync();
+        }
+
+        public async Task<Stationery> getItemByDesc(String desc)
+        {
+            Stationery sta = unitOfWork
+             .GetRepository<Stationery>()
+             .GetAllIncludeIQueryable(filter: x => x.desc == desc).FirstOrDefault();
+
+            return sta;
         }
         #endregion
 
