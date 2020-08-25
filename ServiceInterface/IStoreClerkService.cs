@@ -44,6 +44,8 @@ namespace BackEndAD.ServiceInterface
         public Task<AdjustmentVocherInfo> getEachVoucherDetail(AdjustmentVocherInfo info);
         public Task<IList<AdjustmentVocherInfo>> issueVoucher(StockAdjustSumById voc);
         public Task<IList<Requisition>> findAllRequsitionAsync();
+         public Task<IList<PurchaseOrder>> findAllPOAsync();
+        public void updatePO(PurchaseOrder po);
         public Task<IList<RequisitionDetail>> findAllRequsitionDetailsAsync();
         public void saveStockAdjustment(StockAdjustment newSA);
         public void saveStockAdjustmentDetail(StockAdjustmentDetail sAD);
