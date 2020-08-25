@@ -324,16 +324,93 @@ namespace BackEndAD.Controllers
 
         [HttpPost("deptCollection/{id}")]
         public Task<ActionResult<Department>> DeptCollection(
-	        [FromBody] List<Department> department, int id)
+	        [FromBody] Department department, int id)
         {
 	        Console.WriteLine("post");
 	        Console.WriteLine(id);
-	        Console.WriteLine(department[0]);
+	        Console.WriteLine(department);
 	        return null;
         }
         #endregion
 
         #region Dept-Rep
+        [HttpGet("deptToDeliverReq/{id}")]
+        public async Task<ActionResult<IList<Requisition>>> GetToDeliverRequisitionsByDeptId(int id)
+        {
+            var allRequisitionsList = await _deptService.findAllRequsitionsAsync();
+            var allEmployeesList = await _deptService.findAllEmployeesAsync();
+
+            var allToDeliverRequisitionsList =
+                allRequisitionsList.Where(x => x.status == "Approved" || x.status == "Partially_Delivered");
+
+            var allEmployeesUnderDeptList = allEmployeesList.Where(x => x.departmentId == id);
+
+            List<Requisition> allToDeliverRequisitionsUnderDeptList = new List<Requisition>();
+
+            foreach (Requisition requisition in allToDeliverRequisitionsList)
+            {
+                foreach (Employee employee in allEmployeesUnderDeptList)
+                {
+                    if (requisition.EmployeeId == employee.Id)
+                    {
+	                    allToDeliverRequisitionsUnderDeptList.Add(requisition);
+                    }
+                }
+            }
+
+            if (allToDeliverRequisitionsUnderDeptList.Any())
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(allToDeliverRequisitionsUnderDeptList);
+            else
+                return NotFound("No requisition to deliver under this department.");
+        }
+
+        [HttpGet("deptToDeliverReqDetail/{id}")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> GetToDeliverRequisitionsDetailByDeptId(int id)
+        {
+            var allRequisitionsList = await _deptService.findAllRequsitionsAsync();
+            var allRequisitionsDetailList = await _deptService.findAllRequsitionDetailAsync();
+            var allEmployeesList = await _deptService.findAllEmployeesAsync();
+
+            var allToDeliverRequisitionsList =
+	            allRequisitionsList.Where(x => x.status == "Approved" || x.status == "Partially_Delivered");
+
+            var allEmployeesUnderDeptList = allEmployeesList.Where(x => x.departmentId == id);
+
+            List<Requisition> allToDeliverRequisitionsUnderDeptList = new List<Requisition>();
+
+            foreach (Requisition requisition in allToDeliverRequisitionsList)
+            {
+                foreach (Employee employee in allEmployeesUnderDeptList)
+                {
+                    if (requisition.EmployeeId == employee.Id)
+                    {
+	                    allToDeliverRequisitionsUnderDeptList.Add(requisition);
+                    }
+                }
+            }
+
+            List<RequisitionDetail> allToDeliverRequisitionsDetailUnderDeptList = new List<RequisitionDetail>();
+
+            foreach (RequisitionDetail requisitionDetail in allRequisitionsDetailList)
+            {
+                foreach (Requisition requisition in allToDeliverRequisitionsUnderDeptList)
+                {
+                    if (requisitionDetail.RequisitionId == requisition.Id)
+
+                    {
+	                    allToDeliverRequisitionsDetailUnderDeptList.Add(requisitionDetail);
+                    }
+                }
+            }
+
+            if (allToDeliverRequisitionsDetailUnderDeptList.Any())
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(allToDeliverRequisitionsDetailUnderDeptList);
+            else
+                return NotFound("No requisition detail to deliver under this department.");
+        }
+
         [HttpGet("latestDisbursementByDept/{id}")]
         public async Task<ActionResult<DisbursementList>> GetLatestDisbursementByDeptId(int id)
         {
