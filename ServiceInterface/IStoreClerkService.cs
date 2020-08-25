@@ -22,7 +22,8 @@ namespace BackEndAD.ServiceInterface
 
         public Task<StockAdjustment> generateStkAdjustmentAsync(StockAdjustment stkAdj,
                         List<StockAdjustmentDetail> stockAdjustmentDetails);
-        public Task<StockAdjustment> findStockAdjustmentByIdAsync(int id);
+        public Task<IEnumerable<StockAdjustmentDetail>> findStockAdjustmentByIdAsync(int stockAdjustmentId);
+        public void updateStockAdjustment(List<StockAdjustmentDetail> stockAdjustmentDetails);
 
         public void saveSupplier(Supplier s);
 

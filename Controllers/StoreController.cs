@@ -423,13 +423,10 @@ namespace BackEndAD.Controllers
 
         #region Test post method 18Aug
         [HttpPost("stkAd/{id}")]
-        public /*async*/ Task<ActionResult<StockAdjustment>> PostTestStkAd(
+        public async Task<ActionResult<StockAdjustment>> PostTestStkAd(
                [FromBody] List<StockAdjustmentDetail> stockAdjustmentDetails, int id)
         {
-            Console.WriteLine("post");
-            Console.WriteLine(id);
-            Console.WriteLine(stockAdjustmentDetails[0].discpQty);
-            /*StockAdjustment stkAdj = new StockAdjustment()
+            StockAdjustment stkAdj = new StockAdjustment()
             {
                 date = DateTime.Now,
                 type = "inventory check",
@@ -441,8 +438,7 @@ namespace BackEndAD.Controllers
                 return CreatedAtAction(
                     nameof(GetStkAdjId), new { id = result.Id }, result);
             else
-                return NotFound("Sry failed.");*/
-            return null;
+                return NotFound("Sry failed.");
         }
 
         [HttpGet("stkAd/get/{id}")]
@@ -455,6 +451,12 @@ namespace BackEndAD.Controllers
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Suppliers not found");
+        }
+        [HttpPut("stkAd/put")]
+        public Task<ActionResult<StockAdjustment>> PutStkAd([FromBody] List<StockAdjustmentDetail> stockAdjustmentDetails)
+        {
+            _clkService.updateStockAdjustment(stockAdjustmentDetails);
+            return null;
         }
         #endregion
         #endregion
