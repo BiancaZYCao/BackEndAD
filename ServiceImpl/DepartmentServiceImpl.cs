@@ -118,14 +118,14 @@ namespace BackEndAD.ServiceImpl
         #endregion
 
         #region requisition apply
-        public async Task<IList<Requisition>> applyRequisition(List<RequisitionDetailsApply> reqList)
+        public async Task<IList<Requisition>> applyRequisition(List<RequisitionDetailsApply> reqList,int empId)
         {
             Requisition requisition = new Requisition()
-            {
-                EmployeeId = 1,
+            {//@WuttYee here hardcore empID,AuthorizerId?,dateOfAuthorizing? should change 
+                EmployeeId = empId,
                 dateOfRequest = DateTime.Now,
-                dateOfAuthorizing = DateTime.Now,
-                AuthorizerId = 1,
+                //dateOfAuthorizing = DateTime.Now,//can leave null
+                AuthorizerId = 2,//if must not null ,pass headID ; delegate need to be updated when approved.
                 status = "Applied",
             };
             unitOfWork.GetRepository<Requisition>().Insert(requisition);

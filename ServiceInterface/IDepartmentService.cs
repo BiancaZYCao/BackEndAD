@@ -21,7 +21,7 @@ namespace BackEndAD.ServiceInterface
         public Task<IList<RequisitionDetail>> findAllRequsitionDetailAsync();
         public Task<IList<Stationery>> findAllStationeryAsync();
         public Task<IList<RequisitionDetailsList>> findAllRequisitionDetailsItemListById(Requisition req);
-        public Task<IList<Requisition>> applyRequisition(List<RequisitionDetailsApply> requisition);
+        public Task<IList<Requisition>> applyRequisition(List<RequisitionDetailsApply> requisition,int empId);
         public Task<Stationery> getItemByDesc(String desc); 
         
 
