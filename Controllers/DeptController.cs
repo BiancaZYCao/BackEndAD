@@ -335,6 +335,23 @@ namespace BackEndAD.Controllers
 	        Console.WriteLine("\nFor New Delegate");
 	        Console.WriteLine("Id: " + employee.departmentId);
 	        Console.WriteLine("role: " + employee.phoneNum);
+
+            Department departmentToUpdate = new Department();
+            departmentToUpdate.Id = employee.Id;
+            DateTime delgateStartDate = Convert.ToDateTime(employee.name);
+            departmentToUpdate.delgtStartDate = delgateStartDate;
+            DateTime delegateEndDate = Convert.ToDateTime(employee.password);
+            departmentToUpdate.delgtEndDate = delegateEndDate;
+
+
+            int oldDelegateId = Int32.Parse(employee.email);
+            string oldDelegateRole = employee.role;
+
+            int newDelegateId = employee.departmentId;
+            string newDelegateRole = employee.phoneNum;
+
+            _deptService.updateDeptDelegate(departmentToUpdate);
+            _deptService.updateDeptEmp(oldDelegateId, oldDelegateRole, newDelegateId, newDelegateRole);
             return null;
         }
 
@@ -343,16 +360,16 @@ namespace BackEndAD.Controllers
 	        [FromBody] Employee employee)
         {
 	        Console.WriteLine("post");
-	        Console.WriteLine("\nFor Department");
-	        Console.WriteLine("Id: " + employee.Id);
 
 	        Console.WriteLine("\nFor Old Representative");
-	        Console.WriteLine("Id: " + employee.email);
-	        Console.WriteLine("role: " + employee.role);
+	        Console.WriteLine("Id: " + employee.Id);
+            Console.WriteLine("role: " + employee.role);
 
 	        Console.WriteLine("\nFor New Representative");
 	        Console.WriteLine("Id: " + employee.departmentId);
 	        Console.WriteLine("role: " + employee.phoneNum);
+
+            _deptService.updateDeptEmp(employee.Id, employee.role, employee.departmentId, employee.phoneNum);
 	        return null;
         }
 
@@ -363,7 +380,9 @@ namespace BackEndAD.Controllers
 	        Console.WriteLine("post");
 	        Console.WriteLine(department.Id);
 	        Console.WriteLine(department.CollectionId);
-            return null;
+
+	        _deptService.updateDeptCollectionPt(department.Id, department.CollectionId);
+	        return null;
         }
 
         [HttpPost("deptRequisition")]
@@ -375,6 +394,9 @@ namespace BackEndAD.Controllers
 	        Console.WriteLine(requisition.dateOfAuthorizing);
 	        Console.WriteLine(requisition.status);
 	        Console.WriteLine(requisition.comment);
+
+            _deptService.updateRequisition(requisition.Id, requisition.dateOfAuthorizing, requisition.status, requisition.comment);
+            _deptService.updateRequisitionDetail(requisition.Id, requisition.status);
             return null;
         }
         #endregion

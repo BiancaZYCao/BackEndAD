@@ -22,9 +22,12 @@ namespace BackEndAD.ServiceInterface
         public Task<IList<Stationery>> findAllStationeryAsync();
         public Task<IList<RequisitionDetailsList>> findAllRequisitionDetailsItemListById(Requisition req);
         public Task<IList<Requisition>> applyRequisition(List<RequisitionDetailsApply> requisition,int empId);
-        public Task<Stationery> getItemByDesc(String desc); 
-        
-
-
+        public void updateRequisition(int requisitionId, DateTime? reqDateOfAuthorizing, string reqStatus,
+	        string reqComment);
+        public void updateRequisitionDetail(int requisitionId, string reqDetailStatus);
+        public Task<Stationery> getItemByDesc(String desc);
+        public void updateDeptCollectionPt(int DeptId, int CollectionId);
+        public void updateDeptDelegate(Department departmentToUpdate);
+        public void updateDeptEmp(int oldId, string oldRole, int newId, string newRole);
     }
 }
