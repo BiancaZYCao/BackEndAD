@@ -324,7 +324,7 @@ namespace BackEndAD.Controllers
         }
 
         [HttpPost("processRetrieval")]
-        public async Task<ActionResult<Requisition>> processRetrieval(
+        public async Task<ActionResult<DisbursementList>> processRetrieval(
               [FromBody] List<fakeRequisitionDetails> fakeRequisitions)
         {
             Console.WriteLine(fakeRequisitions.First().requisitionId);
@@ -345,7 +345,6 @@ namespace BackEndAD.Controllers
             #region create new Stock Adjustment
             StockAdjustment newSA = new StockAdjustment();
             newSA.date = DateTime.Now;
-            Console.WriteLine(fakeRequisitions.First().requisitionId);
             newSA.EmployeeId = fakeRequisitions.First().requisitionId;
             newSA.type = "stock retrieval";
             _clkService.saveStockAdjustment(newSA);
@@ -390,7 +389,7 @@ namespace BackEndAD.Controllers
                             var currEmp = await _clkService.findEmployeeByIdAsync(requisitions.Where(y => y.Id == rd.RequisitionId).FirstOrDefault().EmployeeId);
 
                             if (currEmp.departmentId == dl.DepartmentId)
-                            {                            
+                            {
                                 #region saving stockadjustments                               
                                 StockAdjustmentDetail SAD = new StockAdjustmentDetail();
                                 SAD.stockAdjustmentId = newSA.Id;
@@ -438,7 +437,8 @@ namespace BackEndAD.Controllers
                 }
             }
             Console.WriteLine("done");
-            return Ok(fakeRequisitions);
+            return Ok(disbursementList);
+
         }
 
 
@@ -502,6 +502,19 @@ namespace BackEndAD.Controllers
         #endregion
         #endregion
 
+        #region Disbursement and Distribution
+        [HttpGet("disbursements")]
+        public async Task<ActionResult<List<DisbursementList>>> GetAllDisbursementList()
+        {
+            var result = await _clkService.findAllDisbursementListAsync();
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else { return NotFound("nothing pending"); }
+        }
+
+        #endregion
         #region place order 
         /*[HttpGet("placeOrder")]
         public async Task<ActionResult<ReOrderRecViewModel>> GetReOrderRec()
@@ -604,12 +617,13 @@ namespace BackEndAD.Controllers
         {
             PurchaseOrder po = await _clkService.findPOById(p.id);
 
-            if (po != null) {
+            if (po != null)
+            {
                 po.status = "delivered";
                 _clkService.updatePO(po);
                 Console.WriteLine("PO Updated");
             }
-           
+
             //return po;
             return Ok(p.id);
         }
