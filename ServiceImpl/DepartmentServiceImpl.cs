@@ -55,6 +55,15 @@ namespace BackEndAD.ServiceImpl
             IList<Requisition> reqlist = await unitOfWork.GetRepository<Requisition>().GetAllAsync();
             return reqlist;
         }
+
+        public async Task<IList<Requisition>> findAllRequsitionsByEmpIdAsync(int empId)
+        {
+            IList<Requisition> reqlist = unitOfWork
+                       .GetRepository<Requisition>()
+                       .GetAllIncludeIQueryable(filter: x => x.EmployeeId == empId).ToList();
+            return reqlist;
+
+        }
         #endregion
 
         #region requisition details

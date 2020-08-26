@@ -18,6 +18,7 @@ namespace BackEndAD.ServiceInterface
         public Task<Employee> findEmployeeByIdAsync(int empid);
         public Task<IList<CollectionInfo>> findAllCollectionPointAsync();
 
+        public Task<IList<Requisition>> findAllRequsitionsByEmpIdAsync(int id);
         public Task<IList<RequisitionDetail>> findAllRequsitionDetailAsync();
         public Task<IList<Stationery>> findAllStationeryAsync();
         public Task<IList<RequisitionDetailsList>> findAllRequisitionDetailsItemListById(Requisition req);

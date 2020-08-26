@@ -28,7 +28,7 @@ namespace BackEndAD.Controllers
             
             if (result != null && result.password.Equals(employee.password))
             {
-                HttpContext.Session.SetInt32("userId", result.Id);
+                //HttpContext.Session.SetInt32("userId", result.Id);
                 Console.WriteLine(result.Id);
                 return Ok(result);
             }

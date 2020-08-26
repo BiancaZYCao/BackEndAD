@@ -137,6 +137,21 @@ namespace BackEndAD.Controllers
                 //I put here Just for u to understand the style. :) -Bianca  
                 return NotFound("Requisition not found.");
         }
+        [HttpGet("requisition/{id}")]
+        public async Task<ActionResult<IList<Requisition>>> GetAllRequisitionsByEmpId(int id)
+        {
+            var result = await _deptService.findAllRequsitionsByEmpIdAsync(id);
+            //var result2 = result.First<Requisition>().Employee;
+            // if find data then return result else will return a String says Department not found
+            if (result != null)
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(result);
+            else
+                //this help to return a NOTfOUND result, u can customerize the string.
+                //There are 3 Department alr seeded in DB, so this line should nvr appears. 
+                //I put here Just for u to understand the style. :) -Bianca  
+                return NotFound("Requisition not found.");
+        }
         #endregion
 
         #region requisition details
@@ -189,28 +204,30 @@ namespace BackEndAD.Controllers
                 return NotFound("Requisition Details not found");
         }
 
-        [HttpPost("ApplyRequisition")] //.../applyreq...?empID=XX
-        ///!!!-This Method need to be fixed-!!! -Bianca
-        ///1. employee info need to be passed via session or url
-        ///2. validation empID not store/head/delegate
-        ///3. checking email service (emp/head side)
-        //public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] List<RequisitionDetailsApply>requisition,Employee employee)
-        public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] List<RequisitionDetailsApply> requisition)
-
+        [HttpPost("ApplyRequisition/{id}")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> ApplyRequisition([FromBody] List<RequisitionDetailsApply> requisition, int id)
         {
-            int empId = HttpContext.Session.GetInt32("userId").Value;
-            Console.WriteLine(empId);
-            Employee employee = await _deptService.findEmployeeByIdAsync(empId);
+            //int empId = HttpContext.Session.GetInt32("userId").Value;
+            //Console.WriteLine(empId);
+            Employee employee = await _deptService.findEmployeeByIdAsync(id);
             //PENDING : check not head/store-staff
-
-            var result = await _deptService.applyRequisition(requisition, empId);
-            //Employee employee = await _deptService.findEmployeeByIdAsync(test.session);
-            //String str =await _emailService.SendMail(employee.email, "Apply Requisition", "Your requisition form has been successfully sumitted");
-            //String str =await _emailService.SendMail(employee=>dept=>head=>delegate, "Apply Requisition", "New requisition pending approval.");
-            if (result != null)
-                return Ok(result);
+            if(employee.role == "STAFF")
+            {
+               var result = await _deptService.applyRequisition(requisition, id);
+                String str =await _emailService.SendMail(employee.email, "Apply Requisition", "Your requisition form has been successfully sumitted");
+                if (result != null)
+                    return Ok(result);
+                else
+                    return NotFound("Requisition Details not found");
+            }
             else
+            {
                 return NotFound("Requisition Details not found");
+            }
+            //Employee employee = await _deptService.findEmployeeByIdAsync(test.session);
+            
+            //String str =await _emailService.SendMail(employee=>dept=>head=>delegate, "Apply Requisition", "New requisition pending approval.");
+            
         }
 
         #endregion
