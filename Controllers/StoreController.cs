@@ -577,6 +577,36 @@ namespace BackEndAD.Controllers
             return Ok(deptReps);
         }
 
+        [HttpGet("disbursementdetail/{id}")]
+        public async Task<ActionResult<List<DisbursementDetail>>> GetDisbursementDetail(int id)
+        {
+            Console.WriteLine("disburmentment fetching");
+
+            var allDD = await _clkService.findAllDisbursementDetailAsync();
+            var currDD = allDD.Where(x => x.DisbursementListId == id);
+            var allRD = await _clkService.findAllRequsitionDetailsAsync();
+            
+            List<fakeDisbursementDetail> result = new List<fakeDisbursementDetail>();
+            foreach (DisbursementDetail dd in currDD)
+            {
+                foreach (RequisitionDetail rd in allRD)
+                {
+                    if (dd.RequisitionDetailId == rd.Id)
+                    {
+                        fakeDisbursementDetail fdd = new fakeDisbursementDetail();
+                        var allSt = await _clkService.findStationeryByIdAsync(rd.StationeryId);
+                        fdd.RequisitionDetail = allSt.Id.ToString();
+                        fdd.DisbursementList = allSt.desc;
+                        fdd.qty = dd.qty;
+                        result.Add(fdd);
+                    }
+                }
+            }
+            return Ok(result);
+
+        }
+
+
         #endregion
         #region place order 
         /*[HttpGet("placeOrder")]
