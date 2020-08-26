@@ -214,8 +214,8 @@ namespace BackEndAD.Controllers
 
             var result = await _supervisorService.rejectRequest(voc,comment);
             Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
-            //String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " is rejected. Could you please check again.";
-            //String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
+            String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " is rejected. Could you please check again.";
+            String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
            
             if (result != null)
             {
@@ -232,8 +232,8 @@ namespace BackEndAD.Controllers
 
             var result = await _mgrService.rejectRequest(voc,comment);
             Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
-            //String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " is rejected. Could you please check again.";
-            //String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
+            String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " is rejected. Could you please check again.";
+            String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
             //String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" , "Reject");
 
             if (result != null)
@@ -249,10 +249,10 @@ namespace BackEndAD.Controllers
         public async Task<ActionResult<List<AdjustmentVocherInfo>>> CreateVoucher([FromBody] StockAdjustSumById voc)
         {
             var result = await _mgrService.issueVoucher(voc);
-           /* Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
+           Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
             String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
-            //String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
-           */ 
+            String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
+           
             if (result != null)
             {
                return Ok(result);
@@ -271,7 +271,7 @@ namespace BackEndAD.Controllers
 
             Employee emp = await _supervisorService.findEmployeeByIdAsync(voc.empId);
             String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
-            //await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
+            String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
             //Console.WriteLine(str);
             if (result != null)
             {

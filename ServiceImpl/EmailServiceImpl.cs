@@ -54,7 +54,7 @@ namespace BackEndAD.ServiceImpl
                         );
                     await client.SendAsync(mimeMessage);
                     Console.WriteLine("The mail has been sent successfully !!");
-                    Console.ReadLine();
+                    //Console.ReadLine();
                     await client.DisconnectAsync(true);
                 }
             }
