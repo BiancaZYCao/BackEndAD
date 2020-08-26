@@ -110,6 +110,20 @@ namespace BackEndAD.ServiceImpl
         {
             IList<AdjustmentVocherInfo> list = await getAllAdjustDetailLineByAdjustId(voc);
             List<AdjustmentVocherInfo> voucherResult = new List<AdjustmentVocherInfo>();
+            Employee empObj = unitOfWork
+                .GetRepository<Employee>()
+                .GetAllIncludeIQueryable(filter: x => x.Id == voc.empId).FirstOrDefault();
+
+
+            AdjustmentVoucher adjVoc = new AdjustmentVoucher()
+            {
+                StockAdjustmentId = voc.stockAdustmentId,
+                EmployeeId = voc.empId,
+                Employee = empObj,
+                date = DateTime.Now
+            };
+            unitOfWork.GetRepository<AdjustmentVoucher>().Insert(adjVoc);
+            unitOfWork.SaveChanges();
 
             foreach (AdjustmentVocherInfo eachInfo in list)
             {
@@ -124,21 +138,7 @@ namespace BackEndAD.ServiceImpl
                     unitOfWork.SaveChanges();
                 }
 
-                Employee empObj = unitOfWork
-                .GetRepository<Employee>()
-                .GetAllIncludeIQueryable(filter: x => x.Id == eachInfo.empId).FirstOrDefault();
-
-
-                AdjustmentVoucher adjVoc = new AdjustmentVoucher()
-                {
-                    StockAdjustmentId = eachInfo.stockAdustmentId,
-                    EmployeeId = eachInfo.empId,
-                    Employee = empObj,
-                    date = DateTime.Now
-                };
-                unitOfWork.GetRepository<AdjustmentVoucher>().Insert(adjVoc);
-                unitOfWork.SaveChanges();
-
+              
                 AdjustmentVoucherDetail vocDetail = new AdjustmentVoucherDetail()
                 {
                     adjustmentVoucherId = adjVoc.Id,
