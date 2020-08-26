@@ -24,7 +24,8 @@ namespace BackEndAD.ServiceInterface
                         List<StockAdjustmentDetail> stockAdjustmentDetails);
         public Task<IEnumerable<StockAdjustmentDetail>> findStockAdjustmentByIdAsync(int stockAdjustmentId);
         public void updateStockAdjustment(List<StockAdjustmentDetail> stockAdjustmentDetails);
-
+        public Task<StockAdjustment> generateReceivedGoodsAsync(StockAdjustment stkAdj,
+                        List<StockAdjustmentDetail> stockAdjustmentDetails);
         public void saveSupplier(Supplier s);
 
         public void deleteSupplier(int id);
@@ -44,6 +45,8 @@ namespace BackEndAD.ServiceInterface
         public Task<AdjustmentVocherInfo> getEachVoucherDetail(AdjustmentVocherInfo info);
         public Task<IList<AdjustmentVocherInfo>> issueVoucher(StockAdjustSumById voc);
         public Task<IList<Requisition>> findAllRequsitionAsync();
+         public Task<IList<PurchaseOrder>> findAllPOAsync();
+        public void updatePO(PurchaseOrder po);
         public Task<IList<RequisitionDetail>> findAllRequsitionDetailsAsync();
         public void saveStockAdjustment(StockAdjustment newSA);
         public void saveStockAdjustmentDetail(StockAdjustmentDetail sAD);

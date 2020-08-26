@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Requisition = BackEndAD.Models.Requisition;
 
 namespace BackEndAD.ServiceImpl
 {
@@ -47,6 +48,48 @@ namespace BackEndAD.ServiceImpl
                     );*/
             return deptlist;
         }
+
+        public void updateDeptCollectionPt(int DeptId, int CollectionId)
+        {
+	        var resultDepartment = unitOfWork.GetRepository<Department>().GetById(DeptId);
+		        if (resultDepartment != null)
+		        {
+			        resultDepartment.CollectionId = CollectionId;
+			        unitOfWork.GetRepository<Department>().Update(resultDepartment);
+			        unitOfWork.SaveChanges();
+		        }
+        }
+
+        public void updateDeptDelegate(Department departmentToUpdate)
+        {
+	        var resultDepartment = unitOfWork.GetRepository<Department>().GetById(departmentToUpdate.Id);
+	        if (resultDepartment != null)
+	        {
+		        resultDepartment.delgtStartDate = departmentToUpdate.delgtStartDate;
+		        resultDepartment.delgtEndDate = departmentToUpdate.delgtEndDate;
+                unitOfWork.GetRepository<Department>().Update(resultDepartment);
+		        unitOfWork.SaveChanges();
+	        }
+        }
+
+        public void updateDeptEmp(int oldId, string oldRole, int newId, string newRole)
+        {
+	        Employee oldEmp = unitOfWork.GetRepository<Employee>().GetById(oldId);
+	        if (oldEmp != null)
+	        {
+		        oldEmp.role = oldRole;
+                unitOfWork.GetRepository<Employee>().Update(oldEmp);
+                unitOfWork.SaveChanges();
+	        }
+
+	        Employee newEmp = unitOfWork.GetRepository<Employee>().GetById(newId);
+	        if (newEmp != null)
+	        {
+		        newEmp.role = newRole;
+		        unitOfWork.GetRepository<Employee>().Update(newEmp);
+		        unitOfWork.SaveChanges();
+	        }
+        }
         #endregion
 
         #region requsition
@@ -54,6 +97,20 @@ namespace BackEndAD.ServiceImpl
         {
             IList<Requisition> reqlist = await unitOfWork.GetRepository<Requisition>().GetAllAsync();
             return reqlist;
+        }
+
+        public void updateRequisition(int requisitionId, DateTime? reqDateOfAuthorizing, string reqStatus, string reqComment)
+        {
+	        var resultRequisition = unitOfWork.GetRepository<Requisition>().GetById(requisitionId);
+	        if (resultRequisition != null)
+	        {
+		        resultRequisition.dateOfAuthorizing = reqDateOfAuthorizing;
+		        resultRequisition.status = reqStatus;
+		        resultRequisition.comment = reqComment;
+
+		        unitOfWork.GetRepository<Requisition>().Update(resultRequisition);
+		        unitOfWork.SaveChanges();
+	        }
         }
         #endregion
 
@@ -75,14 +132,33 @@ namespace BackEndAD.ServiceImpl
                 .GetRepository<RequisitionDetail>()
                 .GetAllIncludeIQueryable(filter: x => x.RequisitionId == req.Id).ToList();
 
+            Employee employee = unitOfWork
+                .GetRepository<Employee>()
+                .GetAllIncludeIQueryable(filter: x => x.Id == req.EmployeeId).FirstOrDefault();
+
             foreach (RequisitionDetail reqDetailRecord in rList)
             {
                 foreach (Stationery sItem in stationery)
                 {
-                    if (reqDetailRecord.StationeryId == sItem.Id)
+                    if(reqDetailRecord.StationeryId == sItem.Id && req.status == "Applied")
                     {
                         RequisitionDetailsList requisition = new RequisitionDetailsList()
                         {
+                            requisitionDetailsId = reqDetailRecord.Id,
+                            requisitionId = reqDetailRecord.RequisitionId,
+                            description = sItem.desc,
+                            quantity = reqDetailRecord.reqQty,
+                            unit = sItem.unit,
+                            status = reqDetailRecord.status
+                        };
+                        reqDList.Add(requisition);
+                    }
+                    else if (reqDetailRecord.StationeryId == sItem.Id)
+                    {
+                        RequisitionDetailsList requisition = new RequisitionDetailsList()
+                        {
+                            authorizer = employee.name,
+                            authorizedDate = req.dateOfAuthorizing,
                             requisitionDetailsId = reqDetailRecord.Id,
                             requisitionId = reqDetailRecord.RequisitionId,
                             description = sItem.desc,
@@ -96,23 +172,42 @@ namespace BackEndAD.ServiceImpl
             }
             return reqDList;
         }
+
+        public void updateRequisitionDetail(int requisitionId, string reqDetailStatus)
+        {
+	        var allReqDetailList = unitOfWork.GetRepository<RequisitionDetail>().GetAll();
+	        List<RequisitionDetail> resultReqDetailList = new List<RequisitionDetail>();
+
+            foreach (RequisitionDetail reqDetail in allReqDetailList)
+	        {
+		        if (reqDetail.RequisitionId == requisitionId)
+		        {
+                    resultReqDetailList.Add(reqDetail);
+		        }
+	        }
+
+	        if (resultReqDetailList != null)
+	        {
+		        foreach (RequisitionDetail reqDetail in resultReqDetailList)
+		        {
+			        reqDetail.status = reqDetailStatus;
+
+			        unitOfWork.GetRepository<RequisitionDetail>().Update(reqDetail);
+			        unitOfWork.SaveChanges();
+                }
+	        }
+        }
         #endregion
 
         #region requisition apply
-        public async Task<IList<RequisitionDetailsApply>> findRequisitiondetailsApply(RequisitionDetailsApply req)
-        {
-            IList<RequisitionDetailsApply> reqLists = await unitOfWork.GetRepository<RequisitionDetailsApply>().GetAllAsync();
-            return reqLists;
-        }
-
-        public async Task<IList<Requisition>> applyRequisition(List<RequisitionDetailsApply> reqList)
+        public async Task<IList<Requisition>> applyRequisition(List<RequisitionDetailsApply> reqList,int empId)
         {
             Requisition requisition = new Requisition()
-            {
-                EmployeeId = 1,
+            {//@WuttYee here hardcore empID,AuthorizerId?,dateOfAuthorizing? should change 
+                EmployeeId = empId,
                 dateOfRequest = DateTime.Now,
-                dateOfAuthorizing = DateTime.Now,
-                AuthorizerId = 1,
+                //dateOfAuthorizing = DateTime.Now,//can leave null
+                AuthorizerId = 2,//if must not null ,pass headID ; delegate need to be updated when approved.
                 status = "Applied",
             };
             unitOfWork.GetRepository<Requisition>().Insert(requisition);
@@ -139,76 +234,13 @@ namespace BackEndAD.ServiceImpl
             return await findAllRequsitionsAsync();
         }
 
-        public async Task<IList<RequisitionDetailsApply>> viewRequisitionApplyRow()
+        public async Task<Stationery> getItemByDesc(String desc)
         {
-            List<RequisitionDetailsApply> reqApply = new List<RequisitionDetailsApply>();
+            Stationery sta = unitOfWork
+             .GetRepository<Stationery>()
+             .GetAllIncludeIQueryable(filter: x => x.desc == desc).FirstOrDefault();
 
-            IList<RequisitionDetail> reqDetail = unitOfWork
-              .GetRepository<RequisitionDetail>()
-              .GetAllIncludeIQueryable(filter: x => x.status == "Applied" && x.Requisition.status == "Applied").ToList();
-
-            foreach (var detail in reqDetail)
-            {
-                if (detail != null)
-                {
-                    Stationery stationery = unitOfWork
-                          .GetRepository<Stationery>()
-                          .GetAllIncludeIQueryable(filter: x => x.Id == detail.StationeryId).FirstOrDefault();
-                    RequisitionDetailsApply apply = new RequisitionDetailsApply()
-                    {
-                        requisitionDetailId = detail.Id,
-                        category = stationery.category,
-                        desc = stationery.desc,
-                        reqQty = detail.reqQty,
-                        unit = stationery.unit,
-                    };
-
-                    reqApply.Add(apply);
-
-                }
-
-            }
-            return reqApply;
-        }
-
-        public async Task<IList<RequisitionDetailsApply>> viewRequisitionApply(Requisition requisition)
-        {
-            List<RequisitionDetailsApply> reqApply = new List<RequisitionDetailsApply>();
-
-            IList<RequisitionDetail> reqDetail = unitOfWork
-              .GetRepository<RequisitionDetail>()
-              .GetAllIncludeIQueryable(filter: x => x.RequisitionId == requisition.Id && x.status == "Applied" && requisition.status == "Applied").ToList();
-
-            foreach (var detail in reqDetail)
-            {
-                if (detail != null)
-                {
-                    Stationery stationery = unitOfWork
-                          .GetRepository<Stationery>()
-                          .GetAllIncludeIQueryable(filter: x => x.Id == detail.StationeryId).FirstOrDefault();
-                    RequisitionDetailsApply apply = new RequisitionDetailsApply()
-                    {
-                        requisitionDetailId = detail.Id,
-                        category = stationery.category,
-                        desc = stationery.desc,
-                        reqQty = detail.reqQty,
-                        unit = stationery.unit,
-                    };
-
-                    reqApply.Add(apply);
-
-                }
-            }
-
-            return reqApply;
-        }
-
-
-
-        public void deleteRequisitionDetail(int id)
-        {
-            unitOfWork.GetRepository<RequisitionDetail>().Delete(id);
-            unitOfWork.SaveChanges();
+            return sta;
         }
         #endregion
 

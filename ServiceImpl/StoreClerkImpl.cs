@@ -159,6 +159,52 @@ namespace BackEndAD.ServiceImpl
                 }
             }
         }
+        public async Task<StockAdjustment> generateReceivedGoodsAsync(StockAdjustment stkAdj,
+                        List<StockAdjustmentDetail> stockAdjustmentDetails)
+        {
+            //using transcation
+            using (var tran = unitOfWork.BeginTransaction())
+            {
+                try
+                {
+                    // step1 insert StkAdj
+                    unitOfWork.GetRepository<StockAdjustment>().Insert(stkAdj);
+                    //unitOfWork.GetRepository<StockAdjustment>().Save();
+
+                    // step2 insert StkAdjDetial and update inventory one by one in the list
+                    foreach (StockAdjustmentDetail stkAdjDet in stockAdjustmentDetails)
+                    {
+                        // step2.1 add stkAdjDetails
+                        stkAdjDet.stockAdjustment = stkAdj;
+                        stkAdjDet.Status = "Approved";
+                        if(stkAdjDet.discpQty != 0)
+                        {
+                            stkAdjDet.comment = "Received Goods";
+                        }
+                        unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(stkAdjDet);
+                        //unitOfWork.GetRepository<StockAdjustment>().Save();
+                        // step2.1 get stationery and update inventory level
+                        Stationery s = unitOfWork.GetRepository<Stationery>().GetById(stkAdjDet.StationeryId);
+                        s.inventoryQty += stkAdjDet.discpQty;
+                        unitOfWork.GetRepository<Stationery>().Update(s);
+                        //unitOfWork.GetRepository<Stationery>().Save();
+                    }
+                    // save changes
+                    await unitOfWork.SaveChangesAsync();
+                    await tran.CommitAsync();
+                    //finish transaction if success
+                }
+                catch (Exception e)
+                {
+                    tran.Rollback();
+                    return null;
+                }
+            }
+            //return stockAdjustment
+            var result = await unitOfWork.GetRepository<StockAdjustment>().FindAsync(stkAdj.Id);
+            return result;
+
+        }
         #endregion
 
         /*
@@ -195,6 +241,12 @@ namespace BackEndAD.ServiceImpl
             return orderedList;
         }
 
+        public void updatePO(PurchaseOrder po)
+        {
+            unitOfWork.GetRepository<PurchaseOrder>().Update(po);
+            unitOfWork.SaveChanges();
+        }
+
         public void savePurchaseOrder(PurchaseOrder po)
         {
             unitOfWork.GetRepository<PurchaseOrder>().Insert(po);
@@ -210,6 +262,12 @@ namespace BackEndAD.ServiceImpl
         {
             unitOfWork.GetRepository<PurchaseOrderDetail>().Insert(pod);
             unitOfWork.SaveChanges();
+        }
+
+        public async Task<IList<PurchaseOrder>> findAllPOAsync(){
+            IList<PurchaseOrder> list = await unitOfWork.GetRepository<PurchaseOrder>().GetAllAsync();
+            IList<PurchaseOrder> sorted_list = list.OrderByDescending(x=>x.dateOfOrder).ToList();
+            return sorted_list;
         }
 
 
