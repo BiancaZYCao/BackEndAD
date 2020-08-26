@@ -34,18 +34,10 @@ namespace BackEndAD
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /*services.AddDbContext<DbContext>(opt =>
-               opt.UseInMemoryDatabase("TodoList"));*/
-            //services.AddDbContext<ProjectContext>(opt =>
-            //opt.UseSqlServer(Configuration.GetConnectionString("DbConn")));
-            /*services.AddScoped<IEmployeeRepo, EmployeeRepo>();
-            services.AddScoped<IDepartmentRepo, DeparmentRepo>();
-            services.AddScoped<IInventoryRepo, InventoryRepo>();
-            services.AddScoped<ISupplierRepo, SupplierRepo>();
-            services.AddScoped<IEmployeeService, EmployeeServiceImpl>();
-            services.AddScoped<IDepartmentService, DepartmentServiceImpl>();
-            
-            services.AddScoped<ISupplierService, SupplierServiceImpl>();*/
+            services.AddDistributedMemoryCache();
+
+            services.AddSession();
+
             services.AddUnitOfWorkService<ProjectContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DbConn")); });
             //options.UseInMemoryDatabase("Try"); });
@@ -99,6 +91,8 @@ namespace BackEndAD
             app.UseRouting();
             app.UseCors("CorsApi");
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

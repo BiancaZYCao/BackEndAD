@@ -264,11 +264,11 @@ namespace BackEndAD.Controllers
         public async Task<ActionResult<List<AdjustmentVocherInfo>>> SupervisorissueVoucher([FromBody] StockAdjustSumById voc)
         {
             var result = await _supervisorService.issueVoucher(voc);
-            Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
+            Employee emp = await _supervisorService.findEmployeeByIdAsync(voc.empId);
             if (result != null)
             {
-                String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
-                String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
+                //String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
+                //String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
                 return Ok(result);
             }
             else
@@ -476,7 +476,7 @@ namespace BackEndAD.Controllers
 
         //end
 
-        #region Test post method 18Aug
+        #region InvCheck & ReceivedGoods
         [HttpPost("stkAd/{id}")]
         public async Task<ActionResult<StockAdjustment>> PostTestStkAd(
                [FromBody] List<StockAdjustmentDetail> stockAdjustmentDetails, int id)
@@ -512,6 +512,23 @@ namespace BackEndAD.Controllers
         {
             _clkService.updateStockAdjustment(stockAdjustmentDetails);
             return null;
+        }
+        [HttpPost("receivedGoods/{id}")]
+        public async Task<ActionResult<StockAdjustment>> PostReceivedGoods(
+               [FromBody] List<StockAdjustmentDetail> stockAdjustmentDetails, int id)
+        {
+            StockAdjustment stkAdj = new StockAdjustment()
+            {
+                date = DateTime.Now,
+                type = "Received Goods",
+                EmployeeId = id
+            };
+
+            var result = await _clkService.generateReceivedGoodsAsync(stkAdj, stockAdjustmentDetails); //SaveChangesAsync();
+            if (result != null)
+                return null;
+            else
+                return NotFound("Sry failed.");
         }
         #endregion
         #endregion
