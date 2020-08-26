@@ -355,6 +355,33 @@ namespace BackEndAD.Controllers
             return null;
         }
 
+        [HttpPost("deptRevokeDelegate")]
+        public Task<ActionResult<Employee>> DeptRevokeDelegate(
+	        [FromBody] Employee employee)
+        {
+	        Console.WriteLine("post");
+	        Console.WriteLine("\nFor Department");
+	        Console.WriteLine("Id: " + employee.Id);
+	        Console.WriteLine("delgtStartDate: " + employee.name);
+	        Console.WriteLine("delgtEndDate: " + employee.password);
+
+	        Console.WriteLine("\nFor Old Delegate");
+	        Console.WriteLine("Id: " + employee.departmentId);
+            Console.WriteLine("role: " + employee.role);
+
+            Department departmentToUpdate = new Department();
+            departmentToUpdate.Id = employee.Id;
+            DateTime delgateStartDate = Convert.ToDateTime(employee.name);
+            departmentToUpdate.delgtStartDate = delgateStartDate;
+            DateTime delegateEndDate = Convert.ToDateTime(employee.password);
+            departmentToUpdate.delgtEndDate = delegateEndDate;
+
+            _deptService.updateDeptDelegate(departmentToUpdate);
+            _deptService.updateDeptEmpRevoke(employee.departmentId, employee.role);
+
+            return null;
+        }
+
         [HttpPost("deptRepresentative")]
         public Task<ActionResult<Employee>> DeptRepresentative(
 	        [FromBody] Employee employee)

@@ -29,5 +29,6 @@ namespace BackEndAD.ServiceInterface
         public void updateDeptCollectionPt(int DeptId, int CollectionId);
         public void updateDeptDelegate(Department departmentToUpdate);
         public void updateDeptEmp(int oldId, string oldRole, int newId, string newRole);
+        public void updateDeptEmpRevoke(int oldId, string oldRole);
     }
 }

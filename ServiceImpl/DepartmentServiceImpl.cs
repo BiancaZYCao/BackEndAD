@@ -90,6 +90,17 @@ namespace BackEndAD.ServiceImpl
 		        unitOfWork.SaveChanges();
 	        }
         }
+
+        public void updateDeptEmpRevoke(int oldId, string oldRole)
+        {
+	        Employee oldEmp = unitOfWork.GetRepository<Employee>().GetById(oldId);
+	        if (oldEmp != null)
+	        {
+		        oldEmp.role = oldRole;
+		        unitOfWork.GetRepository<Employee>().Update(oldEmp);
+		        unitOfWork.SaveChanges();
+	        }
+        }
         #endregion
 
         #region requsition
