@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.VisualBasic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace BackEndAD.ServiceImpl
 {
@@ -148,7 +150,7 @@ namespace BackEndAD.ServiceImpl
         }
         public void updateStockAdjustment(List<StockAdjustmentDetail> stockAdjustmentDetails)
         {
-            foreach(StockAdjustmentDetail s in stockAdjustmentDetails)
+            foreach (StockAdjustmentDetail s in stockAdjustmentDetails)
             {
                 var s1 = unitOfWork.GetRepository<StockAdjustmentDetail>().GetById(s.Id);
                 if (s1 != null)
@@ -218,9 +220,10 @@ namespace BackEndAD.ServiceImpl
             unitOfWork.SaveChanges();
         }
 
-        public async Task<IList<PurchaseOrder>> findAllPOAsync(){
+        public async Task<IList<PurchaseOrder>> findAllPOAsync()
+        {
             IList<PurchaseOrder> list = await unitOfWork.GetRepository<PurchaseOrder>().GetAllAsync();
-            IList<PurchaseOrder> sorted_list = list.OrderByDescending(x=>x.dateOfOrder).ToList();
+            IList<PurchaseOrder> sorted_list = list.OrderByDescending(x => x.dateOfOrder).ToList();
             return sorted_list;
         }
 
@@ -234,14 +237,16 @@ namespace BackEndAD.ServiceImpl
             return itemlist;
         }
 
-        public async Task<PurchaseOrder> findPOById(int id) {
-            
-            PurchaseOrder po= await unitOfWork.GetRepository<PurchaseOrder>().FindAsync(id);
+        public async Task<PurchaseOrder> findPOById(int id)
+        {
+
+            PurchaseOrder po = await unitOfWork.GetRepository<PurchaseOrder>().FindAsync(id);
 
             return po;
 
         }
-        public IList<PurchaseOrderDetail> findPODById(int id) {
+        public IList<PurchaseOrderDetail> findPODById(int id)
+        {
 
             IList<PurchaseOrderDetail> podlist = unitOfWork
                 .GetRepository<PurchaseOrderDetail>()
@@ -250,7 +255,7 @@ namespace BackEndAD.ServiceImpl
             return podlist;
         }
 
-    
+
         #endregion
 
         //Disbursement
@@ -267,8 +272,8 @@ namespace BackEndAD.ServiceImpl
 
         public async Task<IList<DisbursementDetail>> findAllDisbursementDetailAsync()
         {
-	        IList<DisbursementDetail> list = await unitOfWork.GetRepository<DisbursementDetail>().GetAllAsync();
-	        return list;
+            IList<DisbursementDetail> list = await unitOfWork.GetRepository<DisbursementDetail>().GetAllAsync();
+            return list;
         }
 
         public async Task<IList<RequesterRow>> GetAllRequesterRow()
@@ -276,18 +281,18 @@ namespace BackEndAD.ServiceImpl
             IList<DisbursementList> disbursementlist = await findAllDisbursementListAsync();
 
             IList<RequesterRow> resultList = new List<RequesterRow>();
-           /* RequesterRow row1 = new RequesterRow()
-            {
-                date = DateTime.Today,
-                departmentId = 1,
-                departmentName = "Zoology Department",
-                itemCount = 1,
-                status = "Approved",
-                //representativeName = emp.name;
-                representativeName = "Mr.John",
-            };
+            /* RequesterRow row1 = new RequesterRow()
+             {
+                 date = DateTime.Today,
+                 departmentId = 1,
+                 departmentName = "Zoology Department",
+                 itemCount = 1,
+                 status = "Approved",
+                 //representativeName = emp.name;
+                 representativeName = "Mr.John",
+             };
 
-            resultList.Add(row1);*/
+             resultList.Add(row1);*/
 
             foreach (DisbursementList disburseList in disbursementlist)
             {
@@ -359,7 +364,7 @@ namespace BackEndAD.ServiceImpl
                .GetRepository<DisbursementDetail>()
                .GetAllIncludeIQueryable(filter: x => x.DisbursementListId == row.disbursementListId).ToList();
 
-            foreach(DisbursementDetail detail in detailList)
+            foreach (DisbursementDetail detail in detailList)
             {
                 RequisitionDetail requisitionDetail = unitOfWork
                .GetRepository<RequisitionDetail>()
@@ -392,12 +397,12 @@ namespace BackEndAD.ServiceImpl
         public Task<IList<Requisition>> findAllRequsitionAsync()
         {
             return unitOfWork.GetRepository<Requisition>().GetAllAsync();
-            
+
         }
 
         public Task<IList<RequisitionDetail>> findAllRequsitionDetailsAsync()
         {
-           return unitOfWork.GetRepository<RequisitionDetail>().GetAllAsync();
+            return unitOfWork.GetRepository<RequisitionDetail>().GetAllAsync();
         }
 
         public Task<IList<StockAdjustSumById>> StockAdjustDetailInfo()
@@ -445,7 +450,7 @@ namespace BackEndAD.ServiceImpl
 
         public Task<IList<CollectionInfo>> findAllCollectionPointAsync()
         {
-            return unitOfWork.GetRepository<CollectionInfo>().GetAllAsync() ;
+            return unitOfWork.GetRepository<CollectionInfo>().GetAllAsync();
         }
 
         public void saveDisbursementList(DisbursementList newDL)
@@ -464,6 +469,12 @@ namespace BackEndAD.ServiceImpl
         {
             unitOfWork.GetRepository<RequisitionDetail>().Update(rd);
             unitOfWork.SaveChanges();
+        }
+
+        public Task<IList<Employee>> findEmployeesAsync()
+        {
+            return unitOfWork.GetRepository<Employee>().GetAllAsync();
+            
         }
     }
 }
