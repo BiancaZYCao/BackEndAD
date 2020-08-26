@@ -263,11 +263,11 @@ namespace BackEndAD.Controllers
         public async Task<ActionResult<List<AdjustmentVocherInfo>>> SupervisorissueVoucher([FromBody] StockAdjustSumById voc)
         {
             var result = await _supervisorService.issueVoucher(voc);
-            Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
+            Employee emp = await _supervisorService.findEmployeeByIdAsync(voc.empId);
             if (result != null)
             {
-                String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
-                String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
+                //String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
+                //String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
                 return Ok(result);
             }
             else
