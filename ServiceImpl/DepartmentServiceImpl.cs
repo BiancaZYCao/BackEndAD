@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Requisition = BackEndAD.Models.Requisition;
 
 namespace BackEndAD.ServiceImpl
 {
@@ -52,12 +51,12 @@ namespace BackEndAD.ServiceImpl
         public void updateDeptCollectionPt(int DeptId, int CollectionId)
         {
 	        var resultDepartment = unitOfWork.GetRepository<Department>().GetById(DeptId);
-		        if (resultDepartment != null)
-		        {
-			        resultDepartment.CollectionId = CollectionId;
-			        unitOfWork.GetRepository<Department>().Update(resultDepartment);
-			        unitOfWork.SaveChanges();
-		        }
+	        if (resultDepartment != null)
+	        {
+		        resultDepartment.CollectionId = CollectionId;
+		        unitOfWork.GetRepository<Department>().Update(resultDepartment);
+		        unitOfWork.SaveChanges();
+	        }
         }
 
         public void updateDeptDelegate(Department departmentToUpdate)
@@ -67,7 +66,7 @@ namespace BackEndAD.ServiceImpl
 	        {
 		        resultDepartment.delgtStartDate = departmentToUpdate.delgtStartDate;
 		        resultDepartment.delgtEndDate = departmentToUpdate.delgtEndDate;
-                unitOfWork.GetRepository<Department>().Update(resultDepartment);
+		        unitOfWork.GetRepository<Department>().Update(resultDepartment);
 		        unitOfWork.SaveChanges();
 	        }
         }
@@ -78,8 +77,8 @@ namespace BackEndAD.ServiceImpl
 	        if (oldEmp != null)
 	        {
 		        oldEmp.role = oldRole;
-                unitOfWork.GetRepository<Employee>().Update(oldEmp);
-                unitOfWork.SaveChanges();
+		        unitOfWork.GetRepository<Employee>().Update(oldEmp);
+		        unitOfWork.SaveChanges();
 	        }
 
 	        Employee newEmp = unitOfWork.GetRepository<Employee>().GetById(newId);
@@ -90,6 +89,17 @@ namespace BackEndAD.ServiceImpl
 		        unitOfWork.SaveChanges();
 	        }
         }
+
+        public void updateDeptEmpRevoke(int oldId, string oldRole)
+        {
+	        Employee oldEmp = unitOfWork.GetRepository<Employee>().GetById(oldId);
+	        if (oldEmp != null)
+	        {
+		        oldEmp.role = oldRole;
+		        unitOfWork.GetRepository<Employee>().Update(oldEmp);
+		        unitOfWork.SaveChanges();
+	        }
+        }
         #endregion
 
         #region requsition
@@ -97,6 +107,15 @@ namespace BackEndAD.ServiceImpl
         {
             IList<Requisition> reqlist = await unitOfWork.GetRepository<Requisition>().GetAllAsync();
             return reqlist;
+        }
+
+        public async Task<IList<Requisition>> findAllRequsitionsByEmpIdAsync(int empId)
+        {
+            IList<Requisition> reqlist = unitOfWork
+                       .GetRepository<Requisition>()
+                       .GetAllIncludeIQueryable(filter: x => x.EmployeeId == empId).ToList();
+            return reqlist;
+
         }
 
         public void updateRequisition(int requisitionId, DateTime? reqDateOfAuthorizing, string reqStatus, string reqComment)
@@ -178,11 +197,11 @@ namespace BackEndAD.ServiceImpl
 	        var allReqDetailList = unitOfWork.GetRepository<RequisitionDetail>().GetAll();
 	        List<RequisitionDetail> resultReqDetailList = new List<RequisitionDetail>();
 
-            foreach (RequisitionDetail reqDetail in allReqDetailList)
+	        foreach (RequisitionDetail reqDetail in allReqDetailList)
 	        {
 		        if (reqDetail.RequisitionId == requisitionId)
 		        {
-                    resultReqDetailList.Add(reqDetail);
+			        resultReqDetailList.Add(reqDetail);
 		        }
 	        }
 
@@ -194,7 +213,7 @@ namespace BackEndAD.ServiceImpl
 
 			        unitOfWork.GetRepository<RequisitionDetail>().Update(reqDetail);
 			        unitOfWork.SaveChanges();
-                }
+		        }
 	        }
         }
         #endregion

@@ -10,7 +10,7 @@ namespace BackEndAD.Models
     {
         public int Id { get; set; }
         //[ForeignKey("Employee")]
-        //public int? clerkId { get; set; }
+        public int clerkId { get; set; }
         //public DateTime collectionDate { get; set; }
         public DateTime collectionTime { get; set; }
         public string collectionPoint { get; set; }

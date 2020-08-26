@@ -18,6 +18,7 @@ namespace BackEndAD.ServiceInterface
         public Task<Employee> findEmployeeByIdAsync(int empid);
         public Task<IList<CollectionInfo>> findAllCollectionPointAsync();
 
+        public Task<IList<Requisition>> findAllRequsitionsByEmpIdAsync(int id);
         public Task<IList<RequisitionDetail>> findAllRequsitionDetailAsync();
         public Task<IList<Stationery>> findAllStationeryAsync();
         public Task<IList<RequisitionDetailsList>> findAllRequisitionDetailsItemListById(Requisition req);
@@ -29,5 +30,6 @@ namespace BackEndAD.ServiceInterface
         public void updateDeptCollectionPt(int DeptId, int CollectionId);
         public void updateDeptDelegate(Department departmentToUpdate);
         public void updateDeptEmp(int oldId, string oldRole, int newId, string newRole);
+        public void updateDeptEmpRevoke(int oldId, string oldRole);
     }
 }
