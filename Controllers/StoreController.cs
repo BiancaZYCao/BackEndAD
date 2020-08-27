@@ -711,10 +711,11 @@ namespace BackEndAD.Controllers
 
         }
 
-        [HttpPost("PORecieved")]
-        public async Task<ActionResult<PurchaseOrder>> PORecieved([FromBody] PurchaseOrder p)
+        [HttpPost("PORecieved/{id}")]
+        public async Task<ActionResult<PurchaseOrder>> PORecieved(int id)
         {
-            PurchaseOrder po = await _clkService.findPOById(p.id);
+            Console.WriteLine("id here" + id);
+            PurchaseOrder po = await _clkService.findPOById(id);
 
             if (po != null)
             {
@@ -724,7 +725,7 @@ namespace BackEndAD.Controllers
             }
 
             //return po;
-            return Ok(p.id);
+            return Ok(id);
         }
 
         [HttpGet("getReorderItems")]
