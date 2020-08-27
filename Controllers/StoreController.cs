@@ -297,6 +297,8 @@ namespace BackEndAD.Controllers
         [HttpGet("retrieval/{id}")]
         public async Task<ActionResult<IList<RequisitionDetail>>> GetAllPendingRequisitions(int id)
         {
+            Console.WriteLine("android called for pending retrievals");
+
             var clerk = await _clkService.findEmployeeByIdAsync(id);
             var collectionpoints = await _clkService.findAllCollectionPointAsync();
             var currCollectionpoint = collectionpoints.Where(x => x.clerkId == clerk.Id);
@@ -338,7 +340,7 @@ namespace BackEndAD.Controllers
             if (result2 != null)
             {
                 //convert to json file
-                Console.WriteLine("android called for pending retrievals");
+                Console.WriteLine("Sent requisition details");
                 return Ok(result2);
             }
             else
@@ -409,7 +411,7 @@ namespace BackEndAD.Controllers
                 DisbursementList newDL = new DisbursementList();
                 newDL.DepartmentId = d.Id;
                 newDL.date = DateTime.Parse(time);
-                newDL.deliveryPoint = collectionpoints.Where(x => x.Id == d.Id).FirstOrDefault().collectionPoint;
+                newDL.deliveryPoint = collectionpoints.Where(x => x.Id == d.CollectionId).FirstOrDefault().collectionPoint;
                 //d.Collection.collectionPoint;
                 disbursementList.Add(newDL);
                 _clkService.saveDisbursementList(newDL);
