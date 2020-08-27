@@ -11,5 +11,7 @@ namespace BackEndAD.TempService
         public int revQuantity { get; set; }
         public int requisitionDetailId { get; set; }
         public int requisitionId { get; set; }
+        public DateTime collectTime { get; set; }
+        public String collectionPoint { get; set; }
     }
 }

@@ -12,6 +12,8 @@ using System.Security.Cryptography.X509Certificates;
 using Microsoft.VisualBasic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Data.SqlClient;
+using System.Collections;
 
 namespace BackEndAD.ServiceImpl
 {
@@ -322,25 +324,37 @@ namespace BackEndAD.ServiceImpl
             IList<DisbursementDetail> list = await unitOfWork.GetRepository<DisbursementDetail>().GetAllAsync();
             return list;
         }
-
-        public async Task<IList<RequesterRow>> GetAllRequesterRow()
+        
+        public async Task<IList<RequesterRow>> GetAllRequesterRow(int empId)
         {
-            IList<DisbursementList> disbursementlist = await findAllDisbursementListAsync();
+            #region  sql conn then sqlcommand
+            string cnstr = "Server=tcp:team8-sa50.database.windows.net,1433;Initial Catalog=ADProj;Persist Security Info=False;User ID=Bianca;Password=!Str0ngPsword;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=600;";
+            SqlConnection cn = new SqlConnection(cnstr);
+            cn.Open();
+
+            string sqlstr = "select dis.* from DisbursementList_Table dis, Department_Table dept where dis.DepartmentId = dept.Id and dis.date >= GETDATE() and dept.CollectionId in (select col.Id from CollectionInfo_Table col where clerkId ="+ empId+" )";
+
+            SqlCommand cmd = new SqlCommand(sqlstr, cn);
+
+            SqlDataReader dr = cmd.ExecuteReader();
+            IList<DisbursementList> disbursementlist = new List<DisbursementList>();
+            while (dr.Read())
+            {
+                 DisbursementList items = new DisbursementList()
+                    {
+                        id = int.Parse(dr["id"].ToString()),
+                        DepartmentId = int.Parse(dr["DepartmentId"].ToString()),
+                        date = Convert.ToDateTime(dr["date"].ToString()),
+                        deliveryPoint = dr["deliveryPoint"].ToString()
+                    };
+                    disbursementlist.Add(items);
+                
+            }
+            dr.Close();
+            cn.Close();
+
 
             IList<RequesterRow> resultList = new List<RequesterRow>();
-            /* RequesterRow row1 = new RequesterRow()
-             {
-                 date = DateTime.Today,
-                 departmentId = 1,
-                 departmentName = "Zoology Department",
-                 itemCount = 1,
-                 status = "Approved",
-                 //representativeName = emp.name;
-                 representativeName = "Mr.John",
-             };
-
-             resultList.Add(row1);*/
-
             foreach (DisbursementList disburseList in disbursementlist)
             {
                 List<DisbursementDetail> disburseDetailList = unitOfWork
@@ -398,14 +412,36 @@ namespace BackEndAD.ServiceImpl
         public async Task<IList<DisburseItemDetails>> getDisburseItemDetail(RequesterRow row)
         {
             IList<DisburseItemDetails> returnList = new List<DisburseItemDetails>();
-            /*DisburseItemDetails itemObj1 = new DisburseItemDetails()
+
+            string cnstr = "Server=tcp:team8-sa50.database.windows.net,1433;Initial Catalog=ADProj;Persist Security Info=False;User ID=Bianca;Password=!Str0ngPsword;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=600;";
+            SqlConnection cn = new SqlConnection(cnstr);
+            cn.Open();
+
+            string sqlstr = "select col.* from CollectionInfo_Table col, Department_Table dept,DisbursementList_Table dis where col.Id = dept.CollectionId and dept.Id = dis.DepartmentId and dis.Id = "+row.disbursementListId;
+            SqlCommand cmd = new SqlCommand(sqlstr, cn);
+
+            SqlDataReader dr = cmd.ExecuteReader();
+            IList<CollectionInfo> collectInfo = new List<CollectionInfo>();
+            while (dr.Read())
             {
-                itemDescription = "Clip Double 1\"",
-                requisitionDetailId = 1,
-                requisitionId = 1,
-                revQuantity = 5,
-            };
-            returnList.Add(itemObj1);*/
+                CollectionInfo items = new CollectionInfo()
+                {
+                    Id = int.Parse(dr["Id"].ToString()),
+                    collectionTime = Convert.ToDateTime(dr["collectionTime"].ToString()),
+                    collectionPoint = dr["collectionPoint"].ToString(),
+                    lat = dr["lat"].ToString(),
+                    longi = dr["longi"].ToString(),
+                    clerkId = int.Parse(dr["clerkId"].ToString()),
+                };
+                collectInfo.Add(items);
+
+            }
+            dr.Close();
+            cn.Close();
+
+            //CollectionInfo collectionInfo = (CollectionInfo) cmd.ExecuteScalar();
+
+            // cn.Close();
 
             List<DisbursementDetail> detailList = unitOfWork
                .GetRepository<DisbursementDetail>()
@@ -431,6 +467,8 @@ namespace BackEndAD.ServiceImpl
                             requisitionDetailId = requisitionDetail.Id,
                             requisitionId = requisitionDetail.RequisitionId,
                             revQuantity = requisitionDetail.rcvQty,
+                            collectTime = collectInfo[0].collectionTime,
+                            collectionPoint = collectInfo[0].collectionPoint,
                         };
                         returnList.Add(itemObj);
                     }
@@ -525,3 +563,4 @@ namespace BackEndAD.ServiceImpl
         }
     }
 }
+#endregion

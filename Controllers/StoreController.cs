@@ -123,11 +123,11 @@ namespace BackEndAD.Controllers
 
         #region inventory management tasks: adjustment + voucher
         //Clerk
-        [HttpGet("getAllRequesterRow")]
-        public async Task<ActionResult<List<StockAdjustSumById>>> GetAllRequesterRow()
+        [HttpGet("getAllRequesterRow/{id}")]
+        public async Task<ActionResult<List<StockAdjustSumById>>> GetAllRequesterRow(int id)
         {
 
-            var result = await _clkService.GetAllRequesterRow();
+            var result = await _clkService.GetAllRequesterRow(id);
             if (result != null)
             {
                 //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type

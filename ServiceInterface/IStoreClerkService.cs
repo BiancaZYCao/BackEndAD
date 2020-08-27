@@ -36,7 +36,7 @@ namespace BackEndAD.ServiceInterface
         public void savePurchaseOrderDetail(PurchaseOrderDetail pod);
 
         public IList<SupplierItem> findSuppliersByStationeryId(int id);
-        public Task<IList<RequesterRow>> GetAllRequesterRow();
+        public Task<IList<RequesterRow>> GetAllRequesterRow(int id);
         public Task<IList<DisbursementList>> findAllDisbursementListAsync();
         public Task<IList<DisbursementDetail>> findAllDisbursementDetailAsync();
         public Task<Employee> findEmployeeByIdAsync(int eId);
