@@ -58,6 +58,7 @@ namespace BackEndAD.ServiceInterface
         void saveDisbursementList(DisbursementList newDL);
         void saveDisbursementDetail(DisbursementDetail currDB);
         void udpateRequisitionDetail(RequisitionDetail rd);
+        public Task<IList<Employee>> findEmployeesAsync();
     }
 
 }

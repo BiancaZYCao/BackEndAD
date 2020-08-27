@@ -209,16 +209,17 @@ namespace BackEndAD.Controllers
         }
 
 
-        [HttpPost("supervisorRejectRequest")]
-        public async Task<ActionResult<List<StockAdjustSumById>>> RejectRequest([FromBody] StockAdjustSumById voc)
+        [HttpPost("supervisorRejectRequest/{comment}")]
+        public async Task<ActionResult<List<StockAdjustSumById>>> RejectRequest([FromBody] StockAdjustSumById voc,String comment)
         {
 
-            var result = await _supervisorService.rejectRequest(voc);
+            var result = await _supervisorService.rejectRequest(voc,comment);
             Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
+            String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " is rejected. Could you please check again.";
+            String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
+           
             if (result != null)
             {
-                String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " is rejected. Could you please check again.";
-                String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
                 return Ok(result);
             }
             else
@@ -226,17 +227,19 @@ namespace BackEndAD.Controllers
                 return NotFound("Empty");
         }
 
-        [HttpPost("managerRejectRequest")]
-        public async Task<ActionResult<List<StockAdjustSumById>>> ManagerRejectRequest([FromBody] StockAdjustSumById voc)
+        [HttpPost("managerRejectRequest/{comment}")]
+        public async Task<ActionResult<List<StockAdjustSumById>>> ManagerRejectRequest([FromBody] StockAdjustSumById voc,String comment)
         {
 
-            var result = await _mgrService.rejectRequest(voc);
+            var result = await _mgrService.rejectRequest(voc,comment);
             Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
+            String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " is rejected. Could you please check again.";
+            String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
+            //String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" , "Reject");
+
             if (result != null)
             {
-                String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " is rejected. Could you please check again.";
-                String str = await _emailService.SendMail(emp.email, "Rejected:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
-                return Ok(result);
+               return Ok(result);
             }
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
@@ -247,12 +250,13 @@ namespace BackEndAD.Controllers
         public async Task<ActionResult<List<AdjustmentVocherInfo>>> CreateVoucher([FromBody] StockAdjustSumById voc)
         {
             var result = await _mgrService.issueVoucher(voc);
-            Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
+           Employee emp = await _mgrService.findEmployeeByIdAsync(voc.empId);
+            String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
+            String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
+           
             if (result != null)
             {
-                String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
-                String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
-                return Ok(result);
+               return Ok(result);
             }
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
@@ -265,12 +269,14 @@ namespace BackEndAD.Controllers
         public async Task<ActionResult<List<AdjustmentVocherInfo>>> SupervisorissueVoucher([FromBody] StockAdjustSumById voc)
         {
             var result = await _supervisorService.issueVoucher(voc);
+
             Employee emp = await _supervisorService.findEmployeeByIdAsync(voc.empId);
+            String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
+            String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
+            //Console.WriteLine(str);
             if (result != null)
             {
-                //String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
-                //String str = await _emailService.SendMail(emp.email, "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
-                return Ok(result);
+                 return Ok(result);
             }
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
@@ -290,9 +296,21 @@ namespace BackEndAD.Controllers
                 return NotFound("Error");
         }
 
-        [HttpGet("retrieval")]
-        public async Task<ActionResult<IList<RequisitionDetail>>> GetAllPendingRequisitions()
+        [HttpGet("retrieval/{id}")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> GetAllPendingRequisitions(int id)
         {
+            var clerk = await _clkService.findEmployeeByIdAsync(id);
+            var collectionpoints = await _clkService.findAllCollectionPointAsync();
+            var currCollectionpoint = collectionpoints.Where(x => x.clerkId == clerk.Id);
+            var currCollectionpoint2 = currCollectionpoint.Select(x => x.Id);
+            var departments = await _clkService.findAllDepartmentAsync();
+            var currDepartments = departments.Where(x => currCollectionpoint2.Contains(x.CollectionId));
+            var currDepartments2 = currDepartments.Select(x => x.Id);
+            var employees = await _clkService.findEmployeesAsync();
+            var currEmployees = employees.Where(x => currDepartments2.Contains(x.departmentId));
+            var currEmployees2 = currEmployees.Select(x => x.Id);
+
+            var requisitions = await _clkService.findAllRequsitionAsync();
             var allRD = await _clkService.findAllRequsitionDetailsAsync();
 
             var nonDeliveredRD = allRD.Where(x => x.status != "Delivered");
@@ -300,12 +318,31 @@ namespace BackEndAD.Controllers
             var nonApprovedRD = nonDeclinedRD.Where(x => x.status != "Applied");
             var result = nonApprovedRD.Where(x => x.reqQty != x.rcvQty);
 
-
-            if (result != null)
+            var requisition = result.Select(x => x.RequisitionId);
+            HashSet<int> uniqueRequisitionID = new HashSet<int>();
+            foreach(int i in requisition)
+            {
+                uniqueRequisitionID.Add(i);
+            }
+            List<Requisition> currentRequisitions = new List<Requisition>();
+            
+            foreach (Requisition r in requisitions)
+            {
+                foreach(int i in uniqueRequisitionID)
+                {
+                    if (r.Id == i && currEmployees2.Contains(r.EmployeeId))
+                    {
+                        currentRequisitions.Add(r);
+                    }
+                }
+            }
+            var currentRequisitions2 = currentRequisitions.Select(x => x.Id);
+            var result2 = result.Where(x => currentRequisitions2.Contains(x.RequisitionId));
+            if (result2 != null)
             {
                 //convert to json file
                 Console.WriteLine("android called for pending retrievals");
-                return Ok(result);
+                return Ok(result2);
             }
             else
                 //in case there is nothing to process
@@ -504,16 +541,78 @@ namespace BackEndAD.Controllers
 
         #endregion
         #region Disbursement and Distribution
-        [HttpGet("disbursements")]
-        public async Task<ActionResult<List<DisbursementList>>> GetAllDisbursementList()
+        [HttpGet("disbursements/{id}")]
+        public async Task<ActionResult<List<DisbursementList>>> GetAllDisbursementList(int id)
         {
-            var result = await _clkService.findAllDisbursementListAsync();
+            var clerk = await _clkService.findEmployeeByIdAsync(id);
+            var collectionPts = await _clkService.findAllCollectionPointAsync();
+            var currCollectionPts = collectionPts.Where(x => x.clerkId == clerk.Id);
+            var currDeliveryPoint = currCollectionPts.Select(x => x.collectionPoint);
+            var allDL= await _clkService.findAllDisbursementListAsync();
+            var result = allDL.Where(x => currDeliveryPoint.Contains(x.deliveryPoint));
+
+            foreach (DisbursementList dl in result)
+            {
+                Console.WriteLine("id: " + dl.id + " dept id: " + dl.DepartmentId);
+            }
             if (result != null)
             {
                 return Ok(result);
             }
             else { return NotFound("nothing pending"); }
         }
+
+        [HttpGet("departmentReps")]
+        public async Task<ActionResult<List<Employee>>> GetAllDepartmentReps()
+        {
+            var allEmps = await _clkService.findEmployeesAsync();
+            var departments = await _clkService.findAllDepartmentAsync();
+            var deptReps = allEmps.Where(x => x.role.Equals("REPRESENTATIVE"));
+            if (allEmps != null && departments != null)
+            {
+                foreach (Employee dr in deptReps)
+                {
+                    foreach (Department d in departments)
+                    {
+                        if (dr.departmentId == d.Id)
+                        {
+                            dr.email = d.deptName;
+                        }
+                    }
+                }
+            }
+            return Ok(deptReps);
+        }
+
+        [HttpGet("disbursementdetail/{id}")]
+        public async Task<ActionResult<List<DisbursementDetail>>> GetDisbursementDetail(int id)
+        {
+            Console.WriteLine("disburmentment fetching");
+
+            var allDD = await _clkService.findAllDisbursementDetailAsync();
+            var currDD = allDD.Where(x => x.DisbursementListId == id);
+            var allRD = await _clkService.findAllRequsitionDetailsAsync();
+            
+            List<fakeDisbursementDetail> result = new List<fakeDisbursementDetail>();
+            foreach (DisbursementDetail dd in currDD)
+            {
+                foreach (RequisitionDetail rd in allRD)
+                {
+                    if (dd.RequisitionDetailId == rd.Id)
+                    {
+                        fakeDisbursementDetail fdd = new fakeDisbursementDetail();
+                        var allSt = await _clkService.findStationeryByIdAsync(rd.StationeryId);
+                        fdd.RequisitionDetail = allSt.Id.ToString();
+                        fdd.DisbursementList = allSt.desc;
+                        fdd.qty = dd.qty;
+                        result.Add(fdd);
+                    }
+                }
+            }
+            return Ok(result);
+
+        }
+
 
         #endregion
         #region place order 
@@ -614,10 +713,11 @@ namespace BackEndAD.Controllers
 
         }
 
-        [HttpPost("PORecieved")]
-        public async Task<ActionResult<PurchaseOrder>> PORecieved([FromBody] PurchaseOrder p)
+        [HttpPost("PORecieved/{id}")]
+        public async Task<ActionResult<PurchaseOrder>> PORecieved(int id)
         {
-            PurchaseOrder po = await _clkService.findPOById(p.id);
+            Console.WriteLine("id here" + id);
+            PurchaseOrder po = await _clkService.findPOById(id);
 
             if (po != null)
             {
@@ -627,7 +727,7 @@ namespace BackEndAD.Controllers
             }
 
             //return po;
-            return Ok(p.id);
+            return Ok(id);
         }
 
         [HttpGet("getReorderItems")]
