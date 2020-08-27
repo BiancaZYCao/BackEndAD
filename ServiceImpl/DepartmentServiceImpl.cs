@@ -241,7 +241,6 @@ namespace BackEndAD.ServiceImpl
             {//@WuttYee here hardcore empID,AuthorizerId?,dateOfAuthorizing? should change 
                 EmployeeId = empId,
                 dateOfRequest = DateTime.Now,
-                //dateOfAuthorizing = DateTime.Now,//can leave null
                 AuthorizerId = empHead.Id,//if must not null ,pass headID ; delegate need to be updated when approved.
                 status = "Applied",
             };
