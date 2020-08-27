@@ -264,7 +264,6 @@ namespace BackEndAD.Controllers
 
         }
 
-
         [HttpPost("supervisorissueVoucher")]
         public async Task<ActionResult<List<AdjustmentVocherInfo>>> SupervisorissueVoucher([FromBody] StockAdjustSumById voc)
         {
@@ -281,7 +280,6 @@ namespace BackEndAD.Controllers
             else
                 //this help to return a NOTfOUND result, u can customerize the string.
                 return NotFound("Error");
-
         }
 
         [HttpPost("getVoucher")]
@@ -309,23 +307,21 @@ namespace BackEndAD.Controllers
             var employees = await _clkService.findEmployeesAsync();
             var currEmployees = employees.Where(x => currDepartments2.Contains(x.departmentId));
             var currEmployees2 = currEmployees.Select(x => x.Id);
-
             var requisitions = await _clkService.findAllRequsitionAsync();
             var allRD = await _clkService.findAllRequsitionDetailsAsync();
-
             var nonDeliveredRD = allRD.Where(x => x.status != "Delivered");
             var nonDeclinedRD = nonDeliveredRD.Where(x => x.status != "Declined");
             var nonApprovedRD = nonDeclinedRD.Where(x => x.status != "Applied");
             var result = nonApprovedRD.Where(x => x.reqQty != x.rcvQty);
-
             var requisition = result.Select(x => x.RequisitionId);
+
             HashSet<int> uniqueRequisitionID = new HashSet<int>();
             foreach(int i in requisition)
             {
                 uniqueRequisitionID.Add(i);
             }
-            List<Requisition> currentRequisitions = new List<Requisition>();
-            
+
+            List<Requisition> currentRequisitions = new List<Requisition>();            
             foreach (Requisition r in requisitions)
             {
                 foreach(int i in uniqueRequisitionID)
@@ -336,6 +332,7 @@ namespace BackEndAD.Controllers
                     }
                 }
             }
+
             var currentRequisitions2 = currentRequisitions.Select(x => x.Id);
             var result2 = result.Where(x => currentRequisitions2.Contains(x.RequisitionId));
             if (result2 != null)
@@ -361,12 +358,15 @@ namespace BackEndAD.Controllers
             return Ok(requistitions);
         }
 
-        [HttpPost("processRetrieval")]
+        [HttpPost("processRetrieval/{id}/{year}/{month}/{day}")]
         public async Task<ActionResult<DisbursementList>> processRetrieval(
-              [FromBody] List<fakeRequisitionDetails> fakeRequisitions)
+              [FromBody] List<fakeRequisitionDetails> fakeRequisitions,int id,int year, int month, int day)
         {
-            Console.WriteLine(fakeRequisitions.First().requisitionId);
-
+            Console.WriteLine(year);
+            Console.WriteLine(month);
+            Console.WriteLine(day);
+            string time = year + "-" + month + "-" + day+" 23:59:59";
+            Console.WriteLine(time);
             #region data fetching for processing
             Console.WriteLine("post");
             var allRD = await _clkService.findAllRequsitionDetailsAsync();
@@ -383,7 +383,7 @@ namespace BackEndAD.Controllers
             #region create new Stock Adjustment
             StockAdjustment newSA = new StockAdjustment();
             newSA.date = DateTime.Now;
-            newSA.EmployeeId = fakeRequisitions.First().requisitionId;
+            newSA.EmployeeId = id;
             newSA.type = "stock retrieval";
             _clkService.saveStockAdjustment(newSA);
             Console.WriteLine("created stock adjustment");
@@ -402,12 +402,13 @@ namespace BackEndAD.Controllers
                     }
                 }
             }
+
             List<DisbursementList> disbursementList = new List<DisbursementList>();
             foreach (Department d in deptlist)
             {
                 DisbursementList newDL = new DisbursementList();
                 newDL.DepartmentId = d.Id;
-                newDL.date = DateTime.Now;
+                newDL.date = DateTime.Parse(time);
                 newDL.deliveryPoint = collectionpoints.Where(x => x.Id == d.Id).FirstOrDefault().collectionPoint;
                 //d.Collection.collectionPoint;
                 disbursementList.Add(newDL);
@@ -549,7 +550,8 @@ namespace BackEndAD.Controllers
             var currCollectionPts = collectionPts.Where(x => x.clerkId == clerk.Id);
             var currDeliveryPoint = currCollectionPts.Select(x => x.collectionPoint);
             var allDL= await _clkService.findAllDisbursementListAsync();
-            var result = allDL.Where(x => currDeliveryPoint.Contains(x.deliveryPoint));
+            var futureDL = allDL.Where(x => DateTime.Compare( x.date, DateTime.Now) >=0);
+            var result = futureDL.Where(x => currDeliveryPoint.Contains(x.deliveryPoint));
 
             foreach (DisbursementList dl in result)
             {
