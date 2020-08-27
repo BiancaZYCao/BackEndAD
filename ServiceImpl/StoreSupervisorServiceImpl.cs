@@ -162,9 +162,6 @@ namespace BackEndAD.ServiceImpl
 
             }
 
-            String emailBody = "Stock Adjustment Form #" + voc.stockAdustmentId + " has been Approved.";
-            String str = await _emailService.SendMail("pwinttheingiaungwin91097@gmail.com", "Approved:Stock Adjustment Form #" + voc.stockAdustmentId, emailBody);
-
             return voucherResult;
         }
 
