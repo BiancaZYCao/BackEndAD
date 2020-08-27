@@ -117,7 +117,10 @@ namespace BackEndAD.ServiceImpl
                     {
                         // step2.1 add stkAdjDetails
                         stkAdjDet.stockAdjustment = stkAdj;
-                        stkAdjDet.Status = "Applied";
+                        if (stkAdjDet.discpQty != 0)
+                            stkAdjDet.Status = "Applied";
+                        else
+                            stkAdjDet.Status = "Approved";
                         unitOfWork.GetRepository<StockAdjustmentDetail>().Insert(stkAdjDet);
                         //unitOfWork.GetRepository<StockAdjustment>().Save();
                         // step2.1 get stationery and update inventory level
