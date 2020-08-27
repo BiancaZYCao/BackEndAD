@@ -155,6 +155,10 @@ namespace BackEndAD.ServiceImpl
                 .GetRepository<Employee>()
                 .GetAllIncludeIQueryable(filter: x => x.Id == req.EmployeeId).FirstOrDefault();
 
+            Employee emp = unitOfWork
+                .GetRepository<Employee>()
+                .GetAllIncludeIQueryable(filter: x => x.Id == req.AuthorizerId).FirstOrDefault();
+
             foreach (RequisitionDetail reqDetailRecord in rList)
             {
                 foreach (Stationery sItem in stationery)
@@ -176,7 +180,7 @@ namespace BackEndAD.ServiceImpl
                     {
                         RequisitionDetailsList requisition = new RequisitionDetailsList()
                         {
-                            authorizer = employee.name,
+                            authorizer = emp.name,
                             authorizedDate = req.dateOfAuthorizing,
                             requisitionDetailsId = reqDetailRecord.Id,
                             requisitionId = reqDetailRecord.RequisitionId,
