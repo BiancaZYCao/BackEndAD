@@ -211,10 +211,11 @@ namespace BackEndAD.Controllers
             //Console.WriteLine(empId);
             Employee employee = await _deptService.findEmployeeByIdAsync(id);
             //PENDING : check not head/store-staff
-            if(employee.role == "STAFF")
+            if(employee.role == "STAFF" || employee.role == "REPRESENTATIVE")
             {
                var result = await _deptService.applyRequisition(requisition, id);
                 String str =await _emailService.SendMail(employee.email, "Apply Requisition", "Your requisition form has been successfully sumitted");
+                //String str1 = await _emailService.SendMail(employee.email, "Apply Requisition", "");
                 if (result != null)
                     return Ok(result);
                 else
