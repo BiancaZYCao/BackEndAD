@@ -650,6 +650,7 @@ namespace BackEndAD.Controllers
         [HttpPost("confirmDisbursementByDept")]
         public async Task<ActionResult<IList<DisbursementList>>> GetDisbursementDetailByDeptId([FromBody] List<fakeDisbursementDetail> fdd)
         {
+            Console.WriteLine(fdd.Count());
             var incoming = fdd;
             var incomingDDiD = fdd.Select(x => x.id);
             var incomingDDDL = fdd.Select(x => x.DisbursementListId);
