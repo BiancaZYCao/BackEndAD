@@ -477,6 +477,23 @@ namespace BackEndAD.Controllers
                 return NotFound("No requisition to deliver under this department.");
         }
 
+        [HttpGet("empToDeliverReq/{id}")]
+        public async Task<ActionResult<IList<Requisition>>> GetToDeliverRequisitionsByEmpId(int id)
+        {
+	        var allRequisitionsList = await _deptService.findAllRequsitionsAsync();
+
+	        var allToDeliverRequisitionsList =
+		        allRequisitionsList.Where(x => x.status == "Approved" || x.status == "Partially_Delivered");
+
+	        var allToDeliverRequisitionsByEmpList = allToDeliverRequisitionsList.Where(x => x.EmployeeId == id);
+
+	        if (allToDeliverRequisitionsByEmpList.Any())
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(allToDeliverRequisitionsByEmpList);
+	        else
+		        return NotFound("No requisition to deliver under this employee.");
+        }
+
         [HttpGet("deptToDeliverReqDetail/{id}")]
         public async Task<ActionResult<IList<RequisitionDetail>>> GetToDeliverRequisitionsDetailByDeptId(int id)
         {
