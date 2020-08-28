@@ -648,12 +648,12 @@ namespace BackEndAD.Controllers
         }
 
         [HttpPost("confirmDisbursementByDept")]
-        public async void GetDisbursementDetailByDeptId([FromBody] List<fakeDisbursementDetail> fdd)
+        public async Task<ActionResult<IList<DisbursementList>>> GetDisbursementDetailByDeptId([FromBody] List<fakeDisbursementDetail> fdd)
         {
             var incoming = fdd;
             var incomingDDiD = fdd.Select(x => x.id);
             var incomingDDDL = fdd.Select(x => x.DisbursementListId);
-
+           
             var allCP = await _clerkService.findAllCollectionPointAsync();
             var allDL = await _clerkService.findAllDisbursementListAsync();
             var currDL = allDL.Where(x => incomingDDDL.Contains(x.id));
@@ -709,6 +709,7 @@ namespace BackEndAD.Controllers
                     }
                 }
             }
+            return null;
 
         }
 
