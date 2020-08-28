@@ -17,9 +17,10 @@ namespace BackEndAD.ServiceImpl
         private IEmailService _emailService;
 
 
-        public DepartmentServiceImpl(IUnitOfWork<ProjectContext> unitOfWork)
+        public DepartmentServiceImpl(IUnitOfWork<ProjectContext> unitOfWork, IEmailService emailService)
         {
             this.unitOfWork = unitOfWork;
+            _emailService = emailService;
         }
 
         #region department
@@ -267,7 +268,8 @@ namespace BackEndAD.ServiceImpl
                 unitOfWork.SaveChanges();
             }
             //String str =await _emailService.SendMail(emp.email, "Apply Requisition", "Your requisition form has been successfully sumitted");
-            //String str1 = await _emailService.SendMail(empHead.email, "Apply Requisition", emp.name +  " requested the requisitions ");
+            String embody = emp.name + " requested the approval for stationery items.";
+            String str1 = await _emailService.SendMail(empHead.email, "Apply Requisition", embody);
 
             return await findAllRequsitionsAsync();
         }
