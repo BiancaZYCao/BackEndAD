@@ -14,11 +14,13 @@ namespace BackEndAD.ServiceImpl
     public class DepartmentServiceImpl : IDepartmentService
     {
         public IUnitOfWork<ProjectContext> unitOfWork;
-        
+        private IEmailService _emailService;
 
-        public DepartmentServiceImpl(IUnitOfWork<ProjectContext> unitOfWork)
+
+        public DepartmentServiceImpl(IUnitOfWork<ProjectContext> unitOfWork, IEmailService emailService)
         {
             this.unitOfWork = unitOfWork;
+            _emailService = emailService;
         }
 
         #region department
@@ -187,7 +189,8 @@ namespace BackEndAD.ServiceImpl
                             description = sItem.desc,
                             quantity = reqDetailRecord.reqQty,
                             unit = sItem.unit,
-                            status = reqDetailRecord.status
+                            status = reqDetailRecord.status,
+                            comment = req.comment,
                         };
                         reqDList.Add(requisition);
                     }
@@ -238,7 +241,7 @@ namespace BackEndAD.ServiceImpl
                 .GetAllIncludeIQueryable(filter: x => x.departmentId == dept.Id && x.role=="HEAD").FirstOrDefault();
 
             Requisition requisition = new Requisition()
-            {//@WuttYee here hardcore empID,AuthorizerId?,dateOfAuthorizing? should change 
+            {
                 EmployeeId = empId,
                 dateOfRequest = DateTime.Now,
                 AuthorizerId = empHead.Id,//if must not null ,pass headID ; delegate need to be updated when approved.
@@ -264,6 +267,9 @@ namespace BackEndAD.ServiceImpl
                 unitOfWork.GetRepository<RequisitionDetail>().Insert(reqDetail1);
                 unitOfWork.SaveChanges();
             }
+            //String str =await _emailService.SendMail(emp.email, "Apply Requisition", "Your requisition form has been successfully sumitted");
+            String embody = emp.name + " requested the approval for stationery items.";
+            String str1 = await _emailService.SendMail(empHead.email, "Apply Requisition", embody);
 
             return await findAllRequsitionsAsync();
         }
