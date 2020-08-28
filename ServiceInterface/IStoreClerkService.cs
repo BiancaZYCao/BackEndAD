@@ -36,7 +36,7 @@ namespace BackEndAD.ServiceInterface
         public void savePurchaseOrderDetail(PurchaseOrderDetail pod);
 
         public IList<SupplierItem> findSuppliersByStationeryId(int id);
-        public Task<IList<RequesterRow>> GetAllRequesterRow();
+        public Task<IList<RequesterRow>> GetAllRequesterRow(int id);
         public Task<IList<DisbursementList>> findAllDisbursementListAsync();
         public Task<IList<DisbursementDetail>> findAllDisbursementDetailAsync();
         public Task<Employee> findEmployeeByIdAsync(int eId);
@@ -53,12 +53,13 @@ namespace BackEndAD.ServiceInterface
         public Task<IList<Department>> findAllDepartmentAsync();
         public Task<IList<DisburseItemDetails>> getDisburseItemDetail(RequesterRow row);
         
-        void updateStationery(Stationery s);
+        public void updateStationery(Stationery s);
         public Task<IList<CollectionInfo>> findAllCollectionPointAsync();
-        void saveDisbursementList(DisbursementList newDL);
-        void saveDisbursementDetail(DisbursementDetail currDB);
-        void udpateRequisitionDetail(RequisitionDetail rd);
+        public void saveDisbursementList(DisbursementList newDL);
+        public void saveDisbursementDetail(DisbursementDetail currDB);
+        public void udpateRequisitionDetail(RequisitionDetail rd);
         public Task<IList<Employee>> findEmployeesAsync();
+        public void updateDisbursementDetail(DisbursementDetail dd);
     }
 
 }

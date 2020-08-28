@@ -15,5 +15,6 @@ namespace BackEndAD.TempService
         public int quantity { get; set; }
         public String unit { get; set; }
         public String status { get; set; }
+        public String comment { get; set; }
     }
 }
