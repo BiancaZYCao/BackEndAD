@@ -14,13 +14,11 @@ namespace BackEndAD.Models
         public int SupplierId { get; set; }
         public DateTime dateOfOrder { get; set; }
         public string status { get; set; }
-        public int StockAdjustmentId { get; set; } //ReceivalID
         public float subTotal { get; set; }
 
         [ForeignKey("Clerk")]
         public virtual Employee Employee { get; set; }
         public virtual Supplier Supplier { get; set; }
-        public virtual StockAdjustment StockAdjustment { get; set; }
 
         //Test [HttpPost("generatePO")]
         public List<PurchaseOrderDetail> DetailList { get; set; } 
