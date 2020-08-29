@@ -120,12 +120,13 @@ namespace BackEndAD.ServiceImpl
 
         }
 
-        public void updateRequisition(int requisitionId, DateTime? reqDateOfAuthorizing, string reqStatus, string reqComment)
+        public void updateRequisition(int requisitionId, DateTime? reqDateOfAuthorizing, int reqAuthorizerId, string reqStatus, string reqComment)
         {
 	        var resultRequisition = unitOfWork.GetRepository<Requisition>().GetById(requisitionId);
 	        if (resultRequisition != null)
 	        {
 		        resultRequisition.dateOfAuthorizing = reqDateOfAuthorizing;
+		        resultRequisition.AuthorizerId = reqAuthorizerId;
 		        resultRequisition.status = reqStatus;
 		        resultRequisition.comment = reqComment;
 

@@ -496,10 +496,11 @@ namespace BackEndAD.Controllers
 	        Console.WriteLine("post");
 	        Console.WriteLine(requisition.Id);
 	        Console.WriteLine(requisition.dateOfAuthorizing);
+            Console.WriteLine(requisition.AuthorizerId);
 	        Console.WriteLine(requisition.status);
 	        Console.WriteLine(requisition.comment);
 
-            _deptService.updateRequisition(requisition.Id, requisition.dateOfAuthorizing, requisition.status, requisition.comment);
+            _deptService.updateRequisition(requisition.Id, requisition.dateOfAuthorizing, requisition.AuthorizerId, requisition.status, requisition.comment);
             _deptService.updateRequisitionDetail(requisition.Id, requisition.status);
             return null;
         }
