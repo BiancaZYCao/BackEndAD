@@ -362,7 +362,7 @@ public static class DBSeed
                 name = "Peter1",
                 password = "123",
                 department = dREGR,
-                email = "Peter1@gmail.com",
+                email = "peter1@gmail.com",
                 role = "REPRESENTATIVE",
                 phoneNum = "92224567"
 
@@ -373,7 +373,7 @@ public static class DBSeed
                 name = "Bob1",
                 password = "123",
                 department = dZOOL,
-                email = "Bob1@gmail.com",
+                email = "bob1@gmail.com",
                 role = "REPRESENTATIVE",
                 phoneNum = "91114567"
             };
@@ -383,7 +383,7 @@ public static class DBSeed
                 name = "Mary2",
                 password = "123",
                 department = dENGL,
-                email = "Mary2@gmail.com",
+                email = "mary2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "92222567"
             };
@@ -393,7 +393,7 @@ public static class DBSeed
                 name = "Joe2",
                 password = "123",
                 department = dCOMM,
-                email = "Joe2@gmail.com",
+                email = "joe2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "91222567",
 
@@ -404,7 +404,7 @@ public static class DBSeed
                 name = "Peter2",
                 password = "123",
                 department = dREGR,
-                email = "Peter2@gmail.com",
+                email = "peter2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "92222267",
 
@@ -415,7 +415,7 @@ public static class DBSeed
                 name = "Bob2",
                 password = "123",
                 department = dZOOL,
-                email = "BOB2@gmail.com",
+                email = "bob2@gmail.com",
                 role = "DELEGATE",
                 phoneNum = "91122267"
             };
@@ -425,7 +425,7 @@ public static class DBSeed
                 name = "Mary3",
                 password = "123",
                 department = dENGL,
-                email = "Mary3@gmail.com",
+                email = "mary3@gmail.com",
                 role = "STAFF",
                 phoneNum = "92222267"
             };
@@ -435,7 +435,7 @@ public static class DBSeed
                 name = "Mary4",
                 password = "123",
                 department = dENGL,
-                email = "Mary4@gmail.com",
+                email = "mary4@gmail.com",
                 role = "STAFF",
                 phoneNum = "94222267"
             };
@@ -445,7 +445,7 @@ public static class DBSeed
                 name = "Mary5",
                 password = "123",
                 department = dENGL,
-                email = "Mary5@gmail.com",
+                email = "mary5@gmail.com",
                 role = "STAFF",
                 phoneNum = "95222267"
             };
@@ -455,7 +455,7 @@ public static class DBSeed
                 name = "John2",
                 password = "123",
                 department = dCPSC,
-                email = "John2@gmail.com",
+                email = "john2@gmail.com",
                 role = "STAFF",
                 phoneNum = "82222267"
 
@@ -466,7 +466,7 @@ public static class DBSeed
                 name = "John3",
                 password = "123",
                 department = dCPSC,
-                email = "John3@gmail.com",
+                email = "john3@gmail.com",
                 role = "STAFF",
                 phoneNum = "83222267"
 
@@ -477,7 +477,7 @@ public static class DBSeed
                 name = "John4",
                 password = "123",
                 department = dCPSC,
-                email = "John4@gmail.com",
+                email = "john4@gmail.com",
                 role = "STAFF",
                 phoneNum = "84222267"
 
@@ -488,7 +488,7 @@ public static class DBSeed
                 name = "John5",
                 password = "123",
                 department = dCPSC,
-                email = "John5@gmail.com",
+                email = "john5@gmail.com",
                 role = "STAFF",
                 phoneNum = "85222267"
 
@@ -499,7 +499,7 @@ public static class DBSeed
                 name = "Joe3",
                 password = "123",
                 department = dCOMM,
-                email = "Joe3@gmail.com",
+                email = "joe3@gmail.com",
                 role = "STAFF",
                 phoneNum = "83322267"
 
@@ -510,7 +510,7 @@ public static class DBSeed
                 name = "Joe4",
                 password = "123",
                 department = dCOMM,
-                email = "Joe4@gmail.com",
+                email = "joe4@gmail.com",
                 role = "STAFF",
                 phoneNum = "84422267"
 
@@ -521,7 +521,7 @@ public static class DBSeed
                 name = "Joe5",
                 password = "123",
                 department = dCOMM,
-                email = "Joe5@gmail.com",
+                email = "joe5@gmail.com",
                 role = "STAFF",
                 phoneNum = "85522267"
 
@@ -532,7 +532,7 @@ public static class DBSeed
                 name = "Peter3",
                 password = "123",
                 department = dREGR,
-                email = "Peter3@gmail.com",
+                email = "peter3@gmail.com",
                 role = "STAFF",
                 phoneNum = "85522263"
 
@@ -543,7 +543,7 @@ public static class DBSeed
                 name = "Peter4",
                 password = "123",
                 department = dREGR,
-                email = "Peter4@gmail.com",
+                email = "peter4@gmail.com",
                 role = "STAFF",
                 phoneNum = "85522264"
 
@@ -554,7 +554,7 @@ public static class DBSeed
                 name = "Peter5",
                 password = "123",
                 department = dREGR,
-                email = "Peter5@gmail.com",
+                email = "peter5@gmail.com",
                 role = "STAFF",
                 phoneNum = "85522265"
             };
