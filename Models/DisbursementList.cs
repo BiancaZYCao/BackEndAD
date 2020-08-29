@@ -12,5 +12,6 @@ namespace BackEndAD.Models
         public DateTime date { get; set; }
         public string deliveryPoint { get; set; }
         public virtual Department Department { get; set; }
+        public string status { get; set; }
     }
 }

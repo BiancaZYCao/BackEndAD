@@ -16,7 +16,7 @@ namespace BackEndAD.Models
         public string collectionPoint { get; set; }
         public string lat { get; set; }
         public string longi {get;set;}
-        public Employee clerk { get; set; }
+        //public List<Employee> clerk { get; set; }
 
         public List<Department> Departments { get; set; }
 

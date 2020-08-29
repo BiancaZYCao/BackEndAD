@@ -20,7 +20,7 @@ namespace BackEndAD.Models
         public string phoneNum { get; set; }
 
         public int departmentId { get; set; }
-        public Department department { get; set; }
+        public virtual Department department { get; set; }
 
         //public List<Requisition> Requisitions { get; set; }
 

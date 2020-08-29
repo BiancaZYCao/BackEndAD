@@ -93,6 +93,7 @@ public static class DBSeed
             {
                 deptName = "Store",
                 //headId =31
+                CollectionId = ci1.Id
             };
             Department dENGL = new Department()
             {
@@ -103,21 +104,21 @@ public static class DBSeed
                 //delegaterId = 2,
                 delgtStartDate = new DateTime(2020, 7, 31),
                 delgtEndDate = new DateTime(2020, 8, 9),
-                Collection = ci1
+                CollectionId = ci1.Id
 
             };
 
 
-            Department dCPSC = new Department()
-            {
-                deptName = "Computer Science",
-                deptCode = "CPSC",
-                //headId = 2,
-                //repId = 7,
-                //delegaterId = null,
-                delgtStartDate = new DateTime(2020, 6, 13),
-                delgtEndDate = new DateTime(2020, 7, 10),
-                Collection = ci2
+        Department dCPSC = new Department()
+        {
+            deptName = "Computer Science",
+            deptCode = "CPSC",
+            //headId = 2,
+            //repId = 7,
+            //delegaterId = null,
+            delgtStartDate = new DateTime(2020, 6, 13),
+            delgtEndDate = new DateTime(2020, 7, 10),
+            CollectionId = ci2.Id
             };
 
 
@@ -130,7 +131,7 @@ public static class DBSeed
                 //delegaterId = 12,
                 delgtStartDate = new DateTime(2020, 10, 1),
                 delgtEndDate = new DateTime(2020, 10, 5),
-                Collection = ci3
+                CollectionId = ci3.Id
             };
 
 
@@ -143,7 +144,7 @@ public static class DBSeed
                 //delegaterId = 13,
                 delgtStartDate = new DateTime(2020, 5, 1),
                 delgtEndDate = new DateTime(2020, 5, 5),
-                Collection = ci4
+                CollectionId = ci4.Id
             };
 
             Department dZOOL = new Department()
@@ -155,7 +156,7 @@ public static class DBSeed
                 //delegaterId = 14,
                 delgtStartDate = new DateTime(2019, 12, 20),
                 delgtEndDate = new DateTime(2020, 1, 3),
-                Collection = ci5
+                CollectionId = ci5.Id
             };
             Department[] DeptArr = { store, dENGL, dCPSC, dCOMM, dREGR, dZOOL };
             for (int i = 0; i < DeptArr.Length; i++)
@@ -647,12 +648,12 @@ public static class DBSeed
             #endregion
 
             //Part 2 this is still need 
-            ci1.clerk = e33;
-            ci2.clerk = e33;
-            ci3.clerk = e34;
-            ci4.clerk = e34;
-            ci5.clerk = e35;
-            ci6.clerk = e35;
+            ci1.clerkId = e33.Id;
+            ci2.clerkId = e33.Id;
+            ci3.clerkId = e34.Id;
+            ci4.clerkId = e34.Id;
+            ci5.clerkId = e35.Id;
+            ci6.clerkId = e35.Id;
             for (int i = 0; i < collectionInfoArr.Length; i++)
             {
                 unitOfWork.GetRepository<CollectionInfo>().Update(collectionInfoArr[i]);

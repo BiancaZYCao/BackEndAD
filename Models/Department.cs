@@ -31,7 +31,7 @@ namespace BackEndAD.Models
         //[ForeignKey("delegaterId")]
         public Employee delegater { get; set; }*/
         //[ForeignKey("collectionId")]
-        public CollectionInfo Collection { get; set; }
+        public virtual CollectionInfo Collection { get; set; }
         //This 2 line cannot be removed will got error on mapping! -Bianca
         //[InverseProperty("department")]
         public List<Employee> employees { get; set; }
