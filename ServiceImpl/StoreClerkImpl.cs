@@ -397,7 +397,7 @@ namespace BackEndAD.ServiceImpl
                             departmentId = disburseList.DepartmentId,
                             departmentName = dept.deptName,
                             itemCount = itemCountTotal,
-                            status = requisition.status,
+                            status = disburseList.status,
                             collectionPoint = disburseList.deliveryPoint,
                             representativeName = emp.name
                         };
