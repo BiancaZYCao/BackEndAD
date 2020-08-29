@@ -60,6 +60,7 @@ namespace BackEndAD.ServiceInterface
         public void udpateRequisitionDetail(RequisitionDetail rd);
         public Task<IList<Employee>> findEmployeesAsync();
         public void updateDisbursementDetail(DisbursementDetail dd);
+        public void updateDisbursementList(DisbursementList currDD);
     }
 
 }

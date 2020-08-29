@@ -412,6 +412,7 @@ namespace BackEndAD.Controllers
                 newDL.DepartmentId = d.Id;
                 newDL.date = DateTime.Parse(time);
                 newDL.deliveryPoint = collectionpoints.Where(x => x.Id == d.CollectionId).FirstOrDefault().collectionPoint;
+                newDL.status = "delivering";
                 //d.Collection.collectionPoint;
                 disbursementList.Add(newDL);
                 _clkService.saveDisbursementList(newDL);
@@ -553,16 +554,34 @@ namespace BackEndAD.Controllers
             var currCollectionPts = collectionPts.Where(x => x.clerkId == clerk.Id);
             var currDeliveryPoint = currCollectionPts.Select(x => x.collectionPoint);
             var allDL= await _clkService.findAllDisbursementListAsync();
-            var futureDL = allDL.Where(x => DateTime.Compare( x.date, DateTime.Now) >=0);
-            var result = futureDL.Where(x => currDeliveryPoint.Contains(x.deliveryPoint));
-
+           
+            var result = allDL.Where(x => currDeliveryPoint.Contains(x.deliveryPoint));
+            List<DisbursementList> resultDL = new List<DisbursementList>();
             foreach (DisbursementList dl in result)
             {
-                Console.WriteLine("id: " + dl.id + " dept id: " + dl.DepartmentId);
+                if (dl.status.Equals("delivering")){
+                    resultDL.Add(dl);
+                }
             }
-            if (result != null)
+            foreach (DisbursementList dl in result)
             {
-                return Ok(result);
+                if (dl.status.Equals("delivered"))
+                {
+                    resultDL.Add(dl);
+                }
+            }
+            foreach (DisbursementList dl in result)
+            {
+                if (dl.status.Equals("completed"))
+                {
+                    resultDL.Add(dl);
+                }
+            }
+
+
+            if (resultDL != null)
+            {
+                return Ok(resultDL);
             }
             else { return NotFound("nothing pending"); }
         }
@@ -617,6 +636,19 @@ namespace BackEndAD.Controllers
             return Ok(result);
 
         }
+
+        [HttpPost("updateDisbursementBitmap/{DLid}")]
+        public async Task<ActionResult<DisbursementList>> updateDisbusementBitmap([FromBody] string bitmap,int DLid)
+        {
+            var allDD = await _clkService.findAllDisbursementListAsync();
+            var currDD = allDD.Where(x => x.id == DLid).FirstOrDefault();
+            currDD.status = "completed";
+            currDD.bitmap = bitmap;
+            _clkService.updateDisbursementList(currDD);
+
+            return Ok(currDD);
+        }
+
 
 
         #endregion
