@@ -15,6 +15,7 @@ namespace BackEndAD.Models
         public DateTime dateOfOrder { get; set; }
         public string status { get; set; }
         public int StockAdjustmentId { get; set; } //ReceivalID
+        public float subTotal { get; set; }
 
         [ForeignKey("Clerk")]
         public virtual Employee Employee { get; set; }
