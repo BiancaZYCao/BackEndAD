@@ -536,7 +536,8 @@ namespace BackEndAD.Controllers
 
             var result = await _clkService.generateReceivedGoodsAsync(stkAdj, stockAdjustmentDetails); //SaveChangesAsync();
             if (result != null)
-                return null;
+                return CreatedAtAction(
+                    nameof(GetStkAdjId), new { id = result.Id }, result);
             else
                 return NotFound("Sry failed.");
         }
@@ -848,20 +849,21 @@ namespace BackEndAD.Controllers
             foreach (Stationery s in stationeries) {
                 //find coresponding stationery and check
                 Stationery olds = await _clkService.findStationeryByIdAsync(s.Id);
-                if (olds.inventoryQty != s.inventoryQty) {
-                    int disc = s.inventoryQty - olds.inventoryQty;
-                    olds.inventoryQty = s.inventoryQty;
+                if (olds.inventoryQty != s.reOrderQty) {
+                    int disc = s.reOrderQty - olds.inventoryQty;
+                    olds.inventoryQty = s.reOrderQty;
                     _clkService.updateStationery(olds);
 
-                    if (disc > 0) {
+                    
                         StockAdjustmentDetail sad = new StockAdjustmentDetail()
                         {
                             StationeryId = olds.Id,
+                            Status=olds.desc,
                             discpQty = disc
 
                         };
                         result.Add(sad);
-                    }
+                    
                 }
             }
             if (result != null) {
@@ -872,24 +874,9 @@ namespace BackEndAD.Controllers
         
         }
 
-        [HttpPost("createStockAdjustment")]
-        public void creatStockAdjustment([FromBody] StockAdjustment sa) {
-            StockAdjustment sa1 = new StockAdjustment()
-            {
-                type = "inventory check",
-                date = DateTime.Now,
-                EmployeeId=sa.EmployeeId,
+     
 
-            };
-            //save to get id
-            _clkService.saveStockAdjustment(sa1);
-
-            foreach (StockAdjustmentDetail sad in sa.StockAdjustmentDetails) {
-                sad.stockAdjustmentId = sa1.Id;
-                sad.Status = "Applied";
-                _clkService.saveStockAdjustmentDetail(sad);
-            }
-        }
+       
         #endregion
 
 
