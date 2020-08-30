@@ -538,6 +538,34 @@ namespace BackEndAD.Controllers
                 return NotFound("No requisition to deliver under this department.");
         }
 
+        [HttpGet("deptAllReq/{id}")]
+        public async Task<ActionResult<IList<Requisition>>> GetAllRequisitionsByDeptId(int id)
+        {
+	        var allRequisitionsList = await _deptService.findAllRequsitionsAsync();
+	        var allEmployeesList = await _deptService.findAllEmployeesAsync();
+
+	        var allEmployeesUnderDeptList = allEmployeesList.Where(x => x.departmentId == id);
+
+	        List<Requisition> allRequisitionsUnderDeptList = new List<Requisition>();
+
+	        foreach (Requisition requisition in allRequisitionsList)
+	        {
+		        foreach (Employee employee in allEmployeesUnderDeptList)
+		        {
+			        if (requisition.EmployeeId == employee.Id)
+			        {
+				        allRequisitionsUnderDeptList.Add(requisition);
+			        }
+		        }
+	        }
+
+	        if (allRequisitionsUnderDeptList.Any())
+		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+		        return Ok(allRequisitionsUnderDeptList);
+	        else
+		        return NotFound("No requisition under this department.");
+        }
+
         [HttpGet("empToDeliverReq/{id}")]
         public async Task<ActionResult<IList<Requisition>>> GetToDeliverRequisitionsByEmpId(int id)
         {
@@ -602,6 +630,49 @@ namespace BackEndAD.Controllers
                 return Ok(allToDeliverRequisitionsDetailUnderDeptList);
             else
                 return NotFound("No requisition detail to deliver under this department.");
+        }
+
+        [HttpGet("deptAllReqDetail/{id}")]
+        public async Task<ActionResult<IList<RequisitionDetail>>> GetAllRequisitionsDetailByDeptId(int id)
+        {
+            var allRequisitionsList = await _deptService.findAllRequsitionsAsync();
+            var allRequisitionsDetailList = await _deptService.findAllRequsitionDetailAsync();
+            var allEmployeesList = await _deptService.findAllEmployeesAsync();
+
+            var allEmployeesUnderDeptList = allEmployeesList.Where(x => x.departmentId == id);
+
+            List<Requisition> allRequisitionsUnderDeptList = new List<Requisition>();
+
+            foreach (Requisition requisition in allRequisitionsList)
+            {
+                foreach (Employee employee in allEmployeesUnderDeptList)
+                {
+                    if (requisition.EmployeeId == employee.Id)
+                    {
+	                    allRequisitionsUnderDeptList.Add(requisition);
+                    }
+                }
+            }
+
+            List<RequisitionDetail> allRequisitionsDetailUnderDeptList = new List<RequisitionDetail>();
+
+            foreach (RequisitionDetail requisitionDetail in allRequisitionsDetailList)
+            {
+                foreach (Requisition requisition in allRequisitionsUnderDeptList)
+                {
+                    if (requisitionDetail.RequisitionId == requisition.Id)
+
+                    {
+                        allRequisitionsDetailUnderDeptList.Add(requisitionDetail);
+                    }
+                }
+            }
+
+            if (allRequisitionsDetailUnderDeptList.Any())
+                //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
+                return Ok(allRequisitionsDetailUnderDeptList);
+            else
+                return NotFound("No requisition detail under this department.");
         }
 
         [HttpGet("nearestDisbursementListByDept/{id}")]
