@@ -567,6 +567,12 @@ namespace BackEndAD.ServiceImpl
             unitOfWork.GetRepository<DisbursementDetail>().Update(dd);
             unitOfWork.SaveChanges();
         }
+
+        public void updateDisbursementList(DisbursementList currDD)
+        {
+            unitOfWork.GetRepository<DisbursementList>().Update(currDD);
+            unitOfWork.SaveChanges();
+        }
     }
 }
 #endregion

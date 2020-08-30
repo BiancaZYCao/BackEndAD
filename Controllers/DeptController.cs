@@ -746,6 +746,12 @@ namespace BackEndAD.Controllers
                     }
                 }
             }
+
+            foreach (DisbursementList dl in currDL)
+            {
+                dl.status = "delivered";
+                _clerkService.updateDisbursementList(dl);
+            }
             return null;
 
         }
