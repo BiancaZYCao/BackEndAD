@@ -7,7 +7,8 @@
 ## Table of Contents
 - [Background](#background)
 - [Platform](#platform)
-- [Application Structure](#structure)
+- [Installation&Configuration](#Installation&Configuration)
+- [Backend Structure](#.NET Core Backend Structure)
 - [Contributors](#contributors)
 - [License](#license)
 
@@ -22,6 +23,20 @@ More about project, Pls check: https://www.notion.so/Doc-Shared-Team8-Bianca-64c
 - Frontend: ReactJS for Web & Android studio for Mobile App
 - Machine Learning:Python & Flask
 
+## Installation&Configuration
+### [Database on Cloud - Azure SQL]
+  Server:          team8-sa50.database.windows.net
+  Login:            Bianca
+  Password:    !Str0ngPsword
+ATTENTION: At first time, u may face prob related to IP Address, pls send Bianca ur screenshot so that we can add in cloud setting. 
+          (this IP maybe different from ur IP address)
+### [Installation]
+1. git clone https://github.com/BiancaZYCao/BackEndAD.git
+2. choose Branch Martin
+3. open in visual studio check all nuget packages 
+4. run as BackendAD mode (will auto open http://localhost:5001)
+    test via localhost:5001/api/dept, you should be able to see JSON results in a list.
+We also deploy our backend in Azure: click the link to view https://backendad.azurewebsites.net/api
 
 ## Contributors
 <a href="https://github.com/BiancaZYCao/BackendAD/graphs/contributors">
