@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'backendadt8'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_456e8f3ac7db433581f39ddc47da35e3 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_250fd6ab6e9a4da18eb6c374032f2f23 }}
         package: ${{env.DOTNET_ROOT}}/myapp 
