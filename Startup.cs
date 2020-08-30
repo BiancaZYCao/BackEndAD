@@ -104,12 +104,13 @@ namespace BackEndAD
             //new Seeder(_context);
             //DBSeed.Initialize(IUnitOfWork<ProjectContext>);
 
-            SchedulerController scheduler = new SchedulerController();
+            SchedulerController scheduler = new SchedulerController(null,null,null);
                
             app.UseHangfireDashboard();
             //backgroundJobClient.Enqueue(() => scheduler.seeder());
             //recurringJobManager.AddOrUpdate("compile reorder",() => scheduler.reorder(), "*/5 * * * *");
             recurringJobManager.AddOrUpdate("compile reorder monthly", () => scheduler.reorder(), "5 0 1 * *");//Cron string 
+            recurringJobManager.AddOrUpdate("autorevoke delegate", () => scheduler.reorder(), "0 0 * * *");//Cron string 
         }
     }
 }

@@ -379,6 +379,9 @@ namespace BackEndAD.Controllers
             var stationeries = await _clkService.findAllStationeriesAsync();
             var departments = await _clkService.findAllDepartmentAsync();
             var collectionpoints = await _clkService.findAllCollectionPointAsync();
+            var allEmp = await _clkService.findEmployeesAsync();
+            var allDeptRep = allEmp.Where(x =>x.role.Equals("REPRESENTATIVE"));
+          
             Console.WriteLine("fetching done and starting processing");
             #endregion
 
@@ -416,6 +419,9 @@ namespace BackEndAD.Controllers
                 //d.Collection.collectionPoint;
                 disbursementList.Add(newDL);
                 _clkService.saveDisbursementList(newDL);
+                
+                String str = await _emailService.SendMail(allDeptRep.Where(x=>x.departmentId==d.Id).FirstOrDefault().email, "New disbursement on the way", "There is a new disbursment coming on the "+newDL.date.ToString().Substring(0,10));
+
 
             }
             #endregion
@@ -645,6 +651,13 @@ namespace BackEndAD.Controllers
             currDD.status = "completed";
             currDD.bitmap = bitmap;
             _clkService.updateDisbursementList(currDD);
+
+            var allDept = await _clkService.findAllDepartmentAsync();
+            var currDept = allDept.Where(x => x.Id == currDD.DepartmentId).FirstOrDefault();
+            var allEmp = await _clkService.findEmployeesAsync();
+            var allDeptRep = allEmp.Where(x => x.role.Equals("REPRESENTATIVE"));
+            var currDeptRep = allDeptRep.Where(x => x.departmentId == currDept.Id).FirstOrDefault();
+            String str = await _emailService.SendMail(currDeptRep.email,"Disbursement Confirmed","This is to confirm you have receive all goods in disbursement no."+currDD.id);
 
             return Ok(currDD);
         }

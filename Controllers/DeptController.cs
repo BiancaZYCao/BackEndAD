@@ -751,6 +751,9 @@ namespace BackEndAD.Controllers
             {
                 dl.status = "delivered";
                 _clerkService.updateDisbursementList(dl);
+                var currClk = await _clerkService.findEmployeeByIdAsync(currCP.FirstOrDefault().clerkId);
+                String str = await _emailService.SendMail(currClk.email, "Disbursement Confirmed", "This is to confirm you have delivered disbursement no." + dl.id);
+
             }
             return null;
 

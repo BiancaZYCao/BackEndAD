@@ -1,5 +1,7 @@
-﻿using BackEndAD.ServiceInterface;
+﻿using BackEndAD.Models;
+using BackEndAD.ServiceInterface;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,21 @@ namespace BackEndAD.Controllers
     [ApiController]
     public class SchedulerController: ControllerBase
     {
-        
+        private IDepartmentService _deptService;
+        private IStoreClerkService _clerkService;
+        private IEmailService _emailService;
+
+        //CONSTRUCTOR: make sure u build ur service interface in.
+        public SchedulerController(IEmailService emailService, IDepartmentService deptService, IStoreClerkService clerkService)
+        {
+            _deptService = deptService;
+            _clerkService = clerkService;
+            _emailService = emailService;
+        }
+
+
+
+
         [HttpGet("reorder")]
         public IActionResult reorder()
         {
@@ -75,6 +91,41 @@ namespace BackEndAD.Controllers
             {
                 //Console.WriteLine("seeding failed");
                 return Ok("failed seeding");
+            }
+
+        }
+
+        [HttpGet("autoRevokeDelegate")]
+        public async Task<ActionResult<Department>> autoRevokeDelegate()
+        {
+            var allDept = await _clerkService.findAllDepartmentAsync();
+            var allEmp = await _clerkService.findEmployeesAsync();
+            var allDelegate = allEmp.Where(x => x.role.Equals("DELEGATE"));
+            Boolean revoked = false;
+            foreach (Department dp in allDept)
+            {
+                if (DateTime.Compare(dp.delgtEndDate, DateTime.Now) < 0)
+                {
+                    Console.WriteLine("revoking " + dp.deptName + " delegate");
+                    revoked = true;
+                    dp.delgtEndDate = Convert.ToDateTime(null);
+                    dp.delgtStartDate = Convert.ToDateTime(null);
+                    _deptService.updateDeptDelegate(dp);
+
+                    Employee currDelegate = allDelegate.Where(x => x.departmentId == dp.Id).FirstOrDefault();
+                    if (currDelegate != null)
+                    {
+                        _deptService.updateDeptEmpRevoke(allDelegate.Where(x => x.departmentId == dp.Id).FirstOrDefault().Id, "STAFF");
+                    }
+                }
+            }
+            if (revoked)
+            {
+                return Ok("done");
+            }
+            else
+            {
+                return Ok("nothing to revoke");
             }
 
         }
