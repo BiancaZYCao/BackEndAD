@@ -1,5 +1,5 @@
 <div float=right>
-  <img src="https://cdn0.iconfinder.com/data/icons/everything-icons-vol-1/512/university-school-education-college-01-512.png" width="200" alt="logo"/>
+  <img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F5382f6b0-53fe-4086-b2a8-0bd47762cf3a%2Flogo.png?table=block&id=2d9d5067-a082-43b4-a538-8e24e63b95b2&width=1670&userId=&cache=v2" width="400" alt="logo"/>
 </div>
 
 # Team8-AD Project Stationery Store Inventory System
