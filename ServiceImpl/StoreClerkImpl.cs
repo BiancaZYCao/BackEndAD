@@ -345,7 +345,8 @@ namespace BackEndAD.ServiceImpl
                         id = int.Parse(dr["id"].ToString()),
                         DepartmentId = int.Parse(dr["DepartmentId"].ToString()),
                         date = Convert.ToDateTime(dr["date"].ToString()),
-                        deliveryPoint = dr["deliveryPoint"].ToString()
+                        deliveryPoint = dr["deliveryPoint"].ToString(),
+                        status = dr["status"].ToString(),
                     };
                     disbursementlist.Add(items);
                 
