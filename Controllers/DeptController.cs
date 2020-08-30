@@ -604,17 +604,52 @@ namespace BackEndAD.Controllers
                 return NotFound("No requisition detail to deliver under this department.");
         }
 
-        [HttpGet("latestDisbursementByDept/{id}")]
-        public async Task<ActionResult<DisbursementList>> GetLatestDisbursementByDeptId(int id)
+        [HttpGet("nearestDisbursementListByDept/{id}")]
+        public async Task<ActionResult<IList<DisbursementList>>> GetNearestDisbursementListByDeptId(int id)
         {
 	        var allDisbursement = await _clerkService.findAllDisbursementListAsync();
 
 	        List<DisbursementList> allDisbursementUnderDept =
 		        allDisbursement.Where(x => x.DepartmentId == id).ToList();
 
-	        if (allDisbursementUnderDept.Any())
+            List<DateTime> dateList = new List<DateTime>();
+
+            foreach (DisbursementList dist in allDisbursementUnderDept)
+            {
+	            dateList.Add(dist.date);
+            }
+
+            dateList.Sort();
+
+            //below for testing
+            //DateTime now = new DateTime(2020, 8, 31, 0, 0, 0);
+
+            DateTime now = DateTime.Now;
+            List<DateTime> dateListWithoutHistory = new List<DateTime>();
+
+            foreach (DateTime date in dateList)
+            {
+	            if (date > now)
+	            {
+		            dateListWithoutHistory.Add(date);
+	            }
+            }
+
+            Console.WriteLine(dateListWithoutHistory.First());
+            DateTime nearestDisbursementDate = dateListWithoutHistory.First();
+
+            List<DisbursementList> nearestDisbursementList = new List<DisbursementList>();
+            foreach (DisbursementList dist in allDisbursementUnderDept)
+            {
+	            if (dist.date == nearestDisbursementDate)
+	            {
+		            nearestDisbursementList.Add(dist);
+	            }
+            }
+            
+            if (nearestDisbursementList.Any())
 		        //Docs says that Ok(...) will AUTO TRANSFER result into JSON Type
-		        return Ok(allDisbursementUnderDept[allDisbursementUnderDept.Count-1]);
+		        return Ok(nearestDisbursementList);
 	        else
 		        return NotFound("No disbursement list under this department.");
         }
