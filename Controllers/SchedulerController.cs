@@ -129,5 +129,29 @@ namespace BackEndAD.Controllers
             }
 
         }
+
+        [HttpGet("disbursementreminder")]
+        public async Task<ActionResult<Department>> disbursementreminder()
+        {
+            var allDisbursement = await _clerkService.findAllDisbursementListAsync();
+            var futureDisbursement = allDisbursement.Where(x => DateTime.Compare(x.date, DateTime.Today) > 0);
+            var tmrDisbursement = futureDisbursement.Where(x => DateTime.Compare(x.date, DateTime.Today.AddDays(2)) < 0);
+            var allEmp = await _clerkService.findEmployeesAsync();
+            var allRep = allEmp.Where(x => x.role.Equals("REPRESENTATIVE"));
+
+            
+
+            foreach (DisbursementList dl in tmrDisbursement)
+            {
+                String str = await _emailService.SendMail(allRep.Where(x=>x.departmentId==dl.DepartmentId).FirstOrDefault().email, "Upcoming Disbursement", "You have an upcoming disbursement on the "+dl.date.ToString().Substring(0,10));
+
+            }
+
+
+            return Ok("done");
+
+        }
     }
+
+    
 }

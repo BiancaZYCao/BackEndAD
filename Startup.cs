@@ -109,8 +109,9 @@ namespace BackEndAD
             app.UseHangfireDashboard();
             //backgroundJobClient.Enqueue(() => scheduler.seeder());
             //recurringJobManager.AddOrUpdate("compile reorder",() => scheduler.reorder(), "*/5 * * * *");
-            recurringJobManager.AddOrUpdate("compile reorder monthly", () => scheduler.reorder(), "5 0 1 * *");//Cron string 
-            recurringJobManager.AddOrUpdate("autorevoke delegate", () => scheduler.reorder(), "0 0 * * *");//Cron string 
+            recurringJobManager.AddOrUpdate("compile reorder monthly", () => scheduler.reorder(), "5 0 1 * *", TimeZoneInfo.Local);//Cron string 
+            recurringJobManager.AddOrUpdate("autorevoke delegate", () => scheduler.reorder(), "0 0 * * *", TimeZoneInfo.Local);//Cron string 
+            recurringJobManager.AddOrUpdate("disbursement reminder", () => scheduler.disbursementreminder(), "0 8 * * *", TimeZoneInfo.Local);//Cron string 
         }
     }
 }
