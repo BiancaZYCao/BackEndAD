@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BackEndAD.TempService
 {
-    public class fakeRequisition
+    public class RequisitionViewModel
     {
         public int id { get; set; }
         public int employeeId { get; set; }

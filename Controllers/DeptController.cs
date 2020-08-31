@@ -755,7 +755,7 @@ namespace BackEndAD.Controllers
         }
 
         [HttpPost("confirmDisbursementByDept")]
-        public async Task<ActionResult<IList<DisbursementList>>> GetDisbursementDetailByDeptId([FromBody] List<fakeDisbursementDetail> fdd)
+        public async Task<ActionResult<IList<DisbursementList>>> GetDisbursementDetailByDeptId([FromBody] List<DisbursementDetailViewModel> fdd)
         {
             Console.WriteLine(fdd.Count());
             var incoming = fdd;
@@ -780,7 +780,7 @@ namespace BackEndAD.Controllers
 
             foreach (DisbursementDetail dd in currDD)
             {
-                foreach (fakeDisbursementDetail fkdd in fdd)
+                foreach (DisbursementDetailViewModel fkdd in fdd)
                 {
                     if (fkdd.id == dd.id)
                     {

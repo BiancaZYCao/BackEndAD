@@ -352,7 +352,7 @@ namespace BackEndAD.Controllers
 
         [HttpPost("getRetrieval")]
         public async Task<ActionResult<Requisition>> processRetrieval(
-              [FromBody] fakeRequisition requistitions)
+              [FromBody] RequisitionViewModel requistitions)
         {
             var result = await _clkService.findAllRequsitionDetailsAsync();
             Console.WriteLine("post");
@@ -362,7 +362,7 @@ namespace BackEndAD.Controllers
 
         [HttpPost("processRetrieval/{id}/{year}/{month}/{day}")]
         public async Task<ActionResult<DisbursementList>> processRetrieval(
-              [FromBody] List<fakeRequisitionDetails> fakeRequisitions,int id,int year, int month, int day)
+              [FromBody] List<RequisitionDetailViewModel> fakeRequisitions,int id,int year, int month, int day)
         {
             Console.WriteLine(year);
             Console.WriteLine(month);
@@ -396,7 +396,7 @@ namespace BackEndAD.Controllers
 
             #region creating necessary Disbursement List
             HashSet<Department> deptlist = new HashSet<Department>();
-            foreach (fakeRequisitionDetails i in fakeRequisitions)
+            foreach (RequisitionDetailViewModel i in fakeRequisitions)
             {
                 foreach (RequisitionDetail rd in requisitiondetails)
                 {
@@ -428,7 +428,7 @@ namespace BackEndAD.Controllers
 
             foreach (DisbursementList dl in disbursementList)
             {
-                foreach (fakeRequisitionDetails i in fakeRequisitions)
+                foreach (RequisitionDetailViewModel i in fakeRequisitions)
                 {
                     foreach (RequisitionDetail rd in requisitiondetails)
                     {
@@ -623,14 +623,14 @@ namespace BackEndAD.Controllers
             var currDD = allDD.Where(x => x.DisbursementListId == id);
             var allRD = await _clkService.findAllRequsitionDetailsAsync();
             
-            List<fakeDisbursementDetail> result = new List<fakeDisbursementDetail>();
+            List<DisbursementDetailViewModel> result = new List<DisbursementDetailViewModel>();
             foreach (DisbursementDetail dd in currDD)
             {
                 foreach (RequisitionDetail rd in allRD)
                 {
                     if (dd.RequisitionDetailId == rd.Id)
                     {
-                        fakeDisbursementDetail fdd = new fakeDisbursementDetail();
+                        DisbursementDetailViewModel fdd = new DisbursementDetailViewModel();
                         var allSt = await _clkService.findStationeryByIdAsync(rd.StationeryId);
                         fdd.RequisitionDetail = allSt.Id.ToString();
                         fdd.DisbursementList = allSt.desc;

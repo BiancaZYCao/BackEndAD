@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BackEndAD.TempService
 {
-    public class fakeDisbursementDetail
+    public class DisbursementDetailViewModel
     {
         public int id { get; set; }
         public int DisbursementListId { get; set; }
